@@ -747,8 +747,12 @@
         // Cargar todos los datos guardados
         function loadAllData() {
             try {
+                console.log('Cargando datos...');
+                
                 // Cargar canales
                 const savedChannels = localStorage.getItem('channels-list');
+                console.log('Canales guardados:', savedChannels);
+                
                 if (savedChannels) {
                     const channelsArray = JSON.parse(savedChannels);
                     for (const channel of channelsArray) {
@@ -761,6 +765,8 @@
                 // Cargar items de cada canal
                 for (const channelId of channels) {
                     const savedItems = localStorage.getItem(`items-${channelId}`);
+                    console.log(`Items para ${channelId}:`, savedItems);
+                    
                     if (savedItems) {
                         const items = JSON.parse(savedItems);
                         for (const item of items) {
@@ -768,8 +774,10 @@
                         }
                     }
                 }
+                
+                console.log('Datos cargados exitosamente');
             } catch (error) {
-                console.log('No hay datos previos guardados:', error);
+                console.error('Error cargando datos:', error);
             }
         }
 
@@ -780,15 +788,20 @@
                 document.querySelectorAll('.channel-tab:not(.add-channel-btn)').forEach(tab => {
                     const channelId = tab.dataset.channel;
                     const text = tab.textContent.trim();
-                    const icon = text.split(' ')[0];
-                    const name = text.substring(text.indexOf(' ') + 1);
                     
-                    const description = document.querySelector(`[data-content="${channelId}"] .banner-content p`)?.textContent || '';
+                    // Separar icono y nombre correctamente
+                    const parts = text.split(' ');
+                    const icon = parts[0];
+                    const name = parts.slice(1).join(' ');
+                    
+                    const contentDiv = document.querySelector(`[data-content="${channelId}"]`);
+                    const description = contentDiv ? contentDiv.querySelector('.banner-content p')?.textContent || '' : '';
                     
                     channelsToSave.push({ id: channelId, name, icon, description });
                 });
                 
                 localStorage.setItem('channels-list', JSON.stringify(channelsToSave));
+                console.log('Canales guardados:', channelsToSave);
             } catch (error) {
                 console.error('Error guardando canales:', error);
             }
@@ -799,7 +812,10 @@
             try {
                 const items = [];
                 const container = document.getElementById(`${channelId}-items`);
-                if (!container) return;
+                if (!container) {
+                    console.log('Container no encontrado para:', channelId);
+                    return;
+                }
 
                 container.querySelectorAll('.item-card').forEach(card => {
                     const title = card.querySelector('h4')?.textContent || '';
@@ -821,6 +837,7 @@
                 });
 
                 localStorage.setItem(`items-${channelId}`, JSON.stringify(items));
+                console.log(`Items guardados para ${channelId}:`, items.length);
             } catch (error) {
                 console.error('Error guardando items:', error);
             }
