@@ -2,304 +2,1773 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Comunikids - Control de Niños</title>
+  <title>Portafolio de productos y asistencias por canal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
+    :root {
+      --bg-page: #f3f4f6;
+      --bg-surface: #ffffff;
+      --bg-soft: #f9fafb;
+      --border-soft: #e5e7eb;
+      --border-strong: #d1d5db;
+      --primary: #0054a6;
+      --primary-soft: #e0efff;
+      --accent: #f97316;
+      --accent-soft: #ffedd5;
+      --text-main: #111827;
+      --text-soft: #4b5563;
+      --text-muted: #9ca3af;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.08);
+      --shadow-card: 0 12px 28px rgba(15, 23, 42, 0.06);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      --transition-fast: 0.16s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
       margin: 0;
-      padding: 0;
+      font-family: var(--font-main);
+      background: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    .page-shell {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 22px 16px 40px;
+    }
+
+    /* Header */
+    .top-bar {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      height: 100vh;
+      gap: 14px;
+      margin-bottom: 18px;
     }
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-      text-align: center;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    h1 {
-      margin-bottom: 20px;
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 20%, #ffffff, #93c5fd 40%, #1d4ed8);
+      box-shadow: 0 0 18px rgba(37, 99, 235, 0.4);
     }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      text-align: left;
+
+    .brand-main {
+      font-weight: 650;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      color: var(--primary);
     }
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      border: 1px solid #ff6600;
-      border-radius: 4px;
+
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
-    input:focus {
-      outline: none;
-      border-color: #e65c00;
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
     }
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #ff6600;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
+
+    .chip-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-surface);
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .ghost-btn {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-surface);
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      padding: 6px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       cursor: pointer;
-      margin-top: 5px;
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+        transform var(--transition-fast), box-shadow var(--transition-fast);
     }
-    button:hover {
-      background-color: #e65c00;
+
+    .ghost-btn:hover {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(148, 163, 184, 0.25);
     }
-    .ticket {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background-color: #f9f9f9;
-      text-align: center;
+
+    /* Hero */
+    .hero {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
+      gap: 18px;
     }
-    .ticket h2 {
-      font-size: 20px;
+
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-soft);
+      border-radius: var(--radius-pill);
+      padding: 4px 10px 4px 4px;
+      border: 1px solid var(--border-soft);
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .hero-chip-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f97316, #fbbf24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 0.85rem;
+      box-shadow: 0 0 12px rgba(248, 181, 0, 0.7);
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 1.8rem;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-text {
+      margin: 2px 0 4px;
+      font-size: 0.96rem;
+      color: var(--text-soft);
+      max-width: 560px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .hero-tag {
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 0.78rem;
+      border: 1px solid #bfdbfe;
+    }
+
+    .hero-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .hero-cta {
+      border-radius: var(--radius-pill);
+      border: none;
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      padding: 7px 14px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 12px 26px rgba(37, 99, 235, 0.35);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(37, 99, 235, 0.45);
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-side {
+      border-radius: var(--radius-md);
+      background: radial-gradient(circle at 0% 0%, #bfdbfe 0, #eff6ff 40%, #ffffff 100%);
+      border: 1px solid #bfdbfe;
+      padding: 12px;
+      box-shadow: 0 12px 24px rgba(148, 163, 184, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hero-side-title {
+      margin: 0;
+      font-size: 1rem;
+      color: #1f2937;
+    }
+
+    .hero-side-text {
+      margin: 2px 0 2px;
+      font-size: 0.82rem;
+      color: #4b5563;
+    }
+
+    .hero-side-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.8rem;
+      color: #374151;
+    }
+
+    .hero-side-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #e5e7eb;
+      background: rgba(255, 255, 255, 0.9);
+      font-size: 0.76rem;
+      color: #374151;
+      margin-top: 4px;
+    }
+
+    .hero-side-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* Card contenedora */
+    .card-main {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      padding: 14px 14px 16px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
+      margin-bottom: 18px;
+    }
+
+    /* Tabs canales */
+    .tabs-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-soft);
+      padding-bottom: 8px;
       margin-bottom: 10px;
     }
-    .ticket p {
-      font-size: 16px;
-      margin: 6px 0;
+
+    .tabs-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 6px;
+      padding-bottom: 4px;
     }
+
+    .tabs-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+    .tabs-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .tabs-scroll::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 999px;
+    }
+
+    .tab-btn {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition-fast), color var(--transition-fast),
+        border-color var(--transition-fast), transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .tab-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #a5b4fc;
+    }
+
+    .tab-btn:hover {
+      background: #e0f2fe;
+      border-color: #93c5fd;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(148, 163, 184, 0.3);
+    }
+
+    .tab-btn.active {
+      background: #2563eb;
+      border-color: #1d4ed8;
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.45);
+    }
+
+    .tab-btn.active .tab-dot {
+      background: #ffffff;
+    }
+
+    .btn-add-tab {
+      border-radius: var(--radius-pill);
+      border: 1px dashed var(--border-strong);
+      background: var(--bg-soft);
+      padding: 6px 11px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+        transform var(--transition-fast), box-shadow var(--transition-fast);
+      flex: 0 0 auto;
+    }
+
+    .btn-add-tab:hover {
+      background: #fef3c7;
+      border-color: #facc15;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(250, 204, 21, 0.35);
+    }
+
+    .tabs-subinfo {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Contenido canal */
+    .canal-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .canal-title {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .canal-sub {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 210px;
+      flex: 0 0 230px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-strong);
+      padding: 7px 11px 7px 26px;
+      font-size: 0.8rem;
+      outline: none;
+      background: #ffffff;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .canal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .meta-pill {
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-soft);
+      border: 1px solid var(--border-soft);
+      font-size: 0.74rem;
+      color: var(--text-soft);
+    }
+
+    /* Grid productos */
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .producto-card {
+      background: var(--bg-soft);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-card);
+      padding: 10px 11px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        border-color var(--transition-fast);
+    }
+
+    .producto-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at top right, rgba(251, 191, 36, 0.12), transparent 60%);
+    }
+
+    .producto-card:hover {
+      transform: translateY(-2px);
+      border-color: #d1d5db;
+      box-shadow: 0 14px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    .producto-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      font-size: 0.72rem;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .producto-tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #1d4ed8;
+    }
+
+    .producto-title {
+      margin: 2px 0 0;
+      font-size: 0.96rem;
+      font-weight: 600;
+    }
+
+    .producto-subinfo {
+      margin: 0;
+      font-size: 0.76rem;
+      color: var(--text-soft);
+    }
+
+    .producto-desc {
+      margin: 2px 0 0;
+      font-size: 0.76rem;
+      color: var(--text-soft);
+    }
+
+    .asistencias-list {
+      margin: 4px 0 0;
+      padding-left: 16px;
+      font-size: 0.76rem;
+      color: #374151;
+      max-height: 110px;
+      overflow: hidden;
+    }
+
+    .asistencias-list li {
+      margin-bottom: 2px;
+    }
+
+    .asistencia-meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .producto-footer {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .producto-more-btn {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      padding: 3px 9px;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .producto-more-btn:hover {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+
+    .producto-provider {
+      text-align: right;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Modal agregar canal/producto */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
     .hidden {
-      display: none;
+      display: none !important;
     }
-    .print-button {
-      margin-top: 10px;
-      background-color: #007bff;
+
+    .modal {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 14px 16px 14px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 24px 50px rgba(15, 23, 42, 0.35);
+      border: 1px solid var(--border-soft);
     }
-    .print-button:hover {
-      background-color: #0056b3;
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
     }
-    .pdf-button {
-      margin-top: 10px;
-      background-color: #8a2be2;
+
+    .modal-title {
+      margin: 0;
+      font-size: 1rem;
     }
-    .pdf-button:hover {
-      background-color: #6a1cb5;
+
+    .modal-close {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--text-muted);
     }
-    .ticket-print {
-      text-align: center;
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
     }
-    .ticket-print h2 {
-      font-size: 20px;
+
+    .modal-field {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 0.78rem;
+    }
+
+    .modal-field label {
+      color: var(--text-soft);
+    }
+
+    .modal-field input,
+    .modal-field textarea {
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      padding: 6px 8px;
+      font-size: 0.78rem;
+      outline: none;
+      resize: vertical;
+      min-height: 32px;
+    }
+
+    .modal-field input:focus,
+    .modal-field textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .btn-secondary {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+      padding: 6px 11px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      border-radius: var(--radius-pill);
+      border: none;
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      color: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.03);
+    }
+
+    /* VENTANA DE OPERACIONES */
+    .ops-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      flex-wrap: wrap;
       margin-bottom: 10px;
     }
-    .ticket-print p {
-      font-size: 16px;
-      margin: 6px 0;
+
+    .ops-title {
+      margin: 0;
+      font-size: 1.2rem;
     }
-    @media print {
-      body * {
-        visibility: hidden;
+
+    .ops-sub {
+      margin: 2px 0 0;
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      max-width: 560px;
+    }
+
+    .ops-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .ops-chip {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+      padding: 4px 9px;
+      font-size: 0.76rem;
+      color: var(--text-soft);
+    }
+
+    .ops-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .ops-card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+      box-shadow: var(--shadow-card);
+      padding: 10px 11px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ops-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      font-size: 0.74rem;
+      color: #3730a3;
+    }
+
+    .ops-card h3 {
+      margin: 2px 0 0;
+      font-size: 0.96rem;
+    }
+
+    .ops-text {
+      margin: 0;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .ops-list {
+      margin: 4px 0 0;
+      padding-left: 18px;
+      font-size: 0.78rem;
+      color: #374151;
+    }
+
+    .ops-list li {
+      margin-bottom: 2px;
+    }
+
+    .ops-meta {
+      margin: 2px 0 0;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
       }
-      .ticket-print,
-      .ticket-print * {
-        visibility: visible;
+    }
+
+    @media (max-width: 720px) {
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
       }
-      .ticket-print {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        margin: 0;
+      .hero {
+        padding: 14px 12px 12px;
+      }
+      .card-main {
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .productos-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .modal {
+        margin: 0 10px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Comunikids - Control de Niños</h1>
-    <form id="childForm">
-      <!-- Campos para el padre -->
-      <label for="fatherFirstName">Nombre del Padre:</label>
-      <input type="text" id="fatherFirstName" placeholder="Nombre" required />
-      <input type="text" id="fatherLastName" placeholder="Apellido" required />
+  <div class="page-shell">
+    <!-- HEADER -->
+    <header class="top-bar">
+      <div class="brand">
+        <div class="brand-logo"></div>
+        <div>
+          <div class="brand-main">Portafolio Vida &amp; Masivos</div>
+          <div class="brand-sub">
+            Catálogo interno de productos, asistencias y canales
+          </div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="chip-status">
+          <span class="chip-dot"></span>
+          Uso interno · Clientes internos
+        </div>
+        <button class="ghost-btn" type="button">
+          📎 Guía rápida
+        </button>
+        <button class="ghost-btn" type="button">
+          💬 Soporte operaciones
+        </button>
+      </div>
+    </header>
 
-      <!-- Campos para el hijo -->
-      <label for="childFirstName">Nombre del Hijo:</label>
-      <input type="text" id="childFirstName" placeholder="Nombre" required />
-      <input type="text" id="childLastName" placeholder="Apellido" required />
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-chip">
+          <div class="hero-chip-icon">★</div>
+          Centro de consulta de productos y asistencias
+        </div>
+        <h1 class="hero-title">Todo lo que ofrecemos, organizado por canal</h1>
+        <p class="hero-text">
+          Consulta de forma sencilla qué productos, coberturas y asistencias tiene
+          cada canal, con el detalle de proveedores, teléfonos y notas operativas.
+        </p>
+        <div class="hero-tags">
+          <span class="hero-tag">Canales bancarios</span>
+          <span class="hero-tag">Cooperativas &amp; retail</span>
+          <span class="hero-tag">Programas colectivos y masivos</span>
+        </div>
+        <div class="hero-footer">
+          <button class="hero-cta" id="btnIrCanales" type="button">
+            Ver productos por canal
+            <span>↓</span>
+          </button>
+          <div class="hero-note">
+            Recomendado para equipos comerciales, servicio al cliente y operaciones.
+          </div>
+        </div>
+      </div>
+      <aside class="hero-side">
+        <h2 class="hero-side-title">¿Cómo usar este portal?</h2>
+        <p class="hero-side-text">
+          1. Seleccioná un canal<br />
+          2. Buscá por producto o asistencia<br />
+          3. Usá el resumen para tu comunicación con el cliente.
+        </p>
+        <ul class="hero-side-list">
+          <li>Información estandarizada para todos los equipos</li>
+          <li>Soporta capacitación y onboarding de nuevos asesores</li>
+          <li>Reduce consultas operativas y correos internos</li>
+        </ul>
+        <div class="hero-side-chip">
+          <span class="hero-side-dot"></span>
+          Actualizado por Operaciones Vida &amp; Masivos
+        </div>
+      </aside>
+    </section>
 
-      <button type="submit">Generar Ticket</button>
-    </form>
+    <!-- CARD PRINCIPAL: TABS + CONTENIDO -->
+    <section class="card-main" id="seccionCanales">
+      <!-- Tabs de canales -->
+      <div class="tabs-header">
+        <div class="tabs-scroll" id="tabsContainer">
+          <!-- Aquí se inyectan las pestañas de canales -->
+        </div>
+        <button class="btn-add-tab" id="btnAddChannel" type="button">
+          + Agregar canal / producto
+        </button>
+      </div>
+      <div class="tabs-subinfo">
+        Seleccioná un canal para ver su portafolio. Podés agregar canales y productos
+        nuevos desde el botón de la derecha (solo se guarda mientras la página esté abierta).
+      </div>
 
-    <!-- Botón para generar reporte en Excel (acumula todos los registros) -->
-    <button id="excelButton" onclick="exportToExcel()">Generar Reporte Excel</button>
+      <!-- Contenido del canal -->
+      <div class="canal-header">
+        <div>
+          <h2 class="canal-title" id="tituloCanalActual">Selecciona un canal</h2>
+          <p class="canal-sub" id="descripcionCanalActual">
+            Aquí se mostrará el portafolio informativo de productos y asistencias
+            del canal seleccionado.
+          </p>
+        </div>
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="buscador"
+            placeholder="Buscar por producto o asistencia…"
+          />
+        </div>
+      </div>
 
-    <div id="ticket" class="ticket hidden">
-      <h2>Ticket de Entrega</h2>
-      <p><strong>Nombre del Padre:</strong> <span id="ticketFatherName"></span></p>
-      <p><strong>Nombre del Hijo:</strong> <span id="ticketChildName"></span></p>
-      <p><strong>Número de Ticket:</strong> <span id="ticketNumber"></span></p>
-      <p><strong>Fecha y Hora:</strong> <span id="ticketDateTime"></span></p>
+      <div class="canal-meta">
+        <span id="contadorProductos" class="meta-pill">0 productos</span>
+        <span id="contadorAsistencias" class="meta-pill">0 asistencias</span>
+        <span id="textoFiltro" class="meta-pill" style="display:none;"></span>
+      </div>
 
-      <button class="print-button" onclick="printTicket()">Imprimir Ticket</button>
-      <button class="pdf-button" onclick="generatePDF()">Generar PDF</button>
-    </div>
+      <div id="contenedorProductos" class="productos-grid">
+        <!-- Tarjetas de producto -->
+      </div>
+    </section>
 
-    <!-- Contenido para imprimir -->
-    <div id="ticketPrint" class="ticket-print hidden">
-      <h2>Comunikids - Ticket de Entrega</h2>
-      <p><strong>Padre:</strong> <span id="printFatherName"></span></p>
-      <p><strong>Hijo:</strong> <span id="printChildName"></span></p>
-      <p><strong>Número:</strong> <span id="printTicketNumber"></span></p>
-      <p><strong>Fecha y Hora:</strong> <span id="printDateTime"></span></p>
+    <!-- VENTANA DE OPERACIONES -->
+    <section class="card-main" id="seccionOperaciones">
+      <header class="ops-header">
+        <div>
+          <h2 class="ops-title">Operaciones &amp; innovación tecnológica</h2>
+          <p class="ops-sub">
+            Resumen de las herramientas y procesos que soportan la emisión, recaudo
+            y servicio de Vida y Masivos: punto de venta, archivos automáticos,
+            RPA, inspecciones y APIs.
+          </p>
+        </div>
+        <div class="ops-chips">
+          <span class="ops-chip">Emisión en línea</span>
+          <span class="ops-chip">Recaudo &amp; facturación</span>
+          <span class="ops-chip">RPA &amp; automatización</span>
+          <span class="ops-chip">Integraciones API</span>
+        </div>
+      </header>
+
+      <div class="ops-grid">
+        <article class="ops-card">
+          <div class="ops-pill">Plataforma de emisión</div>
+          <h3>Punto de Venta Vida y Masivos</h3>
+          <p class="ops-text">
+            Herramienta web que permite emitir pólizas en línea, actualizar datos
+            del cliente y aplicar reglas de riesgo antes de aprobar el caso.
+          </p>
+          <ul class="ops-list">
+            <li>Procesa la información directo en el sistema de seguros.</li>
+            <li>Valida NIT y DPI y usa reglas dinámicas para la evaluación.</li>
+            <li>Genera papelería, contratos de cobro, facturas y firma digital.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Emisión en sucursales y canales aliados.<br />
+            Usuarios: equipos comerciales y de servicio.
+          </p>
+        </article>
+
+        <article class="ops-card">
+          <div class="ops-pill">Gestión de solicitudes</div>
+          <h3>Módulo de Gestiones</h3>
+          <p class="ops-text">
+            Plataforma donde los aliados registran gestiones e incidencias para
+            seguimiento ordenado con Seguros Universales.
+          </p>
+          <ul class="ops-list">
+            <li>Permite configurar tipos de gestión y tiempos objetivos.</li>
+            <li>Roles de ejecutivo, verificador y administrador.</li>
+            <li>Módulos de historial, solicitudes activas y reportes.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Mesa de servicio para canales.<br />
+            Usuarios: aliados, operaciones y back office.
+          </p>
+        </article>
+
+        <article class="ops-card">
+          <div class="ops-pill">Venta digital</div>
+          <h3>Links de Autogestión</h3>
+          <p class="ops-text">
+            Formularios en línea para que el cliente complete sus datos y se
+            procese la emisión sin papel.
+          </p>
+          <ul class="ops-list">
+            <li>Actualiza información del cliente mientras emite.</li>
+            <li>Aplica reglas de riesgo y cobra en línea.</li>
+            <li>Soporta AP individual, AP viajero y Seguro Total.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Emisión 100% digital orientada a autoatención del cliente.
+          </p>
+        </article>
+
+        <article class="ops-card">
+          <div class="ops-pill">Automatización de archivos</div>
+          <h3>Proceso Automático Archivo Único SFTP</h3>
+          <p class="ops-text">
+            Motor que lee archivos enviados por los sponsors y automatiza altas,
+            bajas, recaudos y facturación desde una sola estructura.
+          </p>
+          <ul class="ops-list">
+            <li>Emite certificados y genera requerimientos de pago y facturas.</li>
+            <li>Administra productos con pólizas combinadas y planillas.</li>
+            <li>Panel para revisar incidencias y estado de cada archivo.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Proceso batch diario.<br />
+            Usuarios: operaciones, cobranzas y administración de cartera.
+          </p>
+        </article>
+
+        <article class="ops-card">
+          <div class="ops-pill">Control de calidad</div>
+          <h3>Gestión de inconsistencias de archivos</h3>
+          <p class="ops-text">
+            Vista de control que marca los errores de los archivos procesados
+            para que el equipo pueda corregirlos rápidamente.
+          </p>
+          <ul class="ops-list">
+            <li>Distingue errores de formato, errores de contacto y archivos limpios.</li>
+            <li>Facilita el reproceso con archivos corregidos.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Monitoreo de cargas masivas.
+          </p>
+        </article>
+
+        <article class="ops-card">
+          <div class="ops-pill">RPA · DILLO</div>
+          <h3>Robotic Process Automation (RPA-DILLO)</h3>
+          <p class="ops-text">
+            Robots de software que replican tareas repetitivas en los sistemas
+            actuales para liberar tiempo de los equipos.
+          </p>
+          <ul class="ops-list">
+            <li>Soporta pre-emisiones, renovaciones y emisiones de auto/moto.</li>
+            <li>Aumenta velocidad y consistencia, operando 24/7.</li>
+            <li>Permite que los colaboradores se enfoquen en tareas de mayor valor.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Automatización de back office.<br />
+            Nota: siempre con procesos alternos y de validación humana.
+          </p>
+        </article>
+
+        <article class="ops-card">
+          <div class="ops-pill">Punto de venta Auto</div>
+          <h3>Punto de Venta Auto</h3>
+          <p class="ops-text">
+            Versión especializada del punto de venta enfocada en pólizas de auto,
+            desde la cotización hasta la emisión.
+          </p>
+          <ul class="ops-list">
+            <li>Incluye módulos de cotización, contacto y emisión.</li>
+            <li>Envía documentación por correo y permite consultar pólizas.</li>
+            <li>Gestiona condiciones de renovación desde la misma herramienta.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Emisión y servicio para productos de auto.
+          </p>
+        </article>
+
+        <article class="ops-card">
+          <div class="ops-pill">Inspección digital</div>
+          <h3>Link de Auto Inspección</h3>
+          <p class="ops-text">
+            Herramienta que permite al cliente realizar la inspección de su
+            vehículo desde un enlace que recibe en su celular.
+          </p>
+          <ul class="ops-list">
+            <li>El vendedor genera el link desde la plataforma.</li>
+            <li>Se envía por WhatsApp, correo, SMS o se copia el enlace.</li>
+            <li>Las fotos e información quedan guardadas para evaluación.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Inspección previa a la emisión de auto.
+          </p>
+        </article>
+
+        <article class="ops-card">
+          <div class="ops-pill">Integraciones API</div>
+          <h3>Conexiones por medio de API’s</h3>
+          <p class="ops-text">
+            Ambiente de servicios para que los sponsors se conecten directo al
+            sistema de seguros y emitan Vida y Auto desde sus propias plataformas.
+          </p>
+          <ul class="ops-list">
+            <li>Catálogo de servicios para emisiones y consultas.</li>
+            <li>Permite integrar flujos de venta del aliado con el core de seguros.</li>
+          </ul>
+          <p class="ops-meta">
+            Tipo: Integración tecnológica con sponsors.
+          </p>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODAL: AGREGAR CANAL / PRODUCTO -->
+  <div class="modal-backdrop hidden" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Agregar canal y producto</h2>
+        <button type="button" class="modal-close" id="btnCloseModal">✕</button>
+      </div>
+      <p style="margin:0 0 6px;font-size:0.78rem;color:#6b7280;">
+        Si el canal ya existe, el producto se agregará a esa pestaña. Si es un
+        canal nuevo, se creará una pestaña adicional.
+      </p>
+      <div class="modal-grid">
+        <div class="modal-field">
+          <label for="campoCanal">Canal *</label>
+          <input id="campoCanal" type="text" placeholder="Ej. Banco Inmobiliario" />
+        </div>
+        <div class="modal-field">
+          <label for="campoProducto">Nombre del producto *</label>
+          <input id="campoProducto" type="text" placeholder="Nombre comercial" />
+        </div>
+        <div class="modal-field">
+          <label for="campoPoliza">No. de póliza matriz *</label>
+          <input id="campoPoliza" type="text" placeholder="Ej. 50-10-01-2021XXXX-0" />
+        </div>
+        <div class="modal-field">
+          <label for="campoCobertura">Cobertura *</label>
+          <input id="campoCobertura" type="text" placeholder="Ej. SEGURO DE VIDA" />
+        </div>
+      </div>
+
+      <div class="modal-grid">
+        <div class="modal-field">
+          <label for="campoAsistenciaNombre">Asistencia principal *</label>
+          <input id="campoAsistenciaNombre" type="text" placeholder="Ej. Asistencia funeraria" />
+        </div>
+        <div class="modal-field">
+          <label for="campoProveedor">Proveedor</label>
+          <input id="campoProveedor" type="text" placeholder="Ej. ADDIUVA / EPSS" />
+        </div>
+        <div class="modal-field">
+          <label for="campoTelefono">Teléfono proveedor</label>
+          <input id="campoTelefono" type="text" placeholder="Ej. 2306-1217" />
+        </div>
+        <div class="modal-field">
+          <label for="campoObs">Observación</label>
+          <input id="campoObs" type="text" placeholder="Ej. Asistencia para titular" />
+        </div>
+      </div>
+
+      <div class="modal-field" style="margin-bottom:4px;">
+        <label for="campoDescripcion">Descripción corta (opcional)</label>
+        <textarea
+          id="campoDescripcion"
+          rows="2"
+          placeholder="Texto comercial corto para explicar el producto y a quién va dirigido."
+        ></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="btnCancelModal">
+          Cancelar
+        </button>
+        <button type="button" class="btn-primary" id="btnGuardarProducto">
+          Guardar
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Librería jsPDF para generar PDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
   <script>
-    let ticketCounter = 1;
-    let entries = []; // Para Excel
-    let currentTicketData = {
-      father: "",
-      child: "",
-      ticketNumber: "",
-      dateTime: ""
+    /*
+      DATOS DE EJEMPLO BASADOS EN TU MATRIZ
+    */
+    const PORTAFOLIO_DATA = {
+      "Banco Inmobiliario": [
+        {
+          id: "bi-familia-vida-colab",
+          canal: "Banco Inmobiliario",
+          nombreProducto: "FAMILIA Y VIDA / COLABORADORES",
+          poliza: "50-10-01-2021040048-0",
+          cobertura: "SEGURO DE VIDA",
+          descripcionCorta:
+            "Programa de vida con asistencias médicas y funerarias para colaboradores del Banco Inmobiliario.",
+          asistencias: [
+            {
+              nombre: "FUNERARIA",
+              proveedor: "ADDIUVA",
+              telefono: "2306-1217",
+              observacion: "Asistencia para titular."
+            },
+            {
+              nombre:
+                "CONSULTAS MÉDICAS FAMILIARES: MÉDICO GENERAL, PEDIATRÍA Y GINECOLOGÍA",
+              proveedor: "EPSS",
+              telefono: "2382-2051",
+              observacion: "Asistencias para titular y dependientes."
+            }
+          ]
+        }
+      ],
+      "Cooperativa Guadalupana": [
+        {
+          id: "guad-auto",
+          canal: "Cooperativa Guadalupana",
+          nombreProducto: "GUADALUPANA AUTO",
+          poliza: "02-01-674",
+          cobertura: "SEGURO VEHICULAR",
+          descripcionCorta:
+            "Programa de seguro vehicular con asistencias para los asociados de Cooperativa Guadalupana.",
+          asistencias: [
+            {
+              nombre: "DAÑOS",
+              proveedor: "DAÑOS",
+              telefono: "1789",
+              observacion: "Coordinación vía cabina."
+            }
+          ]
+        }
+      ],
+      "Cooitzá, R. L.": [
+        {
+          id: "coo-funerario-individual",
+          canal: "Cooitzá, R. L.",
+          nombreProducto: "COOITZÁ FUNERARIO INDIVIDUAL (MENSUAL)",
+          poliza: "50-10-01-2020120045-0",
+          cobertura: "SEGURO DE VIDA",
+          descripcionCorta:
+            "Programa funerario individual con cobertura de servicios para el titular.",
+          asistencias: [
+            {
+              nombre: "SERVICIO FUNERARIO PARA TITULAR",
+              proveedor: "EPSS",
+              telefono: "2461-2051",
+              observacion: null
+            }
+          ]
+        }
+      ],
+      "Credichapin": [
+        {
+          id: "credi-funerario",
+          canal: "Credichapin",
+          nombreProducto: "CREDICHAPIN FUNERARIO",
+          poliza: "50-10-01-2019080027-0",
+          cobertura: "SEGURO DE VIDA",
+          descripcionCorta:
+            "Cobertura de vida con asistencia funeraria para los clientes de Credichapin.",
+          asistencias: [
+            {
+              nombre: "SERVICIO FUNERARIO PARA TITULAR",
+              proveedor: "EPSS",
+              telefono: "2461-2051",
+              observacion: null
+            }
+          ]
+        }
+      ],
+      "Nexa Banco": [
+        {
+          id: "nexa-vida",
+          canal: "Nexa Banco",
+          nombreProducto: "NEXA VIDA",
+          poliza: "50-10-01-2023050031-0",
+          cobertura: "SEGURO DE VIDA",
+          descripcionCorta:
+            "Seguro de vida diseñado para los clientes de Nexa Banco, con asistencias complementarias.",
+          asistencias: [
+            {
+              nombre: "SERVICIO FUNERARIO PARA TITULAR",
+              proveedor: "EPSS",
+              telefono: "2461-2051",
+              observacion: null
+            }
+          ]
+        }
+      ],
+      "Finca Guatemala": [
+        {
+          id: "finca-vida",
+          canal: "Finca Guatemala",
+          nombreProducto: "FINCA VIDA",
+          poliza: "50-10-01-2019080025-0",
+          cobertura: "SEGURO DE VIDA",
+          descripcionCorta:
+            "Programa de vida con asistencias para clientes de Finca Guatemala.",
+          asistencias: [
+            {
+              nombre: "SERVICIO FUNERARIO PARA TITULAR",
+              proveedor: "EPSS",
+              telefono: "2461-2051",
+              observacion: null
+            }
+          ]
+        }
+      ],
+      "CrediQ": [
+        {
+          id: "crediq-auto",
+          canal: "CrediQ",
+          nombreProducto: "CREDIQ AUTO",
+          poliza: "02-01-668",
+          cobertura: "SEGURO VEHICULAR",
+          descripcionCorta:
+            "Seguro de vehículo con asistencias para clientes de CrediQ.",
+          asistencias: [
+            {
+              nombre: "DAÑOS",
+              proveedor: "DAÑOS",
+              telefono: "1789",
+              observacion: "Cabina de atención."
+            }
+          ]
+        }
+      ],
+      "Banco de Antigua": [
+        {
+          id: "bda-asist-viales",
+          canal: "Banco de Antigua",
+          nombreProducto: "ASISTENCIAS VIALES BDA",
+          poliza: "50-14-01-2019110073-0",
+          cobertura: "SEGURO DE VIDA",
+          descripcionCorta:
+            "Programa de asistencias viales para clientes del Banco de Antigua.",
+          asistencias: [
+            {
+              nombre: "ASISTENCIA VIAL",
+              proveedor: "ADDIUVA",
+              telefono: "2306-1284",
+              observacion: "Cobertura sujeta a condiciones de la póliza."
+            }
+          ]
+        }
+      ],
+      "Almacenes Japón": [
+        {
+          id: "japon-deuda",
+          canal: "Almacenes Japón",
+          nombreProducto: "PROTECCIÓN DE DEUDA - ALMACENES JAPÓN",
+          poliza: "50-10-01-2017050053-0",
+          cobertura: "SEGURO DE VIDA",
+          descripcionCorta:
+            "Seguro que protege la deuda de los clientes de Almacenes Japón ante eventos cubiertos.",
+          asistencias: [
+            {
+              nombre: "SERVICIO FUNERARIO PARA TITULAR",
+              proveedor: "EPSS",
+              telefono: "2461-2051",
+              observacion: null
+            }
+          ]
+        }
+      ],
+      "BAC Credomatic": [
+        {
+          id: "bac-proteccion",
+          canal: "BAC Credomatic",
+          nombreProducto: "PROTECCIÓN DE DEUDA BAC",
+          poliza: "50-10-01-2017120008-0",
+          cobertura: "SEGURO DE VIDA",
+          descripcionCorta:
+            "Cobertura de vida para clientes BAC asociada a créditos, con asistencias adicionales.",
+          asistencias: [
+            {
+              nombre: "SERVICIO FUNERARIO PARA TITULAR",
+              proveedor: "EPSS",
+              telefono: "2382-2051",
+              observacion: "Coordinación con el departamento de Vida."
+            }
+          ]
+        }
+      ],
+      "Nutrilisto": [
+        {
+          id: "nutri-accidentes",
+          canal: "Nutrilisto",
+          nombreProducto: "ACCIDENTES PERSONALES NUTRILISTO",
+          poliza: "50-10-01-2021070014-0",
+          cobertura: "ACCIDENTES PERSONALES",
+          descripcionCorta:
+            "Cobertura de accidentes personales ligada a la marca Nutrilisto.",
+          asistencias: [
+            {
+              nombre: "CONSULTA CON PEDIATRÍA (1)",
+              proveedor: "EPSS",
+              telefono: "2382-2051",
+              observacion: "Coordinación con el departamento de Vida."
+            }
+          ]
+        }
+      ],
+      "Tecnofácil": [
+        {
+          id: "tecnofacil-moto-tmk",
+          canal: "Tecnofácil",
+          nombreProducto: "MOTO TELEMARKETING",
+          poliza: "02-01-714",
+          cobertura: "MOTO",
+          descripcionCorta:
+            "Programa para motos vinculado a Telemarketing Tecnofácil, con cobertura de daños.",
+          asistencias: [
+            {
+              nombre: "NO APLICA",
+              proveedor: "DAÑOS",
+              telefono: "CABINA 1789",
+              observacion: null
+            }
+          ]
+        }
+      ]
     };
 
-    document.getElementById("childForm").addEventListener("submit", function (event) {
-      event.preventDefault();
+    const tabsContainer = document.getElementById("tabsContainer");
+    const contenedorProductosEl = document.getElementById("contenedorProductos");
+    const tituloCanalActualEl = document.getElementById("tituloCanalActual");
+    const descripcionCanalActualEl = document.getElementById(
+      "descripcionCanalActual"
+    );
+    const contadorProductosEl = document.getElementById("contadorProductos");
+    const contadorAsistenciasEl = document.getElementById("contadorAsistencias");
+    const textoFiltroEl = document.getElementById("textoFiltro");
+    const buscadorEl = document.getElementById("buscador");
+    const btnIrCanales = document.getElementById("btnIrCanales");
 
-      const fatherFirstName = document.getElementById("fatherFirstName").value.trim();
-      const fatherLastName = document.getElementById("fatherLastName").value.trim();
-      const childFirstName = document.getElementById("childFirstName").value.trim();
-      const childLastName = document.getElementById("childLastName").value.trim();
+    // Modal
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnAddChannel = document.getElementById("btnAddChannel");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnCancelModal = document.getElementById("btnCancelModal");
+    const btnGuardarProducto = document.getElementById("btnGuardarProducto");
 
-      if (fatherFirstName && fatherLastName && childFirstName && childLastName) {
-        const fatherFullName = fatherFirstName + " " + fatherLastName;
-        const childFullName = childFirstName + " " + childLastName;
-        const dateTimeNow = new Date().toLocaleString();
+    const campoCanal = document.getElementById("campoCanal");
+    const campoProducto = document.getElementById("campoProducto");
+    const campoPoliza = document.getElementById("campoPoliza");
+    const campoCobertura = document.getElementById("campoCobertura");
+    const campoAsistenciaNombre = document.getElementById("campoAsistenciaNombre");
+    const campoProveedor = document.getElementById("campoProveedor");
+    const campoTelefono = document.getElementById("campoTelefono");
+    const campoObs = document.getElementById("campoObs");
+    const campoDescripcion = document.getElementById("campoDescripcion");
 
-        // Muestra datos en pantalla
-        document.getElementById("ticketFatherName").textContent = fatherFullName;
-        document.getElementById("ticketChildName").textContent = childFullName;
-        document.getElementById("ticketNumber").textContent = ticketCounter;
-        document.getElementById("ticketDateTime").textContent = dateTimeNow;
-        document.getElementById("ticket").classList.remove("hidden");
+    let canalActivo = null;
 
-        // Muestra datos en impresión
-        document.getElementById("printFatherName").textContent = fatherFullName;
-        document.getElementById("printChildName").textContent = childFullName;
-        document.getElementById("printTicketNumber").textContent = ticketCounter;
-        document.getElementById("printDateTime").textContent = dateTimeNow;
-
-        // Guarda para Excel
-        entries.push({
-          fatherFirstName,
-          fatherLastName,
-          childFirstName,
-          childLastName,
-          ticket: ticketCounter
-        });
-
-        // Guarda para PDF
-        currentTicketData.father = fatherFullName;
-        currentTicketData.child = childFullName;
-        currentTicketData.ticketNumber = ticketCounter;
-        currentTicketData.dateTime = dateTimeNow;
-
-        ticketCounter++;
-        document.getElementById("childForm").reset();
-      } else {
-        alert("Por favor, ingresa el nombre y apellido del padre y del hijo.");
+    document.addEventListener("DOMContentLoaded", () => {
+      construirTabs();
+      const canales = Object.keys(PORTAFOLIO_DATA);
+      if (canales.length > 0) {
+        seleccionarCanal(canales[0]);
       }
+
+      buscadorEl.addEventListener("input", () => {
+        renderProductos();
+      });
+
+      btnIrCanales.addEventListener("click", () => {
+        const seccion = document.getElementById("seccionCanales");
+        if (seccion) {
+          seccion.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+
+      btnAddChannel.addEventListener("click", abrirModal);
+      btnCloseModal.addEventListener("click", cerrarModal);
+      btnCancelModal.addEventListener("click", cerrarModal);
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) cerrarModal();
+      });
+      btnGuardarProducto.addEventListener("click", guardarProductoNuevo);
     });
 
-    function printTicket() {
-      document.getElementById("ticketPrint").classList.remove("hidden");
-      window.print();
-      document.getElementById("ticketPrint").classList.add("hidden");
-    }
+    function construirTabs() {
+      tabsContainer.innerHTML = "";
+      const canales = Object.keys(PORTAFOLIO_DATA);
 
-    function exportToExcel() {
-      let csvContent = "NombrePadre,ApellidoPadre,NombreHijo,ApellidoHijo,Ticket\n";
-      entries.forEach((entry) => {
-        csvContent += [
-          entry.fatherFirstName,
-          entry.fatherLastName,
-          entry.childFirstName,
-          entry.childLastName,
-          entry.ticket
-        ].join(",") + "\n";
-      });
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "reporte_comunikids.csv";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
+      canales.forEach((canal) => {
+        const productos = PORTAFOLIO_DATA[canal] || [];
+        const totalAsistencias = productos.reduce(
+          (acc, p) => acc + (p.asistencias ? p.asistencias.length : 0),
+          0
+        );
 
-    // Generar PDF 58mm x 80mm, usando splitTextToSize para evitar cortes
-    function generatePDF() {
-      const { jsPDF } = window.jspdf;
+        const btn = document.createElement("button");
+        btn.className = "tab-btn";
+        btn.type = "button";
+        btn.dataset.canal = canal;
 
-      // Formato 58 mm x 80 mm, unidad en milímetros
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: [58, 80]
-      });
+        const dot = document.createElement("span");
+        dot.className = "tab-dot";
 
-      const pageWidth = doc.internal.pageSize.getWidth();   // 58 mm
-      const pageHeight = doc.internal.pageSize.getHeight(); // 80 mm
+        const text = document.createElement("span");
+        text.textContent = canal;
 
-      // Coordenadas de inicio
-      let yPos = 10; // un poco debajo del borde superior
-      const centerX = pageWidth / 2;
+        const meta = document.createElement("span");
+        meta.style.fontSize = "0.7rem";
+        meta.style.color = "#e5e7eb";
+        meta.textContent = ` (${productos.length}/${totalAsistencias})`;
 
-      // Título
-      doc.setFontSize(14);
-      // Usamos splitTextToSize para evitar recorte
-      const title = doc.splitTextToSize("Comunikids - Ticket de Entrega", pageWidth - 8);
-      // Imprimimos el título centrado
-      title.forEach((line, index) => {
-        doc.text(line, centerX, yPos + (index * 6), { align: "center" });
-      });
-      // Ajustamos yPos según las líneas
-      yPos += (title.length * 6) + 6;
+        btn.appendChild(dot);
+        btn.appendChild(text);
+        btn.appendChild(meta);
 
-      // Fuente más pequeña para detalles
-      doc.setFontSize(12);
-
-      // Función auxiliar para imprimir una línea centrada
-      function printCenterLine(text) {
-        const lines = doc.splitTextToSize(text, pageWidth - 8);
-        lines.forEach((line, i) => {
-          doc.text(line, centerX, yPos + (i * 5), { align: "center" });
+        btn.addEventListener("click", () => {
+          seleccionarCanal(canal);
         });
-        yPos += (lines.length * 5) + 4; // Espacio tras cada bloque
+
+        tabsContainer.appendChild(btn);
+      });
+    }
+
+    function seleccionarCanal(canalNombre) {
+      canalActivo = canalNombre;
+
+      // Actualizar pestañas activas
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        if (btn.dataset.canal === canalNombre) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+
+      tituloCanalActualEl.textContent = canalNombre;
+      descripcionCanalActualEl.textContent =
+        "Portafolio informativo de productos y asistencias del canal seleccionado. La información está pensada para uso interno.";
+
+      buscadorEl.value = "";
+      textoFiltroEl.style.display = "none";
+
+      renderProductos();
+    }
+
+    function renderProductos() {
+      contenedorProductosEl.innerHTML = "";
+      if (!canalActivo || !PORTAFOLIO_DATA[canalActivo]) {
+        contadorProductosEl.textContent = "0 productos";
+        contadorAsistenciasEl.textContent = "0 asistencias";
+        return;
       }
 
-      printCenterLine("Nombre del Padre: " + currentTicketData.father);
-      printCenterLine("Nombre del Hijo: " + currentTicketData.child);
-      printCenterLine("Número de Ticket: " + currentTicketData.ticketNumber);
-      printCenterLine("Fecha y Hora: " + currentTicketData.dateTime);
+      const textoFiltro = buscadorEl.value.trim().toLowerCase();
+      const productos = PORTAFOLIO_DATA[canalActivo];
 
-      // Nombre de archivo con el nombre del hijo
-      const childNameForFile = currentTicketData.child.replace(/\s+/g, "_");
-      doc.save("Ticket_Comunikids_" + childNameForFile + ".pdf");
+      let totalAsistencias = 0;
+
+      const productosFiltrados = productos.filter((prod) => {
+        if (!textoFiltro) return true;
+        const enNombre = (prod.nombreProducto || "")
+          .toLowerCase()
+          .includes(textoFiltro);
+        const enCobertura = (prod.cobertura || "")
+          .toLowerCase()
+          .includes(textoFiltro);
+        const enAsistencias = (prod.asistencias || []).some((a) =>
+          (a.nombre || "").toLowerCase().includes(textoFiltro)
+        );
+        return enNombre || enCobertura || enAsistencias;
+      });
+
+      productosFiltrados.forEach((prod) => {
+        const card = document.createElement("article");
+        card.className = "producto-card";
+
+        const tag = document.createElement("div");
+        tag.className = "producto-tag";
+        const dot = document.createElement("span");
+        dot.className = "producto-tag-dot";
+        const tagText = document.createElement("span");
+        tagText.textContent = prod.cobertura || "Cobertura";
+        tag.appendChild(dot);
+        tag.appendChild(tagText);
+
+        const title = document.createElement("h3");
+        title.className = "producto-title";
+        title.textContent = prod.nombreProducto;
+
+        const subinfo = document.createElement("p");
+        subinfo.className = "producto-subinfo";
+        subinfo.innerHTML = `
+          Póliza: ${prod.poliza || "N/A"} · Canal: ${prod.canal}
+        `;
+
+        const desc = document.createElement("p");
+        desc.className = "producto-desc";
+        desc.textContent =
+          prod.descripcionCorta ||
+          `Producto del canal ${prod.canal} con cobertura de ${(
+            prod.cobertura || ""
+          ).toLowerCase()} y asistencias asociadas.`;
+
+        const ul = document.createElement("ul");
+        ul.className = "asistencias-list";
+
+        const asistencias = prod.asistencias || [];
+        totalAsistencias += asistencias.length;
+
+        asistencias.forEach((a) => {
+          const li = document.createElement("li");
+          const metaText = [];
+          if (a.proveedor) metaText.push(`Proveedor: ${a.proveedor}`);
+          if (a.telefono) metaText.push(`Tel: ${a.telefono}`);
+          if (a.observacion) metaText.push(a.observacion);
+
+          li.innerHTML = `
+            <span>${a.nombre}</span><br/>
+            <span class="asistencia-meta">${
+              metaText.length ? metaText.join(" · ") : ""
+            }</span>
+          `;
+          ul.appendChild(li);
+        });
+
+        const footer = document.createElement("div");
+        footer.className = "producto-footer";
+
+        const moreBtn = document.createElement("button");
+        moreBtn.className = "producto-more-btn";
+        moreBtn.type = "button";
+        moreBtn.textContent = "Ver detalle de asistencias";
+        moreBtn.addEventListener("click", () => {
+          if (ul.style.maxHeight === "none") {
+            ul.style.maxHeight = "110px";
+            moreBtn.textContent = "Ver detalle de asistencias";
+          } else {
+            ul.style.maxHeight = "none";
+            moreBtn.textContent = "Ocultar detalle";
+          }
+        });
+
+        const provLabel = document.createElement("div");
+        provLabel.className = "producto-provider";
+        provLabel.innerHTML = `
+          <span>Uso interno</span>
+          <span>Vida &amp; Masivos</span>
+        `;
+
+        footer.appendChild(moreBtn);
+        footer.appendChild(provLabel);
+
+        card.appendChild(tag);
+        card.appendChild(title);
+        card.appendChild(subinfo);
+        card.appendChild(desc);
+        card.appendChild(ul);
+        card.appendChild(footer);
+
+        contenedorProductosEl.appendChild(card);
+      });
+
+      contadorProductosEl.textContent = `${productosFiltrados.length} producto${
+        productosFiltrados.length === 1 ? "" : "s"
+      }`;
+      contadorAsistenciasEl.textContent = `${totalAsistencias} asistencia${
+        totalAsistencias === 1 ? "" : "s"
+      }`;
+
+      if (buscadorEl.value.trim()) {
+        textoFiltroEl.style.display = "inline-block";
+        textoFiltroEl.textContent = `Filtro: "${buscadorEl.value.trim()}"`;
+      } else {
+        textoFiltroEl.style.display = "none";
+      }
+    }
+
+    /* UTIL: slug para id */
+    function slugify(text) {
+      return (text || "")
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase();
+    }
+
+    /* MODAL */
+    function abrirModal() {
+      modalOverlay.classList.remove("hidden");
+      campoCanal.value = canalActivo || "";
+      campoProducto.value = "";
+      campoPoliza.value = "";
+      campoCobertura.value = "";
+      campoAsistenciaNombre.value = "";
+      campoProveedor.value = "";
+      campoTelefono.value = "";
+      campoObs.value = "";
+      campoDescripcion.value = "";
+      campoCanal.focus();
+    }
+
+    function cerrarModal() {
+      modalOverlay.classList.add("hidden");
+    }
+
+    function guardarProductoNuevo() {
+      const canal = campoCanal.value.trim();
+      const producto = campoProducto.value.trim();
+      const poliza = campoPoliza.value.trim();
+      const cobertura = campoCobertura.value.trim();
+      const asisNombre = campoAsistenciaNombre.value.trim();
+
+      if (!canal || !producto || !poliza || !cobertura || !asisNombre) {
+        alert("Por favor completá los campos marcados con *.");
+        return;
+      }
+
+      const proveedor = campoProveedor.value.trim() || null;
+      const telefono = campoTelefono.value.trim() || null;
+      const obs = campoObs.value.trim() || null;
+      const descripcion = campoDescripcion.value.trim() || null;
+
+      if (!PORTAFOLIO_DATA[canal]) {
+        PORTAFOLIO_DATA[canal] = [];
+      }
+
+      const nuevoProd = {
+        id: slugify(canal + "-" + producto + "-" + poliza),
+        canal,
+        nombreProducto: producto,
+        poliza,
+        cobertura,
+        descripcionCorta:
+          descripcion ||
+          `Producto del canal ${canal} con cobertura de ${cobertura.toLowerCase()} y asistencias asociadas.`,
+        asistencias: [
+          {
+            nombre: asisNombre,
+            proveedor,
+            telefono,
+            observacion: obs
+          }
+        ]
+      };
+
+      PORTAFOLIO_DATA[canal].push(nuevoProd);
+
+      // Reconstruir pestañas (por si el canal es nuevo) y seleccionar canal
+      construirTabs();
+      seleccionarCanal(canal);
+      cerrarModal();
     }
   </script>
 </body>
