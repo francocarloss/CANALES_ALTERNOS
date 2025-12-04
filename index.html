@@ -576,100 +576,7 @@
 
             <!-- Grid de items -->
             <div class="items-grid" id="operaciones-items">
-                <!-- Plataforma de emisión -->
-                <div class="item-card">
-                    <div class="item-image">📝</div>
-                    <div class="item-body">
-                        <h4>Punto de Venta Vida y Masivos</h4>
-                        <p>Sistema que permite emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo en tiempo real.</p>
-                        <div class="item-tags">
-                            <span class="tag tag-producto">Producto</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <div class="item-image">🔗</div>
-                    <div class="item-body">
-                        <h4>Links de Autogestión</h4>
-                        <p>Formularios en línea para que el cliente complete sus datos y se procese la emisión sin asistencia.</p>
-                        <div class="item-tags">
-                            <span class="tag tag-producto">Producto</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gestión de solicitudes -->
-                <div class="item-card">
-                    <div class="item-image">📋</div>
-                    <div class="item-body">
-                        <h4>Módulo de Gestiones</h4>
-                        <p>Plataforma donde los canales gestionan gestiones e incidencias para seguimiento coordinado con Seguros.</p>
-                        <div class="item-tags">
-                            <span class="tag tag-producto">Producto</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RPA -->
-                <div class="item-card">
-                    <div class="item-image">🤖</div>
-                    <div class="item-body">
-                        <h4>Robotic Process Automation (RPA-DILO)</h4>
-                        <p>Robots de software que replican tareas repetitivas en los sistemas actuales para liberar tiempo de los equipos.</p>
-                        <div class="item-tags">
-                            <span class="tag tag-innovacion">Innovación</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Archivo Único -->
-                <div class="item-card">
-                    <div class="item-image">📁</div>
-                    <div class="item-body">
-                        <h4>Proceso Automático Archivo Único SFTP</h4>
-                        <p>Motor que lee archivos enviados por sponsors y automatiza altas, bajas, recaudos y facturación.</p>
-                        <div class="item-tags">
-                            <span class="tag tag-innovacion">Innovación</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Control de calidad -->
-                <div class="item-card">
-                    <div class="item-image">✓</div>
-                    <div class="item-body">
-                        <h4>Gestión de Inconsistencias de archivos</h4>
-                        <p>Vista de control que marca los errores de los archivos procesados para que el equipo pueda corregirlos rápidamente.</p>
-                        <div class="item-tags">
-                            <span class="tag tag-innovacion">Innovación</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Auto inspección -->
-                <div class="item-card">
-                    <div class="item-image">🚗</div>
-                    <div class="item-body">
-                        <h4>Link de Auto Inspección</h4>
-                        <p>Herramienta que permite al cliente realizar la inspección de su vehículo desde un enlace por WhatsApp.</p>
-                        <div class="item-tags">
-                            <span class="tag tag-innovacion">Innovación</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- APIs -->
-                <div class="item-card">
-                    <div class="item-image">🔌</div>
-                    <div class="item-body">
-                        <h4>Conexiones por medio de API's</h4>
-                        <p>Ambiente de servicios para que los sponsors se conecten directo al sistema de seguros desde sus propias plataformas.</p>
-                        <div class="item-tags">
-                            <span class="tag tag-producto">Producto</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- Los items se cargarán desde localStorage o se mostrarán los predeterminados -->
             </div>
         </div>
     </div>
@@ -749,23 +656,26 @@
             try {
                 console.log('Cargando datos...');
                 
-                // Primero, cargar items de operaciones (que ya existe en el HTML)
+                // Cargar items de operaciones
                 const operacionesItems = localStorage.getItem('items-operaciones');
                 console.log('Items de operaciones guardados:', operacionesItems);
                 
+                const operacionesContainer = document.getElementById('operaciones-items');
+                
                 if (operacionesItems) {
+                    // Si hay items guardados, cargarlos
                     const items = JSON.parse(operacionesItems);
-                    console.log(`Cargando ${items.length} items para operaciones`);
+                    console.log(`✅ Cargando ${items.length} items guardados para operaciones`);
                     
-                    // Limpiar items por defecto primero
-                    const operacionesContainer = document.getElementById('operaciones-items');
-                    if (operacionesContainer) {
-                        operacionesContainer.innerHTML = '';
-                    }
+                    operacionesContainer.innerHTML = '';
                     
                     for (const item of items) {
                         createItemDOM('operaciones', item, false);
                     }
+                } else {
+                    // Si NO hay items guardados, cargar los predeterminados
+                    console.log('⚠️ No hay items guardados, cargando predeterminados');
+                    loadDefaultOperacionesItems();
                 }
                 
                 // Cargar canales
@@ -781,10 +691,10 @@
                     }
                 }
 
-                // Esperar un momento para que los DOM estén listos, luego cargar items de otros canales
+                // Cargar items de otros canales
                 setTimeout(() => {
                     for (const channelId of channels) {
-                        if (channelId !== 'operaciones') { // Ya cargamos operaciones arriba
+                        if (channelId !== 'operaciones') {
                             const savedItems = localStorage.getItem(`items-${channelId}`);
                             console.log(`Items para ${channelId}:`, savedItems);
                             
@@ -797,11 +707,29 @@
                             }
                         }
                     }
-                    console.log('Datos cargados exitosamente');
+                    console.log('✅ Datos cargados exitosamente');
                 }, 200);
                 
             } catch (error) {
-                console.error('Error cargando datos:', error);
+                console.error('❌ Error cargando datos:', error);
+            }
+        }
+
+        // Cargar items predeterminados de Operaciones
+        function loadDefaultOperacionesItems() {
+            const defaultItems = [
+                { title: 'Punto de Venta Vida y Masivos', description: 'Sistema que permite emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo en tiempo real.', icon: '📝', type: 'producto' },
+                { title: 'Links de Autogestión', description: 'Formularios en línea para que el cliente complete sus datos y se procese la emisión sin asistencia.', icon: '🔗', type: 'producto' },
+                { title: 'Módulo de Gestiones', description: 'Plataforma donde los canales gestionan gestiones e incidencias para seguimiento coordinado con Seguros.', icon: '📋', type: 'producto' },
+                { title: 'Robotic Process Automation (RPA-DILO)', description: 'Robots de software que replican tareas repetitivas en los sistemas actuales para liberar tiempo de los equipos.', icon: '🤖', type: 'innovacion' },
+                { title: 'Proceso Automático Archivo Único SFTP', description: 'Motor que lee archivos enviados por sponsors y automatiza altas, bajas, recaudos y facturación.', icon: '📁', type: 'innovacion' },
+                { title: 'Gestión de Inconsistencias de archivos', description: 'Vista de control que marca los errores de los archivos procesados para que el equipo pueda corregirlos rápidamente.', icon: '✓', type: 'innovacion' },
+                { title: 'Link de Auto Inspección', description: 'Herramienta que permite al cliente realizar la inspección de su vehículo desde un enlace por WhatsApp.', icon: '🚗', type: 'innovacion' },
+                { title: 'Conexiones por medio de API\'s', description: 'Ambiente de servicios para que los sponsors se conecten directo al sistema de seguros desde sus propias plataformas.', icon: '🔌', type: 'producto' }
+            ];
+            
+            for (const item of defaultItems) {
+                createItemDOM('operaciones', item, false);
             }
         }
 
