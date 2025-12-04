@@ -749,7 +749,7 @@
             try {
                 console.log('Cargando datos...');
                 
-                // Cargar canales
+                // Cargar canales primero
                 const savedChannels = localStorage.getItem('channels-list');
                 console.log('Canales guardados:', savedChannels);
                 
@@ -762,20 +762,23 @@
                     }
                 }
 
-                // Cargar items de cada canal
-                for (const channelId of channels) {
-                    const savedItems = localStorage.getItem(`items-${channelId}`);
-                    console.log(`Items para ${channelId}:`, savedItems);
-                    
-                    if (savedItems) {
-                        const items = JSON.parse(savedItems);
-                        for (const item of items) {
-                            createItemDOM(channelId, item, false);
+                // Esperar un momento para que los DOM estén listos, luego cargar items
+                setTimeout(() => {
+                    for (const channelId of channels) {
+                        const savedItems = localStorage.getItem(`items-${channelId}`);
+                        console.log(`Items para ${channelId}:`, savedItems);
+                        
+                        if (savedItems) {
+                            const items = JSON.parse(savedItems);
+                            console.log(`Cargando ${items.length} items para ${channelId}`);
+                            for (const item of items) {
+                                createItemDOM(channelId, item, false);
+                            }
                         }
                     }
-                }
+                    console.log('Datos cargados exitosamente');
+                }, 200);
                 
-                console.log('Datos cargados exitosamente');
             } catch (error) {
                 console.error('Error cargando datos:', error);
             }
@@ -979,7 +982,10 @@
             const { title, description, icon, type, image } = itemData;
             
             const container = document.getElementById(`${channelId}-items`);
-            if (!container) return;
+            if (!container) {
+                console.error('Container no encontrado:', channelId);
+                return;
+            }
             
             const emptyState = container.querySelector('.empty-state');
             if (emptyState) {
@@ -1021,7 +1027,10 @@
             container.appendChild(card);
 
             if (shouldSave) {
-                saveChannelItems(channelId);
+                // Pequeño delay para asegurar que el DOM esté actualizado
+                setTimeout(() => {
+                    saveChannelItems(channelId);
+                }, 100);
             }
         }
 
