@@ -740,41 +740,41 @@
         let channels = ['operaciones'];
         
         // Cargar datos al inicio
-        window.addEventListener('DOMContentLoaded', async () => {
-            await loadAllData();
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
         });
 
         // Cargar todos los datos guardados
-        async function loadAllData() {
+        function loadAllData() {
             try {
                 // Cargar canales
-                const channelsData = await window.storage.get('channels-list');
-                if (channelsData && channelsData.value) {
-                    const savedChannels = JSON.parse(channelsData.value);
-                    for (const channel of savedChannels) {
+                const savedChannels = localStorage.getItem('channels-list');
+                if (savedChannels) {
+                    const channelsArray = JSON.parse(savedChannels);
+                    for (const channel of channelsArray) {
                         if (channel.id !== 'operaciones') {
-                            await createChannelDOM(channel);
+                            createChannelDOM(channel);
                         }
                     }
                 }
 
                 // Cargar items de cada canal
                 for (const channelId of channels) {
-                    const itemsData = await window.storage.get(`items-${channelId}`);
-                    if (itemsData && itemsData.value) {
-                        const items = JSON.parse(itemsData.value);
+                    const savedItems = localStorage.getItem(`items-${channelId}`);
+                    if (savedItems) {
+                        const items = JSON.parse(savedItems);
                         for (const item of items) {
-                            await createItemDOM(channelId, item, false);
+                            createItemDOM(channelId, item, false);
                         }
                     }
                 }
             } catch (error) {
-                console.log('No hay datos previos guardados');
+                console.log('No hay datos previos guardados:', error);
             }
         }
 
         // Guardar canales
-        async function saveChannels() {
+        function saveChannels() {
             try {
                 const channelsToSave = [];
                 document.querySelectorAll('.channel-tab:not(.add-channel-btn)').forEach(tab => {
@@ -788,14 +788,14 @@
                     channelsToSave.push({ id: channelId, name, icon, description });
                 });
                 
-                await window.storage.set('channels-list', JSON.stringify(channelsToSave));
+                localStorage.setItem('channels-list', JSON.stringify(channelsToSave));
             } catch (error) {
                 console.error('Error guardando canales:', error);
             }
         }
 
         // Guardar items de un canal
-        async function saveChannelItems(channelId) {
+        function saveChannelItems(channelId) {
             try {
                 const items = [];
                 const container = document.getElementById(`${channelId}-items`);
@@ -820,7 +820,7 @@
                     });
                 });
 
-                await window.storage.set(`items-${channelId}`, JSON.stringify(items));
+                localStorage.setItem(`items-${channelId}`, JSON.stringify(items));
             } catch (error) {
                 console.error('Error guardando items:', error);
             }
@@ -878,7 +878,7 @@
             switchChannel(channelId);
         }
 
-        async function createChannelDOM(channelData) {
+        function createChannelDOM(channelData) {
             const { id, name, icon, description } = channelData;
             
             channels.push(id);
@@ -958,7 +958,7 @@
             document.getElementById('addItemForm').reset();
         }
 
-        async function createItemDOM(channelId, itemData, shouldSave = true) {
+        function createItemDOM(channelId, itemData, shouldSave = true) {
             const { title, description, icon, type, image } = itemData;
             
             const container = document.getElementById(`${channelId}-items`);
@@ -1004,7 +1004,7 @@
             container.appendChild(card);
 
             if (shouldSave) {
-                await saveChannelItems(channelId);
+                saveChannelItems(channelId);
             }
         }
 
