@@ -1,4 +1,66 @@
-<!DOCTYPE html>
+<!-- Modal Editar Canal -->
+    <div class="modal" id="editChannelModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Canal</h3>
+                <button class="close-btn" onclick="closeModal('editChannelModal')">&times;</button>
+            </div>
+            <form id="editChannelForm" onsubmit="handleEditChannel(event)">
+                <input type="hidden" id="editChannelId">
+                <div class="form-group">
+                    <label for="editChannelName">Nombre del Canal *</label>
+                    <input type="text" id="editChannelName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editChannelIcon">Emoji/Icono</label>
+                    <input type="text" id="editChannelIcon" maxlength="2">
+                </div>
+                <div class="form-group">
+                    <label for="editChannelDescription">Descripción del Canal</label>
+                    <textarea id="editChannelDescription"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Item -->
+    <div class="modal" id="editItemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Elemento</h3>
+                <button class="close-btn" onclick="closeModal('editItemModal')">&times;</button>
+            </div>
+            <form id="editItemForm" onsubmit="handleEditItem(event)">
+                <input type="hidden" id="editItemIndex">
+                <input type="hidden" id="editItemChannel">
+                <div class="form-group">
+                    <label for="editItemTitle">Título *</label>
+                    <input type="text" id="editItemTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="editItemDescription">Descripción *</label>
+                    <textarea id="editItemDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editItemIcon">Emoji/Icono o Imagen</label>
+                    <input type="text" id="editItemIcon" maxlength="2">
+                    <small style="display: block; margin-top: 8px; color: #666;">O sube una imagen:</small>
+                    <input type="file" id="editItemImage" accept="image/*" style="margin-top: 8px;">
+                    <div id="currentImagePreview" style="margin-top: 10px;"></div>
+                </div>
+                <div class="form-group">
+                    <label for="editItemType">Tipo *</label>
+                    <select id="editItemType" required>
+                        <option value="producto">Producto</option>
+                        <option value="campana">Campaña</option>
+                        <option value="innovacion">Innovación</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div><!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -95,6 +157,33 @@
 
         .channel-tab:hover {
             color: #1e88e5;
+        }
+
+        .channel-tab:hover .channel-edit-btn {
+            opacity: 1;
+        }
+
+        .channel-edit-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #1e88e5;
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.7em;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .channel-edit-btn:hover {
+            background: #0a4d8f;
         }
 
         .channel-tab.active {
@@ -253,11 +342,55 @@
             transition: all 0.3s ease;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             cursor: pointer;
+            position: relative;
         }
 
         .item-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .item-card:hover .card-actions {
+            opacity: 1;
+        }
+
+        .card-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .card-action-btn {
+            background: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .card-action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-edit {
+            color: #1e88e5;
+        }
+
+        .btn-delete {
+            color: #f44336;
         }
 
         .item-image {
@@ -859,7 +992,10 @@
             const newTab = document.createElement('button');
             newTab.className = 'channel-tab';
             newTab.dataset.channel = id;
-            newTab.textContent = `${icon} ${name}`;
+            newTab.innerHTML = `
+                ${icon} ${name}
+                ${id !== 'operaciones' ? `<span class="channel-edit-btn" onclick="openEditChannel('${id}', event)">✏️</span>` : ''}
+            `;
             
             tabsContainer.insertBefore(newTab, addBtn);
 
@@ -895,6 +1031,174 @@
             mainContainer.appendChild(newContent);
         }
 
+        // Funciones para editar/eliminar items
+        function openEditItem(channelId, cardElement) {
+            event.stopPropagation();
+            
+            const title = cardElement.querySelector('h4').textContent;
+            const description = cardElement.querySelector('p').textContent;
+            const tag = cardElement.querySelector('.tag');
+            const type = tag.classList.contains('tag-producto') ? 'producto' : 
+                        tag.classList.contains('tag-campana') ? 'campana' : 'innovacion';
+            
+            const imgElement = cardElement.querySelector('.item-image img');
+            const iconElement = cardElement.querySelector('.item-image-icon');
+            
+            document.getElementById('editItemChannel').value = channelId;
+            document.getElementById('editItemTitle').value = title;
+            document.getElementById('editItemDescription').value = description;
+            document.getElementById('editItemIcon').value = iconElement ? iconElement.textContent : '';
+            document.getElementById('editItemType').value = type;
+            
+            // Mostrar preview de imagen actual si existe
+            const preview = document.getElementById('currentImagePreview');
+            if (imgElement) {
+                preview.innerHTML = `<img src="${imgElement.src}" style="max-width: 200px; border-radius: 10px;">`;
+            } else {
+                preview.innerHTML = '';
+            }
+            
+            // Guardar el índice del item
+            const container = document.getElementById(`${channelId}-items`);
+            const cards = Array.from(container.querySelectorAll('.item-card'));
+            document.getElementById('editItemIndex').value = cards.indexOf(cardElement);
+            
+            document.getElementById('editItemModal').classList.add('active');
+        }
+
+        function handleEditItem(event) {
+            event.preventDefault();
+            
+            const channelId = document.getElementById('editItemChannel').value;
+            const index = parseInt(document.getElementById('editItemIndex').value);
+            const title = document.getElementById('editItemTitle').value;
+            const description = document.getElementById('editItemDescription').value;
+            const icon = document.getElementById('editItemIcon').value || '📦';
+            const type = document.getElementById('editItemType').value;
+            const imageFile = document.getElementById('editItemImage').files[0];
+            
+            // Obtener items actuales
+            const savedItems = localStorage.getItem(`items-${channelId}`);
+            const items = savedItems ? JSON.parse(savedItems) : [];
+            
+            if (imageFile) {
+                compressImage(imageFile, (compressedImage) => {
+                    items[index] = { title, description, icon, type, image: compressedImage };
+                    saveAndReloadItems(channelId, items);
+                });
+            } else {
+                // Mantener la imagen actual si existe
+                items[index] = { 
+                    title, 
+                    description, 
+                    icon, 
+                    type, 
+                    image: items[index]?.image || null 
+                };
+                saveAndReloadItems(channelId, items);
+            }
+            
+            closeModal('editItemModal');
+            document.getElementById('editItemForm').reset();
+        }
+
+        function deleteItem(channelId, cardElement) {
+            event.stopPropagation();
+            
+            if (!confirm('¿Estás seguro de eliminar este elemento?')) return;
+            
+            const container = document.getElementById(`${channelId}-items`);
+            const cards = Array.from(container.querySelectorAll('.item-card'));
+            const index = cards.indexOf(cardElement);
+            
+            const savedItems = localStorage.getItem(`items-${channelId}`);
+            const items = savedItems ? JSON.parse(savedItems) : [];
+            
+            items.splice(index, 1);
+            saveAndReloadItems(channelId, items);
+        }
+
+        function saveAndReloadItems(channelId, items) {
+            localStorage.setItem(`items-${channelId}`, JSON.stringify(items));
+            
+            // Recargar items
+            const container = document.getElementById(`${channelId}-items`);
+            container.innerHTML = '';
+            
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        <p>No hay elementos aún. Haz clic en "Agregar Elemento" para comenzar.</p>
+                    </div>
+                `;
+            } else {
+                for (const item of items) {
+                    createItemDOM(channelId, item, false);
+                }
+            }
+        }
+
+        // Funciones para editar canales
+        function openEditChannel(channelId, event) {
+            event.stopPropagation();
+            
+            const savedChannels = localStorage.getItem('channels-list');
+            const channels = savedChannels ? JSON.parse(savedChannels) : [];
+            const channel = channels.find(ch => ch.id === channelId);
+            
+            if (channel) {
+                document.getElementById('editChannelId').value = channelId;
+                document.getElementById('editChannelName').value = channel.name;
+                document.getElementById('editChannelIcon').value = channel.icon;
+                document.getElementById('editChannelDescription').value = channel.description || '';
+                
+                document.getElementById('editChannelModal').classList.add('active');
+            }
+        }
+
+        function handleEditChannel(event) {
+            event.preventDefault();
+            
+            const oldId = document.getElementById('editChannelId').value;
+            const name = document.getElementById('editChannelName').value;
+            const icon = document.getElementById('editChannelIcon').value || '📌';
+            const description = document.getElementById('editChannelDescription').value;
+            
+            // Actualizar en localStorage
+            const savedChannels = localStorage.getItem('channels-list');
+            let channelsArray = savedChannels ? JSON.parse(savedChannels) : [];
+            
+            const channelIndex = channelsArray.findIndex(ch => ch.id === oldId);
+            if (channelIndex !== -1) {
+                channelsArray[channelIndex] = { id: oldId, name, icon, description };
+                localStorage.setItem('channels-list', JSON.stringify(channelsArray));
+            }
+            
+            // Actualizar DOM
+            const tab = document.querySelector(`[data-channel="${oldId}"]`);
+            if (tab) {
+                tab.innerHTML = `
+                    ${icon} ${name}
+                    <span class="channel-edit-btn" onclick="openEditChannel('${oldId}', event)">✏️</span>
+                `;
+            }
+            
+            const content = document.querySelector(`[data-content="${oldId}"]`);
+            if (content) {
+                const banner = content.querySelector('.banner-content');
+                if (banner) {
+                    banner.querySelector('h2').textContent = name;
+                    banner.querySelector('p').textContent = description || 'Gestiona productos, campañas e innovaciones de este canal';
+                }
+            }
+            
+            closeModal('editChannelModal');
+            document.getElementById('editChannelForm').reset();
+        }
+
         // Modal Item
         function openAddItemModal(channel) {
             currentChannel = channel;
@@ -913,18 +1217,57 @@
             const itemData = { title, description, icon, type, image: null };
 
             if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    itemData.image = e.target.result;
+                // Comprimir imagen antes de guardar
+                compressImage(imageFile, (compressedImage) => {
+                    itemData.image = compressedImage;
                     addItemToDOM(currentChannel, itemData);
-                };
-                reader.readAsDataURL(imageFile);
+                });
             } else {
                 addItemToDOM(currentChannel, itemData);
             }
 
             closeModal('addItemModal');
             document.getElementById('addItemForm').reset();
+        }
+
+        // Función para comprimir imágenes
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Limitar tamaño máximo
+                    const maxWidth = 800;
+                    const maxHeight = 600;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Comprimir a JPEG con calidad del 70%
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    callback(compressedDataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         // Nueva función para agregar y guardar
@@ -984,6 +1327,10 @@
 
             if (image) {
                 card.innerHTML = `
+                    <div class="card-actions">
+                        <button class="card-action-btn btn-edit" onclick="openEditItem('${channelId}', this.closest('.item-card'))">✏️</button>
+                        <button class="card-action-btn btn-delete" onclick="deleteItem('${channelId}', this.closest('.item-card'))">🗑️</button>
+                    </div>
                     <div class="item-image">
                         <img src="${image}" alt="${title}">
                     </div>
@@ -997,6 +1344,10 @@
                 `;
             } else {
                 card.innerHTML = `
+                    <div class="card-actions">
+                        <button class="card-action-btn btn-edit" onclick="openEditItem('${channelId}', this.closest('.item-card'))">✏️</button>
+                        <button class="card-action-btn btn-delete" onclick="deleteItem('${channelId}', this.closest('.item-card'))">🗑️</button>
+                    </div>
                     <div class="item-image">
                         <span class="item-image-icon">${icon}</span>
                     </div>
