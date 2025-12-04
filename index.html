@@ -749,7 +749,26 @@
             try {
                 console.log('Cargando datos...');
                 
-                // Cargar canales primero
+                // Primero, cargar items de operaciones (que ya existe en el HTML)
+                const operacionesItems = localStorage.getItem('items-operaciones');
+                console.log('Items de operaciones guardados:', operacionesItems);
+                
+                if (operacionesItems) {
+                    const items = JSON.parse(operacionesItems);
+                    console.log(`Cargando ${items.length} items para operaciones`);
+                    
+                    // Limpiar items por defecto primero
+                    const operacionesContainer = document.getElementById('operaciones-items');
+                    if (operacionesContainer) {
+                        operacionesContainer.innerHTML = '';
+                    }
+                    
+                    for (const item of items) {
+                        createItemDOM('operaciones', item, false);
+                    }
+                }
+                
+                // Cargar canales
                 const savedChannels = localStorage.getItem('channels-list');
                 console.log('Canales guardados:', savedChannels);
                 
@@ -762,17 +781,19 @@
                     }
                 }
 
-                // Esperar un momento para que los DOM estén listos, luego cargar items
+                // Esperar un momento para que los DOM estén listos, luego cargar items de otros canales
                 setTimeout(() => {
                     for (const channelId of channels) {
-                        const savedItems = localStorage.getItem(`items-${channelId}`);
-                        console.log(`Items para ${channelId}:`, savedItems);
-                        
-                        if (savedItems) {
-                            const items = JSON.parse(savedItems);
-                            console.log(`Cargando ${items.length} items para ${channelId}`);
-                            for (const item of items) {
-                                createItemDOM(channelId, item, false);
+                        if (channelId !== 'operaciones') { // Ya cargamos operaciones arriba
+                            const savedItems = localStorage.getItem(`items-${channelId}`);
+                            console.log(`Items para ${channelId}:`, savedItems);
+                            
+                            if (savedItems) {
+                                const items = JSON.parse(savedItems);
+                                console.log(`Cargando ${items.length} items para ${channelId}`);
+                                for (const item of items) {
+                                    createItemDOM(channelId, item, false);
+                                }
                             }
                         }
                     }
