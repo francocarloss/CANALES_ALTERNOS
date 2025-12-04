@@ -988,18 +988,55 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     itemData.image = e.target.result;
-                    createItemDOM(currentChannel, itemData, true);
+                    addItemToDOM(currentChannel, itemData);
                 };
                 reader.readAsDataURL(imageFile);
             } else {
-                createItemDOM(currentChannel, itemData, true);
+                addItemToDOM(currentChannel, itemData);
             }
 
             closeModal('addItemModal');
             document.getElementById('addItemForm').reset();
         }
 
-        function createItemDOM(channelId, itemData, shouldSave = true) {
+        // Nueva función para agregar y guardar
+        function addItemToDOM(channelId, itemData) {
+            // Primero agregar al DOM
+            createItemDOM(channelId, itemData, false);
+            
+            // Luego guardar TODOS los items del canal
+            const container = document.getElementById(`${channelId}-items`);
+            if (!container) {
+                console.error('Container no encontrado:', channelId);
+                return;
+            }
+
+            const items = [];
+            container.querySelectorAll('.item-card').forEach(card => {
+                const title = card.querySelector('h4')?.textContent || '';
+                const description = card.querySelector('p')?.textContent || '';
+                const tag = card.querySelector('.tag');
+                const type = tag?.classList.contains('tag-producto') ? 'producto' : 
+                           tag?.classList.contains('tag-campana') ? 'campana' : 'innovacion';
+                
+                const imgElement = card.querySelector('.item-image img');
+                const iconElement = card.querySelector('.item-image-icon');
+                
+                items.push({
+                    title,
+                    description,
+                    type,
+                    image: imgElement ? imgElement.src : null,
+                    icon: iconElement ? iconElement.textContent : '📦'
+                });
+            });
+
+            localStorage.setItem(`items-${channelId}`, JSON.stringify(items));
+            console.log(`✅ Guardados ${items.length} items en items-${channelId}`);
+            console.log('Datos guardados:', items);
+        }
+
+        function createItemDOM(channelId, itemData, shouldSave = false) {
             const { title, description, icon, type, image } = itemData;
             
             const container = document.getElementById(`${channelId}-items`);
@@ -1046,13 +1083,6 @@
             }
 
             container.appendChild(card);
-
-            if (shouldSave) {
-                // Pequeño delay para asegurar que el DOM esté actualizado
-                setTimeout(() => {
-                    saveChannelItems(channelId);
-                }, 100);
-            }
         }
 
         function closeModal(modalId) {
