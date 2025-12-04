@@ -738,6 +738,93 @@
     <script>
         let currentChannel = 'operaciones';
         let channels = ['operaciones'];
+        
+        // Cargar datos al inicio
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadAllData();
+        });
+
+        // Cargar todos los datos guardados
+        async function loadAllData() {
+            try {
+                // Cargar canales
+                const channelsData = await window.storage.get('channels-list');
+                if (channelsData && channelsData.value) {
+                    const savedChannels = JSON.parse(channelsData.value);
+                    for (const channel of savedChannels) {
+                        if (channel.id !== 'operaciones') {
+                            await createChannelDOM(channel);
+                        }
+                    }
+                }
+
+                // Cargar items de cada canal
+                for (const channelId of channels) {
+                    const itemsData = await window.storage.get(`items-${channelId}`);
+                    if (itemsData && itemsData.value) {
+                        const items = JSON.parse(itemsData.value);
+                        for (const item of items) {
+                            await createItemDOM(channelId, item, false);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log('No hay datos previos guardados');
+            }
+        }
+
+        // Guardar canales
+        async function saveChannels() {
+            try {
+                const channelsToSave = [];
+                document.querySelectorAll('.channel-tab:not(.add-channel-btn)').forEach(tab => {
+                    const channelId = tab.dataset.channel;
+                    const text = tab.textContent.trim();
+                    const icon = text.split(' ')[0];
+                    const name = text.substring(text.indexOf(' ') + 1);
+                    
+                    const description = document.querySelector(`[data-content="${channelId}"] .banner-content p`)?.textContent || '';
+                    
+                    channelsToSave.push({ id: channelId, name, icon, description });
+                });
+                
+                await window.storage.set('channels-list', JSON.stringify(channelsToSave));
+            } catch (error) {
+                console.error('Error guardando canales:', error);
+            }
+        }
+
+        // Guardar items de un canal
+        async function saveChannelItems(channelId) {
+            try {
+                const items = [];
+                const container = document.getElementById(`${channelId}-items`);
+                if (!container) return;
+
+                container.querySelectorAll('.item-card').forEach(card => {
+                    const title = card.querySelector('h4')?.textContent || '';
+                    const description = card.querySelector('p')?.textContent || '';
+                    const tag = card.querySelector('.tag');
+                    const type = tag?.classList.contains('tag-producto') ? 'producto' : 
+                               tag?.classList.contains('tag-campana') ? 'campana' : 'innovacion';
+                    
+                    const imgElement = card.querySelector('.item-image img');
+                    const iconElement = card.querySelector('.item-image-icon');
+                    
+                    items.push({
+                        title,
+                        description,
+                        type,
+                        image: imgElement ? imgElement.src : null,
+                        icon: iconElement ? iconElement.textContent : '📦'
+                    });
+                });
+
+                await window.storage.set(`items-${channelId}`, JSON.stringify(items));
+            } catch (error) {
+                console.error('Error guardando items:', error);
+            }
+        }
 
         // Cambio de canal
         document.addEventListener('click', (e) => {
@@ -780,7 +867,21 @@
                 return;
             }
 
-            channels.push(channelId);
+            const channelData = { id: channelId, name, icon, description };
+            createChannelDOM(channelData);
+
+            saveChannels();
+
+            closeModal('addChannelModal');
+            document.getElementById('addChannelForm').reset();
+
+            switchChannel(channelId);
+        }
+
+        async function createChannelDOM(channelData) {
+            const { id, name, icon, description } = channelData;
+            
+            channels.push(id);
 
             // Agregar tab
             const tabsContainer = document.getElementById('channelsTabs');
@@ -788,7 +889,7 @@
             
             const newTab = document.createElement('button');
             newTab.className = 'channel-tab';
-            newTab.dataset.channel = channelId;
+            newTab.dataset.channel = id;
             newTab.textContent = `${icon} ${name}`;
             
             tabsContainer.insertBefore(newTab, addBtn);
@@ -797,23 +898,23 @@
             const mainContainer = document.querySelector('.main-container');
             const newContent = document.createElement('div');
             newContent.className = 'channel-content';
-            newContent.dataset.content = channelId;
+            newContent.dataset.content = id;
             newContent.innerHTML = `
                 <div class="section-banner">
                     <div class="banner-content">
                         <h2>${name}</h2>
                         <p>${description || 'Gestiona productos, campañas e innovaciones de este canal'}</p>
-                        <a href="#items-${channelId}" class="banner-cta">Ver Productos</a>
+                        <a href="#items-${id}" class="banner-cta">Ver Productos</a>
                     </div>
                     <div class="banner-image"></div>
                 </div>
 
-                <div class="content-header" id="items-${channelId}">
+                <div class="content-header" id="items-${id}">
                     <h3>Productos e Innovaciones</h3>
-                    <button class="add-item-btn" onclick="openAddItemModal('${channelId}')">+ Agregar Elemento</button>
+                    <button class="add-item-btn" onclick="openAddItemModal('${id}')">+ Agregar Elemento</button>
                 </div>
 
-                <div class="items-grid" id="${channelId}-items">
+                <div class="items-grid" id="${id}-items">
                     <div class="empty-state">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -823,11 +924,6 @@
                 </div>
             `;
             mainContainer.appendChild(newContent);
-
-            closeModal('addChannelModal');
-            document.getElementById('addChannelForm').reset();
-
-            switchChannel(channelId);
         }
 
         // Modal Item
@@ -845,7 +941,28 @@
             const type = document.getElementById('itemType').value;
             const imageFile = document.getElementById('itemImage').files[0];
 
-            const container = document.getElementById(`${currentChannel}-items`);
+            const itemData = { title, description, icon, type, image: null };
+
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    itemData.image = e.target.result;
+                    createItemDOM(currentChannel, itemData, true);
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                createItemDOM(currentChannel, itemData, true);
+            }
+
+            closeModal('addItemModal');
+            document.getElementById('addItemForm').reset();
+        }
+
+        async function createItemDOM(channelId, itemData, shouldSave = true) {
+            const { title, description, icon, type, image } = itemData;
+            
+            const container = document.getElementById(`${channelId}-items`);
+            if (!container) return;
             
             const emptyState = container.querySelector('.empty-state');
             if (emptyState) {
@@ -856,26 +973,20 @@
             card.className = 'item-card';
             card.style.animation = 'fadeInUp 0.5s ease';
 
-            // Si hay una imagen, la leemos y mostramos
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    card.innerHTML = `
-                        <div class="item-image">
-                            <img src="${e.target.result}" alt="${title}">
+            if (image) {
+                card.innerHTML = `
+                    <div class="item-image">
+                        <img src="${image}" alt="${title}">
+                    </div>
+                    <div class="item-body">
+                        <h4>${title}</h4>
+                        <p>${description}</p>
+                        <div class="item-tags">
+                            <span class="tag tag-${type}">${type.charAt(0).toUpperCase() + type.slice(1)}</span>
                         </div>
-                        <div class="item-body">
-                            <h4>${title}</h4>
-                            <p>${description}</p>
-                            <div class="item-tags">
-                                <span class="tag tag-${type}">${type.charAt(0).toUpperCase() + type.slice(1)}</span>
-                            </div>
-                        </div>
-                    `;
-                };
-                reader.readAsDataURL(imageFile);
+                    </div>
+                `;
             } else {
-                // Si no hay imagen, usamos el icono
                 card.innerHTML = `
                     <div class="item-image">
                         <span class="item-image-icon">${icon}</span>
@@ -892,8 +1003,9 @@
 
             container.appendChild(card);
 
-            closeModal('addItemModal');
-            document.getElementById('addItemForm').reset();
+            if (shouldSave) {
+                await saveChannelItems(channelId);
+            }
         }
 
         function closeModal(modalId) {
