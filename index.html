@@ -862,19 +862,18 @@
 
     <!-- Navegación de Canales -->
     <div class="channels-nav" id="channelsNav">
-        <div class="channels-container" id="channelsContainer"><button class="channel-tab" data-channel="banco_de_antigua">
-                    Banco de Antigua
+        <div class="channels-container" id="channelsContainer"><button class="channel-tab active" data-channel="banco_de_antigua">
+                    Banco De Antigua
                     <span class="channel-edit-btn" onclick="openEditChannel('unidad_1', 'banco_de_antigua', event)">✏️</span>
                 </button><button class="add-channel-btn" onclick="openAddChannelModal()">+ Agregar Canal</button></div>
     </div>
 
     <!-- Contenido Principal -->
     <div class="main-container" id="mainContainer">
-                <div class="section-banner" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <div class="section-banner" style="background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);">
                     <div class="banner-content">
-                        <h2>Banco de Antigua</h2>
-                        <p>El **canal Banco de Antigua** es nuestra alianza de bancaseguros a través de la cual se comercializan los productos de seguros a los clientes del banco, aprovechando su red de agencias, fuerza de venta y base de clientes para facilitar la contratación, el cobro de primas y el acompañamiento en servicios de postventa.
-</p>
+                        <h2>Banco De Antigua</h2>
+                        <p>El canal Banco de Antigua es nuestra alianza de bancaseguros a través de la cual se comercializan los productos de seguros a los clientes del banco, aprovechando su red de agencias, fuerza de venta y base de clientes para facilitar la contratación, el cobro de primas y el acompañamiento en servicios de postventa.</p>
                     </div>
                     <div class="banner-image"></div>
                 </div>
@@ -933,7 +932,7 @@
                 <button class="close-btn" onclick="closeModal('editUnitModal')">×</button>
             </div>
             <form id="editUnitForm" onsubmit="handleEditUnit(event)">
-                <input type="hidden" id="editUnitId" value="operaciones">
+                <input type="hidden" id="editUnitId">
                 <div class="form-group">
                     <label for="editUnitName">Nombre de la Unidad *</label>
                     <input type="text" id="editUnitName" required="">
@@ -967,13 +966,25 @@
                     <label for="channelColor">Color del Banner (Gradiente CSS)</label>
                     <input type="text" id="channelColor" placeholder="Ej: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
                     <small style="display: block; margin-top: 8px; color: #666;">
-                        Ejemplos:<br>
+                        <strong>Ejemplos de colores:</strong><br>
                         • Azul: linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)<br>
                         • Púrpura: linear-gradient(135deg, #667eea 0%, #764ba2 100%)<br>
                         • Rosa: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)<br>
                         • Cyan: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)<br>
                         • Verde: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)<br>
-                        • Naranja: linear-gradient(135deg, #fa709a 0%, #fee140 100%)
+                        • Naranja: linear-gradient(135deg, #fa709a 0%, #fee140 100%)<br>
+                        • Rojo: linear-gradient(135deg, #eb3349 0%, #f45c43 100%)<br>
+                        • Mostaza: linear-gradient(135deg, #f7971e 0%, #ffd200 100%)<br>
+                        • Morado Oscuro: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%)<br>
+                        • Turquesa: linear-gradient(135deg, #13547a 0%, #80d0c7 100%)<br>
+                        • Coral: linear-gradient(135deg, #ff6a88 0%, #ff99ac 100%)<br>
+                        • Índigo: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%)<br>
+                        • Esmeralda: linear-gradient(135deg, #134e5e 0%, #71b280 100%)<br>
+                        • Lavanda: linear-gradient(135deg, #a8caba 0%, #5d4e6d 100%)<br>
+                        • Amarillo Brillante: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%)<br>
+                        • Azul Eléctrico: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)<br>
+                        • Verde Menta: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)<br>
+                        • Magenta: linear-gradient(135deg, #e53935 0%, #e35d5b 100%)
                     </small>
                 </div>
                 <button type="submit" class="submit-btn">Agregar Canal</button>
@@ -989,8 +1000,8 @@
                 <button class="close-btn" onclick="closeModal('editChannelModal')">×</button>
             </div>
             <form id="editChannelForm" onsubmit="handleEditChannel(event)">
-                <input type="hidden" id="editChannelId" value="banco_de_antigua">
-                <input type="hidden" id="editChannelUnit" value="unidad_1">
+                <input type="hidden" id="editChannelId">
+                <input type="hidden" id="editChannelUnit">
                 <div class="form-group">
                     <label for="editChannelName">Nombre del Canal *</label>
                     <input type="text" id="editChannelName" required="">
@@ -1003,13 +1014,25 @@
                     <label for="editChannelColor">Color del Banner (Gradiente CSS)</label>
                     <input type="text" id="editChannelColor" placeholder="Ej: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
                     <small style="display: block; margin-top: 8px; color: #666;">
-                        Ejemplos:<br>
+                        <strong>Ejemplos de colores:</strong><br>
                         • Azul: linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)<br>
                         • Púrpura: linear-gradient(135deg, #667eea 0%, #764ba2 100%)<br>
                         • Rosa: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)<br>
                         • Cyan: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)<br>
                         • Verde: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)<br>
-                        • Naranja: linear-gradient(135deg, #fa709a 0%, #fee140 100%)
+                        • Naranja: linear-gradient(135deg, #fa709a 0%, #fee140 100%)<br>
+                        • Rojo: linear-gradient(135deg, #eb3349 0%, #f45c43 100%)<br>
+                        • Mostaza: linear-gradient(135deg, #f7971e 0%, #ffd200 100%)<br>
+                        • Morado Oscuro: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%)<br>
+                        • Turquesa: linear-gradient(135deg, #13547a 0%, #80d0c7 100%)<br>
+                        • Coral: linear-gradient(135deg, #ff6a88 0%, #ff99ac 100%)<br>
+                        • Índigo: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%)<br>
+                        • Esmeralda: linear-gradient(135deg, #134e5e 0%, #71b280 100%)<br>
+                        • Lavanda: linear-gradient(135deg, #a8caba 0%, #5d4e6d 100%)<br>
+                        • Amarillo Brillante: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%)<br>
+                        • Azul Eléctrico: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)<br>
+                        • Verde Menta: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)<br>
+                        • Magenta: linear-gradient(135deg, #e53935 0%, #e35d5b 100%)
                     </small>
                 </div>
                 <button type="submit" class="submit-btn">Guardar Cambios</button>
@@ -1112,7 +1135,7 @@
         {
                 "id": "unidad_1",
                 "name": "Unidad 1",
-                "description": "La **Jefatura Comercial de Gastos Médicos** es el área encargada de definir e implementar la estrategia comercial de los seguros de gastos médicos, impulsando el crecimiento de primas, la rentabilidad del portafolio y el apoyo a fuerzas de venta e intermediarios, para brindar soluciones de salud competitivas y sostenibles a los asegurados.\n"
+                "description": "La Jefatura Comercial de Gastos Médicos es el área encargada de definir e implementar la estrategia comercial de los seguros de gastos médicos, impulsando el crecimiento de primas, la rentabilidad del portafolio y el apoyo a fuerzas de venta e intermediarios, para brindar soluciones de salud competitivas y sostenibles a los asegurados."
         }
 ];
 
@@ -1146,9 +1169,9 @@
         "unidad_1": [
                 {
                         "id": "banco_de_antigua",
-                        "name": "Banco de Antigua",
-                        "description": "El **canal Banco de Antigua** es nuestra alianza de bancaseguros a través de la cual se comercializan los productos de seguros a los clientes del banco, aprovechando su red de agencias, fuerza de venta y base de clientes para facilitar la contratación, el cobro de primas y el acompañamiento en servicios de postventa.\n",
-                        "color": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
+                        "name": "Banco De Antigua",
+                        "description": "El canal Banco de Antigua es nuestra alianza de bancaseguros a través de la cual se comercializan los productos de seguros a los clientes del banco, aprovechando su red de agencias, fuerza de venta y base de clientes para facilitar la contratación, el cobro de primas y el acompañamiento en servicios de postventa.",
+                        "color": "linear-gradient(135deg, #eb3349 0%, #f45c43 100%)"
                 }
         ]
 };
