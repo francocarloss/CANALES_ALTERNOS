@@ -137,37 +137,6 @@
             color: #1e88e5;
         }
 
-        .channel-tab:hover .channel-edit-btn {
-            opacity: 1;
-        }
-
-        .channel-edit-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #1e88e5;
-            color: white;
-            border: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 0.7em;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .admin-mode .channel-edit-btn {
-            display: flex;
-        }
-
-        .channel-edit-btn:hover {
-            background: #0a4d8f;
-        }
-
         .channel-tab.active {
             color: #1e88e5;
         }
@@ -181,30 +150,6 @@
             height: 3px;
             background: #1e88e5;
             animation: expandWidth 0.3s ease;
-        }
-
-        .add-channel-btn {
-            background: #1e88e5;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
-            margin-left: auto;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            display: none;
-        }
-
-        .admin-mode .add-channel-btn {
-            display: block;
-        }
-
-        .add-channel-btn:hover {
-            background: #0a4d8f;
-            transform: scale(1.05);
         }
 
         /* Contenedor principal */
@@ -254,22 +199,6 @@
             font-size: 1.2em;
             line-height: 1.8;
             margin-bottom: 30px;
-        }
-
-        .banner-cta {
-            display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .banner-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
         }
 
         .banner-image {
@@ -322,24 +251,25 @@
 
         .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
             margin-bottom: 60px;
         }
 
         .item-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             cursor: pointer;
             position: relative;
+            border: 1px solid #e8e8e8;
         }
 
         .item-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
         }
 
         .item-card:hover .card-actions {
@@ -389,66 +319,70 @@
             color: #f44336;
         }
 
-        .item-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4em;
-            color: white;
-            position: relative;
-            overflow: hidden;
+        .item-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e8e8e8;
         }
 
-        .item-image-icon {
-            font-size: 4em;
-            color: white;
+        .item-category {
+            display: inline-block;
+            font-size: 0.75em;
+            color: #1e88e5;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .item-body {
-            padding: 25px;
+            padding: 20px;
         }
 
         .item-body h4 {
-            font-size: 1.4em;
+            font-size: 1.2em;
             color: #333;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .item-body p {
             color: #666;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 0.95em;
         }
 
-        .item-tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+        .item-body ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 15px;
         }
 
-        .tag {
-            padding: 6px 15px;
-            border-radius: 20px;
+        .item-body ul li {
+            color: #555;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9em;
+        }
+
+        .item-body ul li:before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            color: #1e88e5;
+            font-weight: bold;
+        }
+
+        .item-footer {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .item-meta {
             font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .tag-producto {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .tag-campana {
-            background: #fff3e0;
-            color: #e65100;
-        }
-
-        .tag-innovacion {
-            background: #e3f2fd;
-            color: #1565c0;
+            color: #999;
         }
 
         .export-code-btn {
@@ -549,8 +483,7 @@
         }
 
         .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group textarea {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
@@ -561,8 +494,7 @@
         }
 
         .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
+        .form-group textarea:focus {
             outline: none;
             border-color: #1e88e5;
         }
@@ -739,8 +671,8 @@
     <div class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Portal de Canales</h1>
-            <p>Gestión integral de productos, campañas e innovaciones</p>
+            <h1>Portal de Operaciones</h1>
+            <p>Sistema integral de gestión y automatización</p>
         </div>
     </div>
 
@@ -754,62 +686,33 @@
 
     <!-- Navegación de Canales -->
     <div class="channels-nav">
-        <div class="channels-container" id="channelsContainer">
-            <!-- Los canales se cargarán dinámicamente -->
-            <button class="add-channel-btn" onclick="openAddChannelModal()">+ Agregar Canal</button>
+        <div class="channels-container">
+            <button class="channel-tab active">🔧 Operaciones</button>
         </div>
     </div>
 
     <!-- Contenido Principal -->
-    <div class="main-container" id="mainContainer">
-        <!-- El contenido de cada canal se cargará dinámicamente -->
+    <div class="main-container">
+        <div class="section-banner">
+            <div class="banner-content">
+                <h2>🔧 Operaciones</h2>
+                <p>Plataformas y sistemas para la gestión integral de operaciones de seguros</p>
+            </div>
+            <div class="banner-image"></div>
+        </div>
+
+        <div class="content-header">
+            <h3>Sistemas y Plataformas</h3>
+            <button class="add-item-btn" onclick="openAddItemModal()">+ Agregar Elemento</button>
+        </div>
+
+        <div class="items-grid" id="itemsGrid">
+            <!-- Los elementos se cargarán dinámicamente -->
+        </div>
     </div>
 
     <!-- Botón de Exportar Código -->
     <button class="export-code-btn" onclick="exportCode()">📋 Exportar Código HTML</button>
-
-    <!-- Modal Agregar Canal -->
-    <div class="modal" id="addChannelModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Agregar Nuevo Canal</h3>
-                <button class="close-btn" onclick="closeModal('addChannelModal')">&times;</button>
-            </div>
-            <form id="addChannelForm" onsubmit="handleAddChannel(event)">
-                <div class="form-group">
-                    <label for="channelName">Nombre del Canal *</label>
-                    <input type="text" id="channelName" required>
-                </div>
-                <div class="form-group">
-                    <label for="channelDescription">Descripción del Canal</label>
-                    <textarea id="channelDescription"></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Agregar Canal</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Editar Canal -->
-    <div class="modal" id="editChannelModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Editar Canal</h3>
-                <button class="close-btn" onclick="closeModal('editChannelModal')">&times;</button>
-            </div>
-            <form id="editChannelForm" onsubmit="handleEditChannel(event)">
-                <input type="hidden" id="editChannelId">
-                <div class="form-group">
-                    <label for="editChannelName">Nombre del Canal *</label>
-                    <input type="text" id="editChannelName" required>
-                </div>
-                <div class="form-group">
-                    <label for="editChannelDescription">Descripción del Canal</label>
-                    <textarea id="editChannelDescription"></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Guardar Cambios</button>
-            </form>
-        </div>
-    </div>
 
     <!-- Modal Agregar Item -->
     <div class="modal" id="addItemModal">
@@ -820,20 +723,24 @@
             </div>
             <form id="addItemForm" onsubmit="handleAddItem(event)">
                 <div class="form-group">
+                    <label for="itemCategory">Categoría *</label>
+                    <input type="text" id="itemCategory" required placeholder="Ej: Plataforma de emisión">
+                </div>
+                <div class="form-group">
                     <label for="itemTitle">Título *</label>
-                    <input type="text" id="itemTitle" required>
+                    <input type="text" id="itemTitle" required placeholder="Ej: Punto de Venta Vida y Masivos">
                 </div>
                 <div class="form-group">
                     <label for="itemDescription">Descripción *</label>
-                    <textarea id="itemDescription" required></textarea>
+                    <textarea id="itemDescription" required placeholder="Descripción breve del sistema"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="itemType">Tipo *</label>
-                    <select id="itemType" required>
-                        <option value="producto">Producto</option>
-                        <option value="campana">Campaña</option>
-                        <option value="innovacion">Innovación</option>
-                    </select>
+                    <label for="itemDetails">Características (una por línea)</label>
+                    <textarea id="itemDetails" placeholder="- Característica 1&#10;- Característica 2&#10;- Característica 3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="itemMeta">Información adicional</label>
+                    <input type="text" id="itemMeta" placeholder="Ej: Tipo: Emisión web online. Usuarios: equipos comerciales">
                 </div>
                 <button type="submit" class="submit-btn">Agregar Elemento</button>
             </form>
@@ -849,7 +756,10 @@
             </div>
             <form id="editItemForm" onsubmit="handleEditItem(event)">
                 <input type="hidden" id="editItemIndex">
-                <input type="hidden" id="editItemChannel">
+                <div class="form-group">
+                    <label for="editItemCategory">Categoría *</label>
+                    <input type="text" id="editItemCategory" required>
+                </div>
                 <div class="form-group">
                     <label for="editItemTitle">Título *</label>
                     <input type="text" id="editItemTitle" required>
@@ -859,12 +769,12 @@
                     <textarea id="editItemDescription" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="editItemType">Tipo *</label>
-                    <select id="editItemType" required>
-                        <option value="producto">Producto</option>
-                        <option value="campana">Campaña</option>
-                        <option value="innovacion">Innovación</option>
-                    </select>
+                    <label for="editItemDetails">Características (una por línea)</label>
+                    <textarea id="editItemDetails"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editItemMeta">Información adicional</label>
+                    <input type="text" id="editItemMeta">
                 </div>
                 <button type="submit" class="submit-btn">Guardar Cambios</button>
             </form>
@@ -886,42 +796,111 @@
 
     <script>
         // Datos iniciales embebidos en el código
-        let channels = [
-            { id: 'miRed', name: '🌐 MiRed', description: 'Canal de distribución a través de agentes y corredores' },
-            { id: 'alianzas', name: '🤝 Alianzas', description: 'Convenios estratégicos y puntos de venta' },
-            { id: 'bancaseguros', name: '🏦 Bancaseguros', description: 'Distribución a través de entidades financieras' },
-            { id: 'digital', name: '💻 Digital', description: 'Plataformas digitales y ventas en línea' }
+        let items = [
+            {
+                category: "Plataforma de emisión",
+                title: "Punto de Venta Vida y Masivos",
+                description: "Estrategia web online para emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo antes de aprobar el caso.",
+                details: [
+                    "Procesa la información directo en el sistema de seguros.",
+                    "Valida NIT y DPI y usa reglas dinámicas para evaluación.",
+                    "Genera papelería, contratos de cobro, facturas y firma digital."
+                ],
+                meta: "Tipo: Emisión web online. Usuarios: equipos comerciales y canales aliados."
+            },
+            {
+                category: "Gestión de solicitudes",
+                title: "Módulo de Gestiones",
+                description: "Plataforma donde los aliados gestionan gestiones e incidencias para seguimiento ordenado con Seguros Universales.",
+                details: [
+                    "Permite configurar tipos de gestión y usuarios.",
+                    "Roles de ejecutivo, verificador y administrador.",
+                    "Módulos de historial, solicitudes activas y reportes."
+                ],
+                meta: "Tipo: Mesa de servicio para canales. Usuarios: aliados, operaciones y back office."
+            },
+            {
+                category: "Venta digital",
+                title: "Links de Autogestión",
+                description: "Formularios en línea para que el cliente complete sus datos y se procese la emisión sin papel.",
+                details: [
+                    "Actualiza información del cliente mientras emite.",
+                    "Aplica reglas de riesgo y cobra en línea.",
+                    "Soporta NIT individual, AI, Agrega y Seguro Total."
+                ],
+                meta: "Tipo: Emisión 100% digital orientada a autoatención del cliente."
+            },
+            {
+                category: "Automatización de archivos",
+                title: "Proceso Automático Archivo Único SFTP",
+                description: "Motor que lee archivos enviados por los sponsors y automatiza altas, bajas, recaudos y actualizacion desde un solo archivo.",
+                details: [
+                    "Emite certificados y genera requerimientos de pago y facturas.",
+                    "Administra productos con pólizas combinadas y planillas.",
+                    "Panel para revisar incidencias y estado de cada archivo."
+                ],
+                meta: "Tipo: Proceso batch diario. Usuarios: operaciones, cobranzas y administración de cartera."
+            },
+            {
+                category: "Control de calidad",
+                title: "Gestión de inconsistencias de archivos",
+                description: "Vista de control que marca los errores de los archivos procesados para que el equipo pueda corregir y reprocesar.",
+                details: [
+                    "Distingue errores de formato, errores de contacto y archivos limpios.",
+                    "Facilita el reproceso de archivos corregidos."
+                ],
+                meta: "Tipo: Monitoreo de cargas masivas."
+            },
+            {
+                category: "RPA - DILLO",
+                title: "Robotic Process Automation (RPA-DILLO)",
+                description: "Robots de software que replican tareas repetitivas en los sistemas actuales para liberar tiempo de los equipos.",
+                details: [
+                    "Soporta pre-emisiones, renovaciones y emisiones de auto/moto.",
+                    "Operan velocidad y consistencia, operando 24/7.",
+                    "Permite que los colaboradores se enfoquen en tareas de mayor valor."
+                ],
+                meta: "Tipo: Automatización de back office. Nota: siempre con procesos alternos y de validación humana."
+            },
+            {
+                category: "Punto de venta Auto",
+                title: "Punto de Venta Auto",
+                description: "Versión especializada del punto de venta enfocada en pólizas de auto, desde la cotización hasta la emisión.",
+                details: [
+                    "Incluye módulos de cotización, contacto y emisión.",
+                    "Envía documentación por correo y permite consultar pólizas.",
+                    "Gestiona condiciones de renovación desde la misma herramienta."
+                ],
+                meta: "Tipo: Emisión y servicio para productos de auto."
+            },
+            {
+                category: "Inspección digital",
+                title: "Link de Auto Inspección",
+                description: "Herramienta que permite al cliente realizar la inspección de su vehículo desde un enlace que recibe en su celular.",
+                details: [
+                    "El vendedor genera el link desde la plataforma.",
+                    "Se envía por WhatsApp, correo, SMS o se copia el enlace.",
+                    "Las fotos e información quedan guardadas para evaluación."
+                ],
+                meta: "Tipo: Inspección previa a la emisión de auto."
+            },
+            {
+                category: "Integraciones API",
+                title: "Conexiones por medio de API's",
+                description: "Ambiente de servicios para que los sponsors se conecten directo al sistema de seguros y Auto desde sus propias plataformas.",
+                details: [
+                    "Catálogo de servicios para emisiones y consultas.",
+                    "Permite integrar flujos de venta del aliado con el core de seguros."
+                ],
+                meta: "Tipo: Integración tecnológica con sponsors."
+            }
         ];
 
-        let channelItems = {
-            'miRed': [
-                { title: 'Portal Agentes', description: 'Sistema de gestión para agentes independientes', type: 'producto' },
-                { title: 'Campaña Verano 2024', description: 'Promoción especial de seguros de vida', type: 'campana' },
-                { title: 'App Móvil Agentes', description: 'Nueva aplicación para gestión móvil', type: 'innovacion' }
-            ],
-            'alianzas': [
-                { title: 'Sistema POS', description: 'Punto de venta para aliados comerciales', type: 'producto' },
-                { title: 'Red de Farmacias', description: 'Expansión de puntos de venta', type: 'campana' }
-            ],
-            'bancaseguros': [
-                { title: 'Portal Bancario', description: 'Integración con plataformas bancarias', type: 'producto' },
-                { title: 'Seguro Tarjeta', description: 'Producto exclusivo para tarjetahabientes', type: 'innovacion' }
-            ],
-            'digital': [
-                { title: 'Cotizador Online', description: 'Cotización instantánea de seguros', type: 'producto' },
-                { title: 'Chatbot IA', description: 'Asistente virtual inteligente', type: 'innovacion' }
-            ]
-        };
-
         let currentMode = 'user';
-        let currentChannel = null;
 
         // Inicialización
         function init() {
-            renderChannels();
-            if (channels.length > 0) {
-                switchChannel(channels[0].id);
-            }
+            renderItems();
         }
 
         // Cambiar modo Usuario/Administrador
@@ -950,204 +929,96 @@
             }
         }
 
-        // Renderizar canales
-        function renderChannels() {
-            const container = document.getElementById('channelsContainer');
-            const addBtn = container.querySelector('.add-channel-btn');
-            
-            container.innerHTML = '';
-            
-            channels.forEach((channel, index) => {
-                const tab = document.createElement('button');
-                tab.className = 'channel-tab';
-                tab.setAttribute('data-channel', channel.id);
-                tab.innerHTML = `
-                    ${channel.name}
-                    <span class="channel-edit-btn" onclick="openEditChannel('${channel.id}', event)">✏️</span>
-                `;
-                tab.onclick = (e) => {
-                    if (!e.target.classList.contains('channel-edit-btn')) {
-                        switchChannel(channel.id);
-                    }
-                };
-                container.appendChild(tab);
-            });
+        // Renderizar items
+        function renderItems() {
+            const grid = document.getElementById('itemsGrid');
 
-            container.appendChild(addBtn);
-        }
-
-        // Cambiar canal activo
-        function switchChannel(channelId) {
-            currentChannel = channelId;
-
-            // Actualizar tabs
-            document.querySelectorAll('.channel-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`[data-channel="${channelId}"]`).classList.add('active');
-
-            // Renderizar contenido del canal
-            renderChannelContent(channelId);
-        }
-
-        // Renderizar contenido del canal
-        function renderChannelContent(channelId) {
-            const channel = channels.find(ch => ch.id === channelId);
-            if (!channel) return;
-
-            const items = channelItems[channelId] || [];
-            const container = document.getElementById('mainContainer');
-
-            container.innerHTML = `
-                <div class="section-banner">
-                    <div class="banner-content">
-                        <h2>${channel.name}</h2>
-                        <p>${channel.description || 'Gestiona productos, campañas e innovaciones de este canal'}</p>
+            if (items.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📦</div>
+                        <h4>No hay elementos</h4>
+                        <p>Agrega el primer elemento</p>
                     </div>
-                    <div class="banner-image"></div>
-                </div>
-
-                <div class="content-header">
-                    <h3>Elementos del Canal</h3>
-                    <button class="add-item-btn" onclick="openAddItemModal('${channelId}')">+ Agregar Elemento</button>
-                </div>
-
-                <div class="items-grid" id="${channelId}-items">
-                    ${items.length === 0 ? `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">📦</div>
-                            <h4>No hay elementos</h4>
-                            <p>Agrega el primer elemento a este canal</p>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-
-            // Renderizar items
-            if (items.length > 0) {
-                const itemsGrid = document.getElementById(`${channelId}-items`);
-                itemsGrid.innerHTML = '';
-                items.forEach((item, index) => {
-                    const card = createItemCard(channelId, item, index);
-                    itemsGrid.appendChild(card);
-                });
+                `;
+                return;
             }
+
+            grid.innerHTML = '';
+            items.forEach((item, index) => {
+                const card = createItemCard(item, index);
+                grid.appendChild(card);
+            });
         }
 
         // Crear tarjeta de item
-        function createItemCard(channelId, item, index) {
+        function createItemCard(item, index) {
             const card = document.createElement('div');
             card.className = 'item-card';
+
+            const detailsList = item.details && item.details.length > 0
+                ? `<ul>${item.details.map(d => `<li>${d}</li>`).join('')}</ul>`
+                : '';
+
+            const metaSection = item.meta
+                ? `<div class="item-footer"><div class="item-meta">${item.meta}</div></div>`
+                : '';
+
             card.innerHTML = `
                 <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem('${channelId}', ${index})">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem('${channelId}', ${index})">🗑️</button>
+                    <button class="card-action-btn btn-edit" onclick="openEditItem(${index})">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem(${index})">🗑️</button>
                 </div>
-                <div class="item-image">
-                    <span class="item-image-icon">📦</span>
+                <div class="item-header">
+                    <div class="item-category">${item.category}</div>
                 </div>
                 <div class="item-body">
                     <h4>${item.title}</h4>
                     <p>${item.description}</p>
-                    <div class="item-tags">
-                        <span class="tag tag-${item.type}">${item.type.charAt(0).toUpperCase() + item.type.slice(1)}</span>
-                    </div>
+                    ${detailsList}
                 </div>
+                ${metaSection}
             `;
             return card;
         }
 
-        // Modal de agregar canal
-        function openAddChannelModal() {
-            document.getElementById('addChannelModal').classList.add('active');
-        }
-
-        function handleAddChannel(event) {
-            event.preventDefault();
-
-            const name = document.getElementById('channelName').value;
-            const description = document.getElementById('channelDescription').value;
-            const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
-
-            channels.push({ id, name, description });
-            channelItems[id] = [];
-
-            renderChannels();
-            switchChannel(id);
-
-            closeModal('addChannelModal');
-            document.getElementById('addChannelForm').reset();
-        }
-
-        // Modal de editar canal
-        function openEditChannel(channelId, event) {
-            event.stopPropagation();
-            
-            const channel = channels.find(ch => ch.id === channelId);
-            if (!channel) return;
-
-            document.getElementById('editChannelId').value = channelId;
-            document.getElementById('editChannelName').value = channel.name;
-            document.getElementById('editChannelDescription').value = channel.description || '';
-
-            document.getElementById('editChannelModal').classList.add('active');
-        }
-
-        function handleEditChannel(event) {
-            event.preventDefault();
-
-            const channelId = document.getElementById('editChannelId').value;
-            const name = document.getElementById('editChannelName').value;
-            const description = document.getElementById('editChannelDescription').value;
-
-            const channel = channels.find(ch => ch.id === channelId);
-            if (channel) {
-                channel.name = name;
-                channel.description = description;
-
-                renderChannels();
-                renderChannelContent(channelId);
-            }
-
-            closeModal('editChannelModal');
-            document.getElementById('editChannelForm').reset();
-        }
-
         // Modal de agregar item
-        function openAddItemModal(channelId) {
-            currentChannel = channelId;
+        function openAddItemModal() {
             document.getElementById('addItemModal').classList.add('active');
         }
 
         function handleAddItem(event) {
             event.preventDefault();
 
+            const category = document.getElementById('itemCategory').value;
             const title = document.getElementById('itemTitle').value;
             const description = document.getElementById('itemDescription').value;
-            const type = document.getElementById('itemType').value;
+            const detailsText = document.getElementById('itemDetails').value;
+            const meta = document.getElementById('itemMeta').value;
 
-            if (!channelItems[currentChannel]) {
-                channelItems[currentChannel] = [];
-            }
+            const details = detailsText
+                ? detailsText.split('\n').filter(d => d.trim()).map(d => d.replace(/^[-•]\s*/, ''))
+                : [];
 
-            channelItems[currentChannel].push({ title, description, type });
+            items.push({ category, title, description, details, meta });
 
-            renderChannelContent(currentChannel);
+            renderItems();
 
             closeModal('addItemModal');
             document.getElementById('addItemForm').reset();
         }
 
         // Modal de editar item
-        function openEditItem(channelId, index) {
-            const item = channelItems[channelId][index];
+        function openEditItem(index) {
+            const item = items[index];
             if (!item) return;
 
-            document.getElementById('editItemChannel').value = channelId;
             document.getElementById('editItemIndex').value = index;
+            document.getElementById('editItemCategory').value = item.category;
             document.getElementById('editItemTitle').value = item.title;
             document.getElementById('editItemDescription').value = item.description;
-            document.getElementById('editItemType').value = item.type;
+            document.getElementById('editItemDetails').value = item.details ? item.details.join('\n') : '';
+            document.getElementById('editItemMeta').value = item.meta || '';
 
             document.getElementById('editItemModal').classList.add('active');
         }
@@ -1155,15 +1026,20 @@
         function handleEditItem(event) {
             event.preventDefault();
 
-            const channelId = document.getElementById('editItemChannel').value;
             const index = parseInt(document.getElementById('editItemIndex').value);
+            const category = document.getElementById('editItemCategory').value;
             const title = document.getElementById('editItemTitle').value;
             const description = document.getElementById('editItemDescription').value;
-            const type = document.getElementById('editItemType').value;
+            const detailsText = document.getElementById('editItemDetails').value;
+            const meta = document.getElementById('editItemMeta').value;
 
-            if (channelItems[channelId] && channelItems[channelId][index]) {
-                channelItems[channelId][index] = { title, description, type };
-                renderChannelContent(channelId);
+            const details = detailsText
+                ? detailsText.split('\n').filter(d => d.trim()).map(d => d.replace(/^[-•]\s*/, ''))
+                : [];
+
+            if (items[index]) {
+                items[index] = { category, title, description, details, meta };
+                renderItems();
             }
 
             closeModal('editItemModal');
@@ -1171,10 +1047,10 @@
         }
 
         // Eliminar item
-        function deleteItem(channelId, index) {
+        function deleteItem(index) {
             if (confirm('¿Estás seguro de que deseas eliminar este elemento?')) {
-                channelItems[channelId].splice(index, 1);
-                renderChannelContent(channelId);
+                items.splice(index, 1);
+                renderItems();
             }
         }
 
@@ -1185,12 +1061,10 @@
 
         // Exportar código HTML
         function exportCode() {
-            const channelsData = JSON.stringify(channels, null, 8);
-            const itemsData = JSON.stringify(channelItems, null, 8);
+            const itemsData = JSON.stringify(items, null, 8);
 
             const fullHTML = document.documentElement.outerHTML
-                .replace(/let channels = \[[\s\S]*?\];/, `let channels = ${channelsData};`)
-                .replace(/let channelItems = \{[\s\S]*?\};/, `let channelItems = ${itemsData};`);
+                .replace(/let items = \[[\s\S]*?\];/, `let items = ${itemsData};`);
 
             document.getElementById('codeOutput').textContent = fullHTML;
             document.getElementById('exportModal').classList.add('active');
