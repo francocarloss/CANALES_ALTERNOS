@@ -851,35 +851,30 @@
 
     <!-- Navegación de Unidades de Negocio -->
     <div class="business-units-nav">
-        <div class="business-units-container" id="businessUnitsContainer"><button class="business-unit-tab active" data-unit="operaciones">
+        <div class="business-units-container" id="businessUnitsContainer"><button class="business-unit-tab" data-unit="operaciones">
                     🔧 Operaciones
                     <span class="unit-edit-btn" onclick="openEditUnit('operaciones', event)">✏️</span>
+                </button><button class="business-unit-tab active" data-unit="unidad_1">
+                    Unidad 1
+                    <span class="unit-edit-btn" onclick="openEditUnit('unidad_1', event)">✏️</span>
                 </button><button class="add-unit-btn" onclick="openAddUnitModal()">+ Agregar Unidad de Negocio</button></div>
     </div>
 
     <!-- Navegación de Canales -->
     <div class="channels-nav" id="channelsNav">
-        <div class="channels-container" id="channelsContainer"><button class="channel-tab active" data-channel="puntos_venta_web">
-                    🌐 Puntos de Venta Web
-                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', 'puntos_venta_web', event)">✏️</span>
-                </button><button class="channel-tab" data-channel="rpa">
-                    🤖 RPA - Automatización
-                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', 'rpa', event)">✏️</span>
-                </button><button class="channel-tab" data-channel="conexiones_api">
-                    🔌 Conexiones API
-                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', 'conexiones_api', event)">✏️</span>
-                </button><button class="channel-tab" data-channel="gestion_archivos">
-                    📁 Gestión de Archivos
-                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', 'gestion_archivos', event)">✏️</span>
+        <div class="channels-container" id="channelsContainer"><button class="channel-tab" data-channel="banco_de_antigua">
+                    Banco de Antigua
+                    <span class="channel-edit-btn" onclick="openEditChannel('unidad_1', 'banco_de_antigua', event)">✏️</span>
                 </button><button class="add-channel-btn" onclick="openAddChannelModal()">+ Agregar Canal</button></div>
     </div>
 
     <!-- Contenido Principal -->
     <div class="main-container" id="mainContainer">
-                <div class="section-banner">
+                <div class="section-banner" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
                     <div class="banner-content">
-                        <h2>🌐 Puntos de Venta Web</h2>
-                        <p>Plataformas web para emisión directa</p>
+                        <h2>Banco de Antigua</h2>
+                        <p>El **canal Banco de Antigua** es nuestra alianza de bancaseguros a través de la cual se comercializan los productos de seguros a los clientes del banco, aprovechando su red de agencias, fuerza de venta y base de clientes para facilitar la contratación, el cobro de primas y el acompañamiento en servicios de postventa.
+</p>
                     </div>
                     <div class="banner-image"></div>
                 </div>
@@ -891,60 +886,18 @@
 
                 <div class="items-grid" id="itemsGrid"><div class="item-card">
                 <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem('operaciones', 'puntos_venta_web', 0)">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem('operaciones', 'puntos_venta_web', 0)">🗑️</button>
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('unidad_1', 'banco_de_antigua', 0)">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('unidad_1', 'banco_de_antigua', 0)">🗑️</button>
                 </div>
                 <div class="item-header">
-                    <div class="item-category">Plataforma de emisión</div>
+                    <div class="item-category">Jornada Medica</div>
                 </div>
                 <div class="item-body">
-                    <h4>Punto de Venta Vida y Masivos</h4>
-                    <p>Estrategia web online para emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo antes de aprobar el caso.</p>
-                    <ul><li>Procesa la información directo en el sistema de seguros.</li><li>Valida NIT y DPI y usa reglas dinámicas para evaluación.</li><li>Genera papelería, contratos de cobro, facturas y firma digital.</li></ul>
+                    <h4>Jornada Medica Xela</h4>
+                    <p>Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.</p>
+                    <ul><li>Jornada médica en Quetzaltenango</li><li>Consultas generales y signos vitales</li><li>Entrega de medicamentos básicos</li><li>Educación en prevención y cuidado de la salud</li><li>Atención a niñez, adultos y adultos mayores</li></ul>
                 </div>
-                <div class="item-footer"><div class="item-meta">Tipo: Emisión web online. Usuarios: equipos comerciales y canales aliados.</div></div>
-            </div><div class="item-card">
-                <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem('operaciones', 'puntos_venta_web', 1)">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem('operaciones', 'puntos_venta_web', 1)">🗑️</button>
-                </div>
-                <div class="item-header">
-                    <div class="item-category">Venta digital</div>
-                </div>
-                <div class="item-body">
-                    <h4>Links de Autogestión</h4>
-                    <p>Formularios en línea para que el cliente complete sus datos y se procese la emisión sin papel.</p>
-                    <ul><li>Actualiza información del cliente mientras emite.</li><li>Aplica reglas de riesgo y cobra en línea.</li><li>Soporta NIT individual, AI, Agrega y Seguro Total.</li></ul>
-                </div>
-                <div class="item-footer"><div class="item-meta">Tipo: Emisión 100% digital orientada a autoatención del cliente.</div></div>
-            </div><div class="item-card">
-                <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem('operaciones', 'puntos_venta_web', 2)">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem('operaciones', 'puntos_venta_web', 2)">🗑️</button>
-                </div>
-                <div class="item-header">
-                    <div class="item-category">Punto de venta Auto</div>
-                </div>
-                <div class="item-body">
-                    <h4>Punto de Venta Auto</h4>
-                    <p>Versión especializada del punto de venta enfocada en pólizas de auto, desde la cotización hasta la emisión.</p>
-                    <ul><li>Incluye módulos de cotización, contacto y emisión.</li><li>Envía documentación por correo y permite consultar pólizas.</li><li>Gestiona condiciones de renovación desde la misma herramienta.</li></ul>
-                </div>
-                <div class="item-footer"><div class="item-meta">Tipo: Emisión y servicio para productos de auto.</div></div>
-            </div><div class="item-card">
-                <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem('operaciones', 'puntos_venta_web', 3)">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem('operaciones', 'puntos_venta_web', 3)">🗑️</button>
-                </div>
-                <div class="item-header">
-                    <div class="item-category">Gestión de solicitudes</div>
-                </div>
-                <div class="item-body">
-                    <h4>Módulo de Gestiones</h4>
-                    <p>Plataforma donde los aliados gestionan gestiones e incidencias para seguimiento ordenado con Seguros Universales.</p>
-                    <ul><li>Permite configurar tipos de gestión y usuarios.</li><li>Roles de ejecutivo, verificador y administrador.</li><li>Módulos de historial, solicitudes activas y reportes.</li></ul>
-                </div>
-                <div class="item-footer"><div class="item-meta">Tipo: Mesa de servicio para canales. Usuarios: aliados, operaciones y back office.</div></div>
+                <div class="item-footer"><div class="item-meta">Jornada médica presencial sin costo. Usuarios: población de Quetzaltenango y comunidades cercanas.</div></div>
             </div></div>
             </div>
 
@@ -980,7 +933,7 @@
                 <button class="close-btn" onclick="closeModal('editUnitModal')">×</button>
             </div>
             <form id="editUnitForm" onsubmit="handleEditUnit(event)">
-                <input type="hidden" id="editUnitId">
+                <input type="hidden" id="editUnitId" value="operaciones">
                 <div class="form-group">
                     <label for="editUnitName">Nombre de la Unidad *</label>
                     <input type="text" id="editUnitName" required="">
@@ -1010,6 +963,19 @@
                     <label for="channelDescription">Descripción</label>
                     <textarea id="channelDescription" placeholder="Descripción del canal"></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="channelColor">Color del Banner (Gradiente CSS)</label>
+                    <input type="text" id="channelColor" placeholder="Ej: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                    <small style="display: block; margin-top: 8px; color: #666;">
+                        Ejemplos:<br>
+                        • Azul: linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)<br>
+                        • Púrpura: linear-gradient(135deg, #667eea 0%, #764ba2 100%)<br>
+                        • Rosa: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)<br>
+                        • Cyan: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)<br>
+                        • Verde: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)<br>
+                        • Naranja: linear-gradient(135deg, #fa709a 0%, #fee140 100%)
+                    </small>
+                </div>
                 <button type="submit" class="submit-btn">Agregar Canal</button>
             </form>
         </div>
@@ -1023,8 +989,8 @@
                 <button class="close-btn" onclick="closeModal('editChannelModal')">×</button>
             </div>
             <form id="editChannelForm" onsubmit="handleEditChannel(event)">
-                <input type="hidden" id="editChannelId">
-                <input type="hidden" id="editChannelUnit">
+                <input type="hidden" id="editChannelId" value="banco_de_antigua">
+                <input type="hidden" id="editChannelUnit" value="unidad_1">
                 <div class="form-group">
                     <label for="editChannelName">Nombre del Canal *</label>
                     <input type="text" id="editChannelName" required="">
@@ -1032,6 +998,19 @@
                 <div class="form-group">
                     <label for="editChannelDescription">Descripción</label>
                     <textarea id="editChannelDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editChannelColor">Color del Banner (Gradiente CSS)</label>
+                    <input type="text" id="editChannelColor" placeholder="Ej: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                    <small style="display: block; margin-top: 8px; color: #666;">
+                        Ejemplos:<br>
+                        • Azul: linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)<br>
+                        • Púrpura: linear-gradient(135deg, #667eea 0%, #764ba2 100%)<br>
+                        • Rosa: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)<br>
+                        • Cyan: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)<br>
+                        • Verde: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)<br>
+                        • Naranja: linear-gradient(135deg, #fa709a 0%, #fee140 100%)
+                    </small>
                 </div>
                 <button type="submit" class="submit-btn">Guardar Cambios</button>
             </form>
@@ -1129,6 +1108,11 @@
                 "id": "operaciones",
                 "name": "🔧 Operaciones",
                 "description": "Unidad de gestión integral de operaciones de seguros"
+        },
+        {
+                "id": "unidad_1",
+                "name": "Unidad 1",
+                "description": "La **Jefatura Comercial de Gastos Médicos** es el área encargada de definir e implementar la estrategia comercial de los seguros de gastos médicos, impulsando el crecimiento de primas, la rentabilidad del portafolio y el apoyo a fuerzas de venta e intermediarios, para brindar soluciones de salud competitivas y sostenibles a los asegurados.\n"
         }
 ];
 
@@ -1137,22 +1121,34 @@
                 {
                         "id": "puntos_venta_web",
                         "name": "🌐 Puntos de Venta Web",
-                        "description": "Plataformas web para emisión directa"
+                        "description": "Plataformas web para emisión directa",
+                        "color": "linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)"
                 },
                 {
                         "id": "rpa",
                         "name": "🤖 RPA - Automatización",
-                        "description": "Robots de automatización de procesos"
+                        "description": "Robots de automatización de procesos",
+                        "color": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
                 },
                 {
                         "id": "conexiones_api",
                         "name": "🔌 Conexiones API",
-                        "description": "Integraciones y servicios API"
+                        "description": "Integraciones y servicios API",
+                        "color": "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
                 },
                 {
                         "id": "gestion_archivos",
                         "name": "📁 Gestión de Archivos",
-                        "description": "Procesamiento masivo de archivos"
+                        "description": "Procesamiento masivo de archivos",
+                        "color": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+                }
+        ],
+        "unidad_1": [
+                {
+                        "id": "banco_de_antigua",
+                        "name": "Banco de Antigua",
+                        "description": "El **canal Banco de Antigua** es nuestra alianza de bancaseguros a través de la cual se comercializan los productos de seguros a los clientes del banco, aprovechando su red de agencias, fuerza de venta y base de clientes para facilitar la contratación, el cobro de primas y el acompañamiento en servicios de postventa.\n",
+                        "color": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
                 }
         ]
 };
@@ -1262,6 +1258,23 @@
                                         "Facilita el reproceso de archivos corregidos."
                                 ],
                                 "meta": "Tipo: Monitoreo de cargas masivas."
+                        }
+                ]
+        },
+        "unidad_1": {
+                "banco_de_antigua": [
+                        {
+                                "category": "Jornada Medica",
+                                "title": "Jornada Medica Xela",
+                                "description": "Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.",
+                                "details": [
+                                        "Jornada médica en Quetzaltenango",
+                                        "Consultas generales y signos vitales",
+                                        "Entrega de medicamentos básicos",
+                                        "Educación en prevención y cuidado de la salud",
+                                        "Atención a niñez, adultos y adultos mayores"
+                                ],
+                                "meta": "Jornada médica presencial sin costo. Usuarios: población de Quetzaltenango y comunidades cercanas."
                         }
                 ]
         }
@@ -1410,8 +1423,11 @@
             const channelItems = items[unitId] && items[unitId][channelId] ? items[unitId][channelId] : [];
             const container = document.getElementById('mainContainer');
 
+            // Obtener el color del canal o usar el predeterminado
+            const bannerColor = channel.color || 'linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)';
+
             container.innerHTML = `
-                <div class="section-banner">
+                <div class="section-banner" style="background: ${bannerColor};">
                     <div class="banner-content">
                         <h2>${channel.name}</h2>
                         <p>${channel.description || 'Gestiona elementos de este canal'}</p>
@@ -1543,6 +1559,7 @@
 
             const name = document.getElementById('channelName').value;
             const description = document.getElementById('channelDescription').value;
+            const color = document.getElementById('channelColor').value || 'linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)';
             const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
 
             if (!channels[currentUnit]) {
@@ -1552,7 +1569,7 @@
                 items[currentUnit] = {};
             }
 
-            channels[currentUnit].push({ id, name, description });
+            channels[currentUnit].push({ id, name, description, color });
             items[currentUnit][id] = [];
 
             renderChannels(currentUnit);
@@ -1573,6 +1590,7 @@
             document.getElementById('editChannelId').value = channelId;
             document.getElementById('editChannelName').value = channel.name;
             document.getElementById('editChannelDescription').value = channel.description || '';
+            document.getElementById('editChannelColor').value = channel.color || '';
 
             document.getElementById('editChannelModal').classList.add('active');
         }
@@ -1584,12 +1602,14 @@
             const channelId = document.getElementById('editChannelId').value;
             const name = document.getElementById('editChannelName').value;
             const description = document.getElementById('editChannelDescription').value;
+            const color = document.getElementById('editChannelColor').value || 'linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)';
 
             const unitChannels = channels[unitId] || [];
             const channel = unitChannels.find(c => c.id === channelId);
             if (channel) {
                 channel.name = name;
                 channel.description = description;
+                channel.color = color;
 
                 renderChannels(unitId);
                 renderChannelContent(unitId, channelId);
