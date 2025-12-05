@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Seguros - Seguros Universales</title>
+    <title>Portal de Canales - Seguros</title>
     <style>
         * {
             margin: 0;
@@ -12,256 +12,485 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8f9fa;
+            overflow-x: hidden;
         }
 
-        .container {
+        /* Header con imagen hero */
+        .hero-section {
+            position: relative;
+            height: 70vh;
+            background: linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 77, 143, 0.9) 0%, rgba(30, 136, 229, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 40px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content h1 {
+            font-size: 4em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.5em;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        /* Pestañas de modo usuario/administrador */
+        .mode-tabs {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 101;
+        }
+
+        .mode-tabs-container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .user-mode-toggle {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-            padding: 0 30px;
+            padding: 0 20px;
+            gap: 0;
         }
 
         .mode-tab {
-            flex: 1;
-            max-width: 200px;
-            padding: 12px 24px;
+            background: white;
             border: none;
-            background: #f0f0f0;
-            color: #666;
+            padding: 15px 40px;
             cursor: pointer;
-            border-radius: 8px;
-            font-size: 16px;
+            font-size: 1em;
             font-weight: 600;
-            transition: all 0.3s;
+            color: #999;
+            transition: all 0.3s ease;
+            position: relative;
+            border-bottom: 3px solid transparent;
+        }
+
+        .mode-tab:hover {
+            color: #1e88e5;
         }
 
         .mode-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: #1e88e5;
+            border-bottom-color: #1e88e5;
         }
 
-        .admin-controls {
-            display: none;
-            padding: 20px 30px;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e0e0e0;
+        /* Navegación de canales */
+        .channels-nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 53px;
+            z-index: 100;
+            animation: slideDown 0.5s ease;
         }
 
-        .admin-controls.active {
-            display: block;
-        }
-
-        .control-buttons {
+        .channels-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
+            align-items: center;
+            padding: 0 20px;
+            overflow-x: auto;
             gap: 10px;
-            flex-wrap: wrap;
         }
 
-        .btn {
-            padding: 12px 24px;
+        .channel-tab {
+            background: none;
             border: none;
-            border-radius: 8px;
+            padding: 20px 30px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1em;
             font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #218838;
-            transform: translateY(-2px);
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        .search-section {
-            margin-bottom: 30px;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            transition: border-color 0.3s;
-        }
-
-        .search-box:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .filters {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 10px 20px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .portal-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .portal-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            cursor: pointer;
-            border: 2px solid transparent;
+            color: #555;
+            transition: all 0.3s ease;
+            white-space: nowrap;
             position: relative;
         }
 
-        .portal-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border-color: #667eea;
+        .channel-tab:hover {
+            color: #1e88e5;
         }
 
-        .portal-card h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.3em;
+        .channel-tab:hover .channel-edit-btn {
+            opacity: 1;
         }
 
-        .portal-card .element {
-            color: #666;
-            font-size: 0.95em;
-            margin-bottom: 15px;
+        .channel-edit-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #1e88e5;
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.7em;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: none;
+            align-items: center;
+            justify-content: center;
         }
 
-        .portal-card .url {
-            color: #667eea;
+        .admin-mode .channel-edit-btn {
+            display: flex;
+        }
+
+        .channel-edit-btn:hover {
+            background: #0a4d8f;
+        }
+
+        .channel-tab.active {
+            color: #1e88e5;
+        }
+
+        .channel-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #1e88e5;
+            animation: expandWidth 0.3s ease;
+        }
+
+        .add-channel-btn {
+            background: #1e88e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
             font-size: 0.9em;
-            word-break: break-all;
-            display: block;
-            margin-top: 10px;
-            text-decoration: none;
+            font-weight: 600;
+            margin-left: auto;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: none;
         }
 
-        .portal-card .url:hover {
-            text-decoration: underline;
+        .admin-mode .add-channel-btn {
+            display: block;
+        }
+
+        .add-channel-btn:hover {
+            background: #0a4d8f;
+            transform: scale(1.05);
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .channel-content {
+            display: none;
+        }
+
+        .channel-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Banner de sección con imagen */
+        .section-banner {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            max-width: 50%;
+        }
+
+        .banner-content h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .banner-content p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .banner-cta {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .banner-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .banner-image {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 600px;
+            opacity: 0.2;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        /* Grid de productos/innovaciones */
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .content-header h3 {
+            font-size: 2em;
+            color: #333;
+        }
+
+        .add-item-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            display: none;
+        }
+
+        .admin-mode .add-item-btn {
+            display: inline-block;
+        }
+
+        .add-item-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .item-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .item-card:hover .card-actions {
+            opacity: 1;
         }
 
         .card-actions {
-            display: none;
             position: absolute;
             top: 10px;
             right: 10px;
-            gap: 5px;
+            display: none;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
         }
 
         .admin-mode .card-actions {
             display: flex;
         }
 
-        .action-btn {
-            padding: 5px 10px;
+        .card-action-btn {
+            background: white;
             border: none;
-            border-radius: 5px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-size: 1.1em;
         }
 
-        .edit-btn {
-            background: #ffc107;
-            color: #333;
+        .card-action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        .delete-btn {
-            background: #dc3545;
+        .btn-edit {
+            color: #1e88e5;
+        }
+
+        .btn-delete {
+            color: #f44336;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-image-icon {
+            font-size: 4em;
             color: white;
         }
 
-        .action-btn:hover {
-            opacity: 0.8;
-            transform: scale(1.05);
+        .item-body {
+            padding: 25px;
         }
 
+        .item-body h4 {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .item-body p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .item-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .tag-producto {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .tag-campana {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .tag-innovacion {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .export-code-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: none;
+        }
+
+        .admin-mode .export-code-btn {
+            display: block;
+        }
+
+        .export-code-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            animation: fadeIn 0.3s ease;
         }
 
         .modal.active {
@@ -270,473 +499,723 @@
 
         .modal-content {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
 
-        .modal-content h2 {
-            margin-bottom: 20px;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-header h3 {
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2em;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
             color: #333;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
             font-weight: 600;
+            color: #333;
         }
 
-        .form-group input, .form-group select {
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 25px;
-        }
-
-        .btn-cancel {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-cancel:hover {
-            background: #5a6268;
-        }
-
-        .export-section {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
             border-radius: 10px;
-            border: 2px dashed #667eea;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
         }
 
-        .export-section h3 {
-            margin-bottom: 15px;
-            color: #333;
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1e88e5;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
 
         .code-output {
             background: #2d2d2d;
             color: #f8f8f2;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 10px;
             max-height: 400px;
             overflow-y: auto;
             font-family: 'Courier New', monospace;
             font-size: 12px;
             white-space: pre-wrap;
             word-wrap: break-word;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .no-results {
+        .copy-btn {
+            width: 100%;
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
             text-align: center;
-            padding: 40px;
+            padding: 60px 20px;
             color: #999;
-            font-size: 1.2em;
         }
 
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h4 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes expandWidth {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
+            .hero-content h1 {
+                font-size: 2.5em;
             }
 
-            .portal-grid {
+            .hero-content p {
+                font-size: 1.2em;
+            }
+
+            .section-banner {
+                height: auto;
+                padding: 40px 30px;
+            }
+
+            .banner-content {
+                max-width: 100%;
+            }
+
+            .banner-content h2 {
+                font-size: 2em;
+            }
+
+            .banner-content p {
+                font-size: 1em;
+            }
+
+            .items-grid {
                 grid-template-columns: 1fr;
             }
 
-            .filters {
+            .content-header {
                 flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
             }
 
-            .filter-btn {
-                width: 100%;
+            .export-code-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 24px;
+                font-size: 0.9em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🏢 Portal de Seguros</h1>
-            <p>Seguros Universales - Acceso a Sistemas</p>
-        </div>
-
-        <div class="user-mode-toggle">
-            <button class="mode-tab active" onclick="setMode('user')">👤 Usuario</button>
-            <button class="mode-tab" onclick="setMode('admin')">🔧 Administrador</button>
-        </div>
-
-        <div class="admin-controls" id="adminControls">
-            <div class="control-buttons">
-                <button class="btn btn-primary" onclick="openAddModal('portal')">➕ Agregar Portal</button>
-                <button class="btn btn-primary" onclick="openAddModal('canal')">➕ Agregar Canal</button>
-                <button class="btn btn-primary" onclick="openAddModal('elemento')">➕ Agregar Elemento</button>
-                <button class="btn btn-success" onclick="exportCode()">📋 Exportar Código HTML</button>
-            </div>
-        </div>
-
-        <div class="content">
-            <div class="search-section">
-                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar portales, canales o elementos...">
-                <div class="filters" id="filters"></div>
-            </div>
-
-            <div class="portal-grid" id="portalGrid"></div>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Portal de Canales</h1>
+            <p>Gestión integral de productos, campañas e innovaciones</p>
         </div>
     </div>
 
-    <!-- Modal para agregar/editar -->
-    <div class="modal" id="addModal">
+    <!-- Pestañas Usuario/Administrador -->
+    <div class="mode-tabs">
+        <div class="mode-tabs-container">
+            <button class="mode-tab active" onclick="switchMode('user')">👤 Usuario</button>
+            <button class="mode-tab" onclick="switchMode('admin')">🔧 Administrador</button>
+        </div>
+    </div>
+
+    <!-- Navegación de Canales -->
+    <div class="channels-nav">
+        <div class="channels-container" id="channelsContainer">
+            <!-- Los canales se cargarán dinámicamente -->
+            <button class="add-channel-btn" onclick="openAddChannelModal()">+ Agregar Canal</button>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="main-container" id="mainContainer">
+        <!-- El contenido de cada canal se cargará dinámicamente -->
+    </div>
+
+    <!-- Botón de Exportar Código -->
+    <button class="export-code-btn" onclick="exportCode()">📋 Exportar Código HTML</button>
+
+    <!-- Modal Agregar Canal -->
+    <div class="modal" id="addChannelModal">
         <div class="modal-content">
-            <h2 id="modalTitle">Agregar Nuevo Portal</h2>
-            <form id="addForm">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Canal</h3>
+                <button class="close-btn" onclick="closeModal('addChannelModal')">&times;</button>
+            </div>
+            <form id="addChannelForm" onsubmit="handleAddChannel(event)">
                 <div class="form-group">
-                    <label for="portalName">Nombre del Portal/Canal/Elemento:</label>
-                    <input type="text" id="portalName" required>
-                </div>
-                <div class="form-group">
-                    <label for="portalElement">Elemento:</label>
-                    <select id="portalElement" required></select>
-                </div>
-                <div class="form-group">
-                    <label for="portalCanal">Canal:</label>
-                    <select id="portalCanal" required></select>
+                    <label for="channelName">Nombre del Canal *</label>
+                    <input type="text" id="channelName" required>
                 </div>
                 <div class="form-group">
-                    <label for="portalUrl">URL:</label>
-                    <input type="url" id="portalUrl" required>
+                    <label for="channelDescription">Descripción del Canal</label>
+                    <textarea id="channelDescription"></textarea>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
+                <button type="submit" class="submit-btn">Agregar Canal</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal para exportar código -->
-    <div class="modal" id="exportModal">
+    <!-- Modal Editar Canal -->
+    <div class="modal" id="editChannelModal">
         <div class="modal-content">
-            <h2>Código HTML Actualizado</h2>
-            <p style="margin-bottom: 15px; color: #666;">Copia este código completo y reemplázalo en tu archivo HTML en GitHub:</p>
-            <div class="code-output" id="codeOutput"></div>
-            <div class="form-actions">
-                <button class="btn btn-success" onclick="copyCode()">📋 Copiar Código</button>
-                <button class="btn btn-cancel" onclick="closeExportModal()">Cerrar</button>
+            <div class="modal-header">
+                <h3>Editar Canal</h3>
+                <button class="close-btn" onclick="closeModal('editChannelModal')">&times;</button>
             </div>
+            <form id="editChannelForm" onsubmit="handleEditChannel(event)">
+                <input type="hidden" id="editChannelId">
+                <div class="form-group">
+                    <label for="editChannelName">Nombre del Canal *</label>
+                    <input type="text" id="editChannelName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editChannelDescription">Descripción del Canal</label>
+                    <textarea id="editChannelDescription"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Item -->
+    <div class="modal" id="addItemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Elemento</h3>
+                <button class="close-btn" onclick="closeModal('addItemModal')">&times;</button>
+            </div>
+            <form id="addItemForm" onsubmit="handleAddItem(event)">
+                <div class="form-group">
+                    <label for="itemTitle">Título *</label>
+                    <input type="text" id="itemTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemDescription">Descripción *</label>
+                    <textarea id="itemDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="itemType">Tipo *</label>
+                    <select id="itemType" required>
+                        <option value="producto">Producto</option>
+                        <option value="campana">Campaña</option>
+                        <option value="innovacion">Innovación</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Agregar Elemento</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Item -->
+    <div class="modal" id="editItemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Elemento</h3>
+                <button class="close-btn" onclick="closeModal('editItemModal')">&times;</button>
+            </div>
+            <form id="editItemForm" onsubmit="handleEditItem(event)">
+                <input type="hidden" id="editItemIndex">
+                <input type="hidden" id="editItemChannel">
+                <div class="form-group">
+                    <label for="editItemTitle">Título *</label>
+                    <input type="text" id="editItemTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="editItemDescription">Descripción *</label>
+                    <textarea id="editItemDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editItemType">Tipo *</label>
+                    <select id="editItemType" required>
+                        <option value="producto">Producto</option>
+                        <option value="campana">Campaña</option>
+                        <option value="innovacion">Innovación</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Exportar Código -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Exportar Código HTML</h3>
+                <button class="close-btn" onclick="closeModal('exportModal')">&times;</button>
+            </div>
+            <p style="margin-bottom: 20px; color: #666;">Copia este código completo y reemplázalo en tu archivo HTML en GitHub:</p>
+            <div class="code-output" id="codeOutput"></div>
+            <button class="copy-btn" onclick="copyCode()">📋 Copiar Código Completo</button>
         </div>
     </div>
 
     <script>
-        // Datos iniciales
-        let portales = [
-            { id: 1, nombre: "Portal Agentes", elemento: "Agentes", canal: "MiRed", url: "https://portal-agentes.ejemplo.com" },
-            { id: 2, nombre: "Portal Corredores", elemento: "Corredores", canal: "MiRed", url: "https://portal-corredores.ejemplo.com" },
-            { id: 3, nombre: "Sistema POS", elemento: "POS", canal: "Alianzas", url: "https://pos.ejemplo.com" },
-            { id: 4, nombre: "Portal Bancaseguros", elemento: "Bancaseguros", canal: "Bancaseguros", url: "https://banco.ejemplo.com" },
-            { id: 5, nombre: "Intranet Empleados", elemento: "Empleados", canal: "Interno", url: "https://intranet.ejemplo.com" }
+        // Datos iniciales embebidos en el código
+        let channels = [
+            { id: 'miRed', name: '🌐 MiRed', description: 'Canal de distribución a través de agentes y corredores' },
+            { id: 'alianzas', name: '🤝 Alianzas', description: 'Convenios estratégicos y puntos de venta' },
+            { id: 'bancaseguros', name: '🏦 Bancaseguros', description: 'Distribución a través de entidades financieras' },
+            { id: 'digital', name: '💻 Digital', description: 'Plataformas digitales y ventas en línea' }
         ];
 
-        let elementos = ["Agentes", "Corredores", "POS", "Bancaseguros", "Empleados", "Clientes"];
-        let canales = ["MiRed", "Alianzas", "Bancaseguros", "Interno", "Digital"];
+        let channelItems = {
+            'miRed': [
+                { title: 'Portal Agentes', description: 'Sistema de gestión para agentes independientes', type: 'producto' },
+                { title: 'Campaña Verano 2024', description: 'Promoción especial de seguros de vida', type: 'campana' },
+                { title: 'App Móvil Agentes', description: 'Nueva aplicación para gestión móvil', type: 'innovacion' }
+            ],
+            'alianzas': [
+                { title: 'Sistema POS', description: 'Punto de venta para aliados comerciales', type: 'producto' },
+                { title: 'Red de Farmacias', description: 'Expansión de puntos de venta', type: 'campana' }
+            ],
+            'bancaseguros': [
+                { title: 'Portal Bancario', description: 'Integración con plataformas bancarias', type: 'producto' },
+                { title: 'Seguro Tarjeta', description: 'Producto exclusivo para tarjetahabientes', type: 'innovacion' }
+            ],
+            'digital': [
+                { title: 'Cotizador Online', description: 'Cotización instantánea de seguros', type: 'producto' },
+                { title: 'Chatbot IA', description: 'Asistente virtual inteligente', type: 'innovacion' }
+            ]
+        };
 
         let currentMode = 'user';
-        let editingId = null;
-        let addingType = null;
+        let currentChannel = null;
 
-        // Inicializar
+        // Inicialización
         function init() {
-            renderPortales();
-            renderFilters();
-            updateSelects();
-            
-            document.getElementById('searchBox').addEventListener('input', filterPortales);
-            document.getElementById('addForm').addEventListener('submit', handleSubmit);
+            renderChannels();
+            if (channels.length > 0) {
+                switchChannel(channels[0].id);
+            }
         }
 
-        // Cambiar modo
-        function setMode(mode) {
+        // Cambiar modo Usuario/Administrador
+        function switchMode(mode) {
             if (mode === 'admin') {
                 const password = prompt('Ingrese la contraseña de administrador:');
                 if (password !== 'Octubre2015') {
-                    alert('Contraseña incorrecta');
+                    alert('❌ Contraseña incorrecta');
                     return;
                 }
             }
 
             currentMode = mode;
-            
+
             // Actualizar tabs
             document.querySelectorAll('.mode-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             event.target.classList.add('active');
 
-            // Mostrar/ocultar controles
-            const adminControls = document.getElementById('adminControls');
-            const container = document.querySelector('.container');
-            
+            // Actualizar clase del body
             if (mode === 'admin') {
-                adminControls.classList.add('active');
-                container.classList.add('admin-mode');
+                document.body.classList.add('admin-mode');
             } else {
-                adminControls.classList.remove('active');
-                container.classList.remove('admin-mode');
+                document.body.classList.remove('admin-mode');
             }
         }
 
-        // Renderizar portales
-        function renderPortales(filter = '') {
-            const grid = document.getElementById('portalGrid');
-            const filtered = portales.filter(p => {
-                const searchMatch = p.nombre.toLowerCase().includes(filter.toLowerCase()) ||
-                                  p.elemento.toLowerCase().includes(filter.toLowerCase()) ||
-                                  p.canal.toLowerCase().includes(filter.toLowerCase());
-                return searchMatch;
+        // Renderizar canales
+        function renderChannels() {
+            const container = document.getElementById('channelsContainer');
+            const addBtn = container.querySelector('.add-channel-btn');
+            
+            container.innerHTML = '';
+            
+            channels.forEach((channel, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'channel-tab';
+                tab.setAttribute('data-channel', channel.id);
+                tab.innerHTML = `
+                    ${channel.name}
+                    <span class="channel-edit-btn" onclick="openEditChannel('${channel.id}', event)">✏️</span>
+                `;
+                tab.onclick = (e) => {
+                    if (!e.target.classList.contains('channel-edit-btn')) {
+                        switchChannel(channel.id);
+                    }
+                };
+                container.appendChild(tab);
             });
 
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="no-results">No se encontraron resultados</div>';
-                return;
-            }
+            container.appendChild(addBtn);
+        }
 
-            grid.innerHTML = filtered.map(portal => `
-                <div class="portal-card">
-                    <div class="card-actions">
-                        <button class="action-btn edit-btn" onclick="editPortal(${portal.id})">✏️</button>
-                        <button class="action-btn delete-btn" onclick="deletePortal(${portal.id})">🗑️</button>
+        // Cambiar canal activo
+        function switchChannel(channelId) {
+            currentChannel = channelId;
+
+            // Actualizar tabs
+            document.querySelectorAll('.channel-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-channel="${channelId}"]`).classList.add('active');
+
+            // Renderizar contenido del canal
+            renderChannelContent(channelId);
+        }
+
+        // Renderizar contenido del canal
+        function renderChannelContent(channelId) {
+            const channel = channels.find(ch => ch.id === channelId);
+            if (!channel) return;
+
+            const items = channelItems[channelId] || [];
+            const container = document.getElementById('mainContainer');
+
+            container.innerHTML = `
+                <div class="section-banner">
+                    <div class="banner-content">
+                        <h2>${channel.name}</h2>
+                        <p>${channel.description || 'Gestiona productos, campañas e innovaciones de este canal'}</p>
                     </div>
-                    <h3>${portal.nombre}</h3>
-                    <div class="element">📌 ${portal.elemento} | 🔗 ${portal.canal}</div>
-                    <a href="${portal.url}" target="_blank" class="url">${portal.url}</a>
+                    <div class="banner-image"></div>
                 </div>
-            `).join('');
-        }
 
-        // Renderizar filtros
-        function renderFilters() {
-            const filtersDiv = document.getElementById('filters');
-            const allCanales = [...new Set(portales.map(p => p.canal))];
-            const allElementos = [...new Set(portales.map(p => p.elemento))];
+                <div class="content-header">
+                    <h3>Elementos del Canal</h3>
+                    <button class="add-item-btn" onclick="openAddItemModal('${channelId}')">+ Agregar Elemento</button>
+                </div>
 
-            filtersDiv.innerHTML = `
-                <button class="filter-btn active" onclick="filterByCategory('all')">Todos</button>
-                ${allCanales.map(canal => `<button class="filter-btn" onclick="filterByCategory('canal', '${canal}')">${canal}</button>`).join('')}
-                ${allElementos.map(elem => `<button class="filter-btn" onclick="filterByCategory('elemento', '${elem}')">${elem}</button>`).join('')}
-            `;
-        }
-
-        // Filtrar portales
-        function filterPortales() {
-            const searchTerm = document.getElementById('searchBox').value;
-            renderPortales(searchTerm);
-        }
-
-        // Filtrar por categoría
-        function filterByCategory(type, value) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            if (type === 'all') {
-                renderPortales();
-            } else {
-                const grid = document.getElementById('portalGrid');
-                const filtered = portales.filter(p => 
-                    type === 'canal' ? p.canal === value : p.elemento === value
-                );
-
-                if (filtered.length === 0) {
-                    grid.innerHTML = '<div class="no-results">No se encontraron resultados</div>';
-                    return;
-                }
-
-                grid.innerHTML = filtered.map(portal => `
-                    <div class="portal-card">
-                        <div class="card-actions">
-                            <button class="action-btn edit-btn" onclick="editPortal(${portal.id})">✏️</button>
-                            <button class="action-btn delete-btn" onclick="deletePortal(${portal.id})">🗑️</button>
+                <div class="items-grid" id="${channelId}-items">
+                    ${items.length === 0 ? `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📦</div>
+                            <h4>No hay elementos</h4>
+                            <p>Agrega el primer elemento a este canal</p>
                         </div>
-                        <h3>${portal.nombre}</h3>
-                        <div class="element">📌 ${portal.elemento} | 🔗 ${portal.canal}</div>
-                        <a href="${portal.url}" target="_blank" class="url">${portal.url}</a>
+                    ` : ''}
+                </div>
+            `;
+
+            // Renderizar items
+            if (items.length > 0) {
+                const itemsGrid = document.getElementById(`${channelId}-items`);
+                itemsGrid.innerHTML = '';
+                items.forEach((item, index) => {
+                    const card = createItemCard(channelId, item, index);
+                    itemsGrid.appendChild(card);
+                });
+            }
+        }
+
+        // Crear tarjeta de item
+        function createItemCard(channelId, item, index) {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.innerHTML = `
+                <div class="card-actions">
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('${channelId}', ${index})">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('${channelId}', ${index})">🗑️</button>
+                </div>
+                <div class="item-image">
+                    <span class="item-image-icon">📦</span>
+                </div>
+                <div class="item-body">
+                    <h4>${item.title}</h4>
+                    <p>${item.description}</p>
+                    <div class="item-tags">
+                        <span class="tag tag-${item.type}">${item.type.charAt(0).toUpperCase() + item.type.slice(1)}</span>
                     </div>
-                `).join('');
-            }
+                </div>
+            `;
+            return card;
         }
 
-        // Actualizar selects
-        function updateSelects() {
-            const elementSelect = document.getElementById('portalElement');
-            const canalSelect = document.getElementById('portalCanal');
-
-            elementSelect.innerHTML = elementos.map(e => `<option value="${e}">${e}</option>`).join('');
-            canalSelect.innerHTML = canales.map(c => `<option value="${c}">${c}</option>`).join('');
+        // Modal de agregar canal
+        function openAddChannelModal() {
+            document.getElementById('addChannelModal').classList.add('active');
         }
 
-        // Abrir modal
-        function openAddModal(type) {
-            addingType = type;
-            editingId = null;
+        function handleAddChannel(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('channelName').value;
+            const description = document.getElementById('channelDescription').value;
+            const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+
+            channels.push({ id, name, description });
+            channelItems[id] = [];
+
+            renderChannels();
+            switchChannel(id);
+
+            closeModal('addChannelModal');
+            document.getElementById('addChannelForm').reset();
+        }
+
+        // Modal de editar canal
+        function openEditChannel(channelId, event) {
+            event.stopPropagation();
             
-            const modal = document.getElementById('addModal');
-            const title = document.getElementById('modalTitle');
-            const form = document.getElementById('addForm');
+            const channel = channels.find(ch => ch.id === channelId);
+            if (!channel) return;
 
-            if (type === 'portal') {
-                title.textContent = 'Agregar Nuevo Portal';
-                document.getElementById('portalName').placeholder = 'Ej: Portal Agentes';
-                document.getElementById('portalElement').parentElement.style.display = 'block';
-                document.getElementById('portalCanal').parentElement.style.display = 'block';
-                document.getElementById('portalUrl').parentElement.style.display = 'block';
-            } else if (type === 'canal') {
-                title.textContent = 'Agregar Nuevo Canal';
-                document.getElementById('portalName').placeholder = 'Ej: Nuevo Canal';
-                document.getElementById('portalElement').parentElement.style.display = 'none';
-                document.getElementById('portalCanal').parentElement.style.display = 'none';
-                document.getElementById('portalUrl').parentElement.style.display = 'none';
-            } else if (type === 'elemento') {
-                title.textContent = 'Agregar Nuevo Elemento';
-                document.getElementById('portalName').placeholder = 'Ej: Nuevo Elemento';
-                document.getElementById('portalElement').parentElement.style.display = 'none';
-                document.getElementById('portalCanal').parentElement.style.display = 'none';
-                document.getElementById('portalUrl').parentElement.style.display = 'none';
+            document.getElementById('editChannelId').value = channelId;
+            document.getElementById('editChannelName').value = channel.name;
+            document.getElementById('editChannelDescription').value = channel.description || '';
+
+            document.getElementById('editChannelModal').classList.add('active');
+        }
+
+        function handleEditChannel(event) {
+            event.preventDefault();
+
+            const channelId = document.getElementById('editChannelId').value;
+            const name = document.getElementById('editChannelName').value;
+            const description = document.getElementById('editChannelDescription').value;
+
+            const channel = channels.find(ch => ch.id === channelId);
+            if (channel) {
+                channel.name = name;
+                channel.description = description;
+
+                renderChannels();
+                renderChannelContent(channelId);
             }
 
-            form.reset();
-            modal.classList.add('active');
+            closeModal('editChannelModal');
+            document.getElementById('editChannelForm').reset();
+        }
+
+        // Modal de agregar item
+        function openAddItemModal(channelId) {
+            currentChannel = channelId;
+            document.getElementById('addItemModal').classList.add('active');
+        }
+
+        function handleAddItem(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('itemTitle').value;
+            const description = document.getElementById('itemDescription').value;
+            const type = document.getElementById('itemType').value;
+
+            if (!channelItems[currentChannel]) {
+                channelItems[currentChannel] = [];
+            }
+
+            channelItems[currentChannel].push({ title, description, type });
+
+            renderChannelContent(currentChannel);
+
+            closeModal('addItemModal');
+            document.getElementById('addItemForm').reset();
+        }
+
+        // Modal de editar item
+        function openEditItem(channelId, index) {
+            const item = channelItems[channelId][index];
+            if (!item) return;
+
+            document.getElementById('editItemChannel').value = channelId;
+            document.getElementById('editItemIndex').value = index;
+            document.getElementById('editItemTitle').value = item.title;
+            document.getElementById('editItemDescription').value = item.description;
+            document.getElementById('editItemType').value = item.type;
+
+            document.getElementById('editItemModal').classList.add('active');
+        }
+
+        function handleEditItem(event) {
+            event.preventDefault();
+
+            const channelId = document.getElementById('editItemChannel').value;
+            const index = parseInt(document.getElementById('editItemIndex').value);
+            const title = document.getElementById('editItemTitle').value;
+            const description = document.getElementById('editItemDescription').value;
+            const type = document.getElementById('editItemType').value;
+
+            if (channelItems[channelId] && channelItems[channelId][index]) {
+                channelItems[channelId][index] = { title, description, type };
+                renderChannelContent(channelId);
+            }
+
+            closeModal('editItemModal');
+            document.getElementById('editItemForm').reset();
+        }
+
+        // Eliminar item
+        function deleteItem(channelId, index) {
+            if (confirm('¿Estás seguro de que deseas eliminar este elemento?')) {
+                channelItems[channelId].splice(index, 1);
+                renderChannelContent(channelId);
+            }
         }
 
         // Cerrar modal
-        function closeModal() {
-            document.getElementById('addModal').classList.remove('active');
-            editingId = null;
-            addingType = null;
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
         }
 
-        // Editar portal
-        function editPortal(id) {
-            const portal = portales.find(p => p.id === id);
-            if (!portal) return;
-
-            editingId = id;
-            addingType = 'portal';
-
-            document.getElementById('modalTitle').textContent = 'Editar Portal';
-            document.getElementById('portalName').value = portal.nombre;
-            document.getElementById('portalElement').value = portal.elemento;
-            document.getElementById('portalCanal').value = portal.canal;
-            document.getElementById('portalUrl').value = portal.url;
-
-            document.getElementById('portalElement').parentElement.style.display = 'block';
-            document.getElementById('portalCanal').parentElement.style.display = 'block';
-            document.getElementById('portalUrl').parentElement.style.display = 'block';
-
-            document.getElementById('addModal').classList.add('active');
-        }
-
-        // Eliminar portal
-        function deletePortal(id) {
-            if (confirm('¿Está seguro de eliminar este portal?')) {
-                portales = portales.filter(p => p.id !== id);
-                renderPortales();
-                renderFilters();
-            }
-        }
-
-        // Manejar submit
-        function handleSubmit(e) {
-            e.preventDefault();
-
-            const nombre = document.getElementById('portalName').value;
-
-            if (addingType === 'canal') {
-                if (!canales.includes(nombre)) {
-                    canales.push(nombre);
-                    updateSelects();
-                    renderFilters();
-                    alert('Canal agregado exitosamente');
-                }
-            } else if (addingType === 'elemento') {
-                if (!elementos.includes(nombre)) {
-                    elementos.push(nombre);
-                    updateSelects();
-                    renderFilters();
-                    alert('Elemento agregado exitosamente');
-                }
-            } else if (addingType === 'portal') {
-                const elemento = document.getElementById('portalElement').value;
-                const canal = document.getElementById('portalCanal').value;
-                const url = document.getElementById('portalUrl').value;
-
-                if (editingId) {
-                    const portal = portales.find(p => p.id === editingId);
-                    portal.nombre = nombre;
-                    portal.elemento = elemento;
-                    portal.canal = canal;
-                    portal.url = url;
-                } else {
-                    const newId = portales.length > 0 ? Math.max(...portales.map(p => p.id)) + 1 : 1;
-                    portales.push({ id: newId, nombre, elemento, canal, url });
-                }
-
-                renderPortales();
-                renderFilters();
-            }
-
-            closeModal();
-        }
-
-        // Exportar código
+        // Exportar código HTML
         function exportCode() {
-            const portalData = JSON.stringify(portales, null, 12);
-            const elementosData = JSON.stringify(elementos, null, 12);
-            const canalesData = JSON.stringify(canales, null, 12);
+            const channelsData = JSON.stringify(channels, null, 8);
+            const itemsData = JSON.stringify(channelItems, null, 8);
 
-            const fullCode = document.documentElement.outerHTML
-                .replace(/let portales = \[[\s\S]*?\];/, `let portales = ${portalData};`)
-                .replace(/let elementos = \[[\s\S]*?\];/, `let elementos = ${elementosData};`)
-                .replace(/let canales = \[[\s\S]*?\];/, `let canales = ${canalesData};`);
+            const fullHTML = document.documentElement.outerHTML
+                .replace(/let channels = \[[\s\S]*?\];/, `let channels = ${channelsData};`)
+                .replace(/let channelItems = \{[\s\S]*?\};/, `let channelItems = ${itemsData};`);
 
-            document.getElementById('codeOutput').textContent = fullCode;
+            document.getElementById('codeOutput').textContent = fullHTML;
             document.getElementById('exportModal').classList.add('active');
-        }
-
-        // Cerrar modal de exportación
-        function closeExportModal() {
-            document.getElementById('exportModal').classList.remove('active');
         }
 
         // Copiar código
         function copyCode() {
             const code = document.getElementById('codeOutput').textContent;
             navigator.clipboard.writeText(code).then(() => {
-                alert('✅ Código copiado al portapapeles. Ahora puedes pegarlo en tu archivo HTML de GitHub.');
+                alert('✅ Código copiado al portapapeles. Puedes pegarlo en tu archivo HTML de GitHub.');
+            }).catch(() => {
+                alert('❌ Error al copiar. Por favor, selecciona y copia el texto manualmente.');
             });
         }
 
-        // Inicializar al cargar
+        // Cerrar modal al hacer clic fuera
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Inicializar al cargar la página
         init();
     </script>
 </body>
