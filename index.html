@@ -719,7 +719,7 @@
         }
     </style>
 </head>
-<body class="admin-mode">
+<body class="">
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-overlay"></div>
@@ -732,8 +732,8 @@
     <!-- Pestañas Usuario/Administrador -->
     <div class="mode-tabs">
         <div class="mode-tabs-container">
-            <button class="mode-tab" onclick="switchMode('user')">👤 Usuario</button>
-            <button class="mode-tab active" onclick="switchMode('admin')">🔧 Administrador</button>
+            <button class="mode-tab active" onclick="switchMode('user')">👤 Usuario</button>
+            <button class="mode-tab" onclick="switchMode('admin')">🔧 Administrador</button>
         </div>
     </div>
 
@@ -742,9 +742,9 @@
         <div class="channels-container" id="channelsContainer"><button class="channel-tab" data-channel="operaciones">
                     🔧 Operaciones
                     <span class="channel-edit-btn" onclick="openEditChannel('operaciones', event)">✏️</span>
-                </button><button class="channel-tab active" data-channel="jefatura_gm">
-                    Jefatura GM
-                    <span class="channel-edit-btn" onclick="openEditChannel('jefatura_gm', event)">✏️</span>
+                </button><button class="channel-tab active" data-channel="comercial_gm">
+                    COMERCIAL GM
+                    <span class="channel-edit-btn" onclick="openEditChannel('comercial_gm', event)">✏️</span>
                 </button><button class="add-channel-btn" onclick="openAddChannelModal()">+ Agregar Canal</button></div>
     </div>
 
@@ -752,27 +752,27 @@
     <div class="main-container" id="mainContainer">
                 <div class="section-banner">
                     <div class="banner-content">
-                        <h2>Jefatura GM</h2>
-                        <p>Logros alcanzados</p>
+                        <h2>COMERCIAL GM</h2>
+                        <p>Todo lo realizado en gastos medicos</p>
                     </div>
                     <div class="banner-image"></div>
                 </div>
 
                 <div class="content-header">
                     <h3>Elementos del Canal</h3>
-                    <button class="add-item-btn" onclick="openAddItemModal('jefatura_gm')">+ Agregar Elemento</button>
+                    <button class="add-item-btn" onclick="openAddItemModal('comercial_gm')">+ Agregar Elemento</button>
                 </div>
 
-                <div class="items-grid" id="jefatura_gm-items"><div class="item-card">
+                <div class="items-grid" id="comercial_gm-items"><div class="item-card">
                 <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem('jefatura_gm', 0)">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem('jefatura_gm', 0)">🗑️</button>
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('comercial_gm', 0)">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('comercial_gm', 0)">🗑️</button>
                 </div>
                 <div class="item-header">
                     <div class="item-category">Jornada Medica</div>
                 </div>
                 <div class="item-body">
-                    <h4>Jornada medica Xela</h4>
+                    <h4>Jornada Medica Xela</h4>
                     <p>Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.</p>
                     <ul><li>Jornada médica presencial en Quetzaltenango</li><li>Consultas médicas generales y evaluación de signos vitales</li><li>Entrega de medicamentos básicos según diagnóstico</li><li>Orientación en prevención de enfermedades y hábitos saludables</li><li>Atención prioritaria a niñez, mujeres embarazadas y adultos mayores</li><li>Actividad sin costo para los pacientes</li><li>Trabajo coordinado con líderes comunitarios y voluntarios</li></ul>
                 </div>
@@ -869,8 +869,8 @@
                 <button class="close-btn" onclick="closeModal('editItemModal')">×</button>
             </div>
             <form id="editItemForm" onsubmit="handleEditItem(event)">
-                <input type="hidden" id="editItemIndex" value="0">
-                <input type="hidden" id="editItemChannel" value="jefatura_gm">
+                <input type="hidden" id="editItemIndex">
+                <input type="hidden" id="editItemChannel">
                 <div class="form-group">
                     <label for="editItemCategory">Categoría *</label>
                     <input type="text" id="editItemCategory" required="">
@@ -918,9 +918,9 @@
                 "description": "Plataformas y sistemas para la gestión integral de operaciones de seguros"
         },
         {
-                "id": "jefatura_gm",
-                "name": "Jefatura GM",
-                "description": "Logros alcanzados"
+                "id": "comercial_gm",
+                "name": "COMERCIAL GM",
+                "description": "Todo lo realizado en gastos medicos"
         }
 ];
 
@@ -1024,10 +1024,10 @@
                         "meta": "Tipo: Integración tecnológica con sponsors."
                 }
         ],
-        "jefatura_gm": [
+        "comercial_gm": [
                 {
                         "category": "Jornada Medica",
-                        "title": "Jornada medica Xela",
+                        "title": "Jornada Medica Xela",
                         "description": "Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.",
                         "details": [
                                 "Jornada médica presencial en Quetzaltenango",
@@ -1340,9 +1340,32 @@
             const channelsData = JSON.stringify(channels, null, 8);
             const itemsData = JSON.stringify(channelItems, null, 8);
 
+            // Remover temporalmente la clase admin-mode para exportar limpio
+            const wasAdminMode = document.body.classList.contains('admin-mode');
+            if (wasAdminMode) {
+                document.body.classList.remove('admin-mode');
+            }
+
+            // Asegurarse que el modo tab esté en usuario
+            document.querySelectorAll('.mode-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.mode-tab')[0].classList.add('active');
+
+            // Obtener el HTML limpio
             const fullHTML = document.documentElement.outerHTML
                 .replace(/let channels = \[[\s\S]*?\];/, `let channels = ${channelsData};`)
-                .replace(/let channelItems = \{[\s\S]*?\};/, `let channelItems = ${itemsData};`);
+                .replace(/let channelItems = \{[\s\S]*?\};/, `let channelItems = ${itemsData};`)
+                .replace(/let currentMode = '[^']*';/, `let currentMode = 'user';`);
+
+            // Restaurar el modo admin si estaba activo
+            if (wasAdminMode) {
+                document.body.classList.add('admin-mode');
+                document.querySelectorAll('.mode-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelectorAll('.mode-tab')[1].classList.add('active');
+            }
 
             document.getElementById('codeOutput').textContent = fullHTML;
             document.getElementById('exportModal').classList.add('active');
