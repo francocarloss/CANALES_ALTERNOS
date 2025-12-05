@@ -1,7 +1,7 @@
 <html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Canales - Seguros</title>
+    <title>Portal de Unidades de Negocio - Seguros</title>
     <style>
         * {
             margin: 0;
@@ -98,8 +98,8 @@
             border-bottom-color: #1e88e5;
         }
 
-        /* Navegación de canales */
-        .channels-nav {
+        /* Navegación de Unidades de Negocio */
+        .business-units-nav {
             background: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
@@ -108,7 +108,7 @@
             animation: slideDown 0.5s ease;
         }
 
-        .channels-container {
+        .business-units-container {
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
@@ -118,7 +118,7 @@
             gap: 10px;
         }
 
-        .channel-tab {
+        .business-unit-tab {
             background: none;
             border: none;
             padding: 20px 30px;
@@ -131,15 +131,15 @@
             position: relative;
         }
 
-        .channel-tab:hover {
+        .business-unit-tab:hover {
             color: #1e88e5;
         }
 
-        .channel-tab:hover .channel-edit-btn {
+        .business-unit-tab:hover .unit-edit-btn {
             opacity: 1;
         }
 
-        .channel-edit-btn {
+        .unit-edit-btn {
             position: absolute;
             top: 5px;
             right: 5px;
@@ -158,19 +158,19 @@
             justify-content: center;
         }
 
-        .admin-mode .channel-edit-btn {
+        .admin-mode .unit-edit-btn {
             display: flex;
         }
 
-        .channel-edit-btn:hover {
+        .unit-edit-btn:hover {
             background: #0a4d8f;
         }
 
-        .channel-tab.active {
+        .business-unit-tab.active {
             color: #1e88e5;
         }
 
-        .channel-tab.active::after {
+        .business-unit-tab.active::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -181,7 +181,7 @@
             animation: expandWidth 0.3s ease;
         }
 
-        .add-channel-btn {
+        .add-unit-btn {
             background: #1e88e5;
             color: white;
             border: none;
@@ -196,12 +196,111 @@
             display: none;
         }
 
+        .admin-mode .add-unit-btn {
+            display: block;
+        }
+
+        .add-unit-btn:hover {
+            background: #0a4d8f;
+            transform: scale(1.05);
+        }
+
+        /* Navegación de Canales (nuevo nivel) */
+        .channels-nav {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            position: sticky;
+            top: 106px;
+            z-index: 99;
+        }
+
+        .channels-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            overflow-x: auto;
+            gap: 10px;
+        }
+
+        .channel-tab {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .channel-tab:hover {
+            color: #1e88e5;
+            background: rgba(30, 136, 229, 0.05);
+        }
+
+        .channel-tab:hover .channel-edit-btn {
+            opacity: 1;
+        }
+
+        .channel-edit-btn {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            background: #1e88e5;
+            color: white;
+            border: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 0.65em;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-mode .channel-edit-btn {
+            display: flex;
+        }
+
+        .channel-edit-btn:hover {
+            background: #0a4d8f;
+        }
+
+        .channel-tab.active {
+            color: #1e88e5;
+            background: white;
+            border-bottom: 2px solid #1e88e5;
+        }
+
+        .add-channel-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: auto;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: none;
+        }
+
         .admin-mode .add-channel-btn {
             display: block;
         }
 
         .add-channel-btn:hover {
-            background: #0a4d8f;
+            background: #764ba2;
             transform: scale(1.05);
         }
 
@@ -210,6 +309,15 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 60px 20px;
+        }
+
+        .unit-content {
+            display: none;
+        }
+
+        .unit-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
 
         .channel-content {
@@ -716,6 +824,10 @@
                 padding: 12px 24px;
                 font-size: 0.9em;
             }
+
+            .channels-nav {
+                top: 106px;
+            }
         }
     </style>
 </head>
@@ -724,7 +836,7 @@
     <div class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Portal de Canales</h1>
+            <h1>Portal de Unidades de Negocio</h1>
             <p>Sistema integral de gestión y automatización</p>
         </div>
     </div>
@@ -737,14 +849,28 @@
         </div>
     </div>
 
-    <!-- Navegación de Canales -->
-    <div class="channels-nav">
-        <div class="channels-container" id="channelsContainer"><button class="channel-tab" data-channel="operaciones">
+    <!-- Navegación de Unidades de Negocio -->
+    <div class="business-units-nav">
+        <div class="business-units-container" id="businessUnitsContainer"><button class="business-unit-tab active" data-unit="operaciones">
                     🔧 Operaciones
-                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', event)">✏️</span>
-                </button><button class="channel-tab active" data-channel="comercial_gm">
-                    COMERCIAL GM
-                    <span class="channel-edit-btn" onclick="openEditChannel('comercial_gm', event)">✏️</span>
+                    <span class="unit-edit-btn" onclick="openEditUnit('operaciones', event)">✏️</span>
+                </button><button class="add-unit-btn" onclick="openAddUnitModal()">+ Agregar Unidad de Negocio</button></div>
+    </div>
+
+    <!-- Navegación de Canales -->
+    <div class="channels-nav" id="channelsNav">
+        <div class="channels-container" id="channelsContainer"><button class="channel-tab active" data-channel="puntos_venta_web">
+                    🌐 Puntos de Venta Web
+                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', 'puntos_venta_web', event)">✏️</span>
+                </button><button class="channel-tab" data-channel="rpa">
+                    🤖 RPA - Automatización
+                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', 'rpa', event)">✏️</span>
+                </button><button class="channel-tab" data-channel="conexiones_api">
+                    🔌 Conexiones API
+                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', 'conexiones_api', event)">✏️</span>
+                </button><button class="channel-tab" data-channel="gestion_archivos">
+                    📁 Gestión de Archivos
+                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', 'gestion_archivos', event)">✏️</span>
                 </button><button class="add-channel-btn" onclick="openAddChannelModal()">+ Agregar Canal</button></div>
     </div>
 
@@ -752,52 +878,137 @@
     <div class="main-container" id="mainContainer">
                 <div class="section-banner">
                     <div class="banner-content">
-                        <h2>COMERCIAL GM</h2>
-                        <p>Todo lo realizado en gastos medicos</p>
+                        <h2>🌐 Puntos de Venta Web</h2>
+                        <p>Plataformas web para emisión directa</p>
                     </div>
                     <div class="banner-image"></div>
                 </div>
 
                 <div class="content-header">
                     <h3>Elementos del Canal</h3>
-                    <button class="add-item-btn" onclick="openAddItemModal('comercial_gm')">+ Agregar Elemento</button>
+                    <button class="add-item-btn" onclick="openAddItemModal()">+ Agregar Elemento</button>
                 </div>
 
-                <div class="items-grid" id="comercial_gm-items"><div class="item-card">
+                <div class="items-grid" id="itemsGrid"><div class="item-card">
                 <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem('comercial_gm', 0)">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem('comercial_gm', 0)">🗑️</button>
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('operaciones', 'puntos_venta_web', 0)">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('operaciones', 'puntos_venta_web', 0)">🗑️</button>
                 </div>
                 <div class="item-header">
-                    <div class="item-category">Jornada Medica</div>
+                    <div class="item-category">Plataforma de emisión</div>
                 </div>
                 <div class="item-body">
-                    <h4>Jornada Medica Xela</h4>
-                    <p>Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.</p>
-                    <ul><li>Jornada médica presencial en Quetzaltenango</li><li>Consultas médicas generales y evaluación de signos vitales</li><li>Entrega de medicamentos básicos según diagnóstico</li><li>Orientación en prevención de enfermedades y hábitos saludables</li><li>Atención prioritaria a niñez, mujeres embarazadas y adultos mayores</li><li>Actividad sin costo para los pacientes</li><li>Trabajo coordinado con líderes comunitarios y voluntarios</li></ul>
+                    <h4>Punto de Venta Vida y Masivos</h4>
+                    <p>Estrategia web online para emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo antes de aprobar el caso.</p>
+                    <ul><li>Procesa la información directo en el sistema de seguros.</li><li>Valida NIT y DPI y usa reglas dinámicas para evaluación.</li><li>Genera papelería, contratos de cobro, facturas y firma digital.</li></ul>
                 </div>
-                <div class="item-footer"><div class="item-meta">Jornada médica presencial. Usuarios: población de Quetzaltenango y comunidades cercanas</div></div>
+                <div class="item-footer"><div class="item-meta">Tipo: Emisión web online. Usuarios: equipos comerciales y canales aliados.</div></div>
+            </div><div class="item-card">
+                <div class="card-actions">
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('operaciones', 'puntos_venta_web', 1)">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('operaciones', 'puntos_venta_web', 1)">🗑️</button>
+                </div>
+                <div class="item-header">
+                    <div class="item-category">Venta digital</div>
+                </div>
+                <div class="item-body">
+                    <h4>Links de Autogestión</h4>
+                    <p>Formularios en línea para que el cliente complete sus datos y se procese la emisión sin papel.</p>
+                    <ul><li>Actualiza información del cliente mientras emite.</li><li>Aplica reglas de riesgo y cobra en línea.</li><li>Soporta NIT individual, AI, Agrega y Seguro Total.</li></ul>
+                </div>
+                <div class="item-footer"><div class="item-meta">Tipo: Emisión 100% digital orientada a autoatención del cliente.</div></div>
+            </div><div class="item-card">
+                <div class="card-actions">
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('operaciones', 'puntos_venta_web', 2)">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('operaciones', 'puntos_venta_web', 2)">🗑️</button>
+                </div>
+                <div class="item-header">
+                    <div class="item-category">Punto de venta Auto</div>
+                </div>
+                <div class="item-body">
+                    <h4>Punto de Venta Auto</h4>
+                    <p>Versión especializada del punto de venta enfocada en pólizas de auto, desde la cotización hasta la emisión.</p>
+                    <ul><li>Incluye módulos de cotización, contacto y emisión.</li><li>Envía documentación por correo y permite consultar pólizas.</li><li>Gestiona condiciones de renovación desde la misma herramienta.</li></ul>
+                </div>
+                <div class="item-footer"><div class="item-meta">Tipo: Emisión y servicio para productos de auto.</div></div>
+            </div><div class="item-card">
+                <div class="card-actions">
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('operaciones', 'puntos_venta_web', 3)">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('operaciones', 'puntos_venta_web', 3)">🗑️</button>
+                </div>
+                <div class="item-header">
+                    <div class="item-category">Gestión de solicitudes</div>
+                </div>
+                <div class="item-body">
+                    <h4>Módulo de Gestiones</h4>
+                    <p>Plataforma donde los aliados gestionan gestiones e incidencias para seguimiento ordenado con Seguros Universales.</p>
+                    <ul><li>Permite configurar tipos de gestión y usuarios.</li><li>Roles de ejecutivo, verificador y administrador.</li><li>Módulos de historial, solicitudes activas y reportes.</li></ul>
+                </div>
+                <div class="item-footer"><div class="item-meta">Tipo: Mesa de servicio para canales. Usuarios: aliados, operaciones y back office.</div></div>
             </div></div>
             </div>
 
     <!-- Botón de Exportar Código -->
     <button class="export-code-btn" onclick="exportCode()">📋 Exportar Código HTML</button>
 
+    <!-- Modal Agregar Unidad de Negocio -->
+    <div class="modal" id="addUnitModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Unidad de Negocio</h3>
+                <button class="close-btn" onclick="closeModal('addUnitModal')">×</button>
+            </div>
+            <form id="addUnitForm" onsubmit="handleAddUnit(event)">
+                <div class="form-group">
+                    <label for="unitName">Nombre de la Unidad *</label>
+                    <input type="text" id="unitName" required="" placeholder="Ej: Operaciones">
+                </div>
+                <div class="form-group">
+                    <label for="unitDescription">Descripción</label>
+                    <textarea id="unitDescription" placeholder="Descripción de la unidad de negocio"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Agregar Unidad</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Unidad de Negocio -->
+    <div class="modal" id="editUnitModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Unidad de Negocio</h3>
+                <button class="close-btn" onclick="closeModal('editUnitModal')">×</button>
+            </div>
+            <form id="editUnitForm" onsubmit="handleEditUnit(event)">
+                <input type="hidden" id="editUnitId">
+                <div class="form-group">
+                    <label for="editUnitName">Nombre de la Unidad *</label>
+                    <input type="text" id="editUnitName" required="">
+                </div>
+                <div class="form-group">
+                    <label for="editUnitDescription">Descripción</label>
+                    <textarea id="editUnitDescription"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Modal Agregar Canal -->
     <div class="modal" id="addChannelModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Agregar Nuevo Canal</h3>
+                <h3>Agregar Canal</h3>
                 <button class="close-btn" onclick="closeModal('addChannelModal')">×</button>
             </div>
             <form id="addChannelForm" onsubmit="handleAddChannel(event)">
                 <div class="form-group">
                     <label for="channelName">Nombre del Canal *</label>
-                    <input type="text" id="channelName" required="" placeholder="Ej: Operaciones">
+                    <input type="text" id="channelName" required="" placeholder="Ej: Puntos de Venta Web">
                 </div>
                 <div class="form-group">
-                    <label for="channelDescription">Descripción del Canal</label>
-                    <textarea id="channelDescription" placeholder="Descripción breve del canal"></textarea>
+                    <label for="channelDescription">Descripción</label>
+                    <textarea id="channelDescription" placeholder="Descripción del canal"></textarea>
                 </div>
                 <button type="submit" class="submit-btn">Agregar Canal</button>
             </form>
@@ -813,12 +1024,13 @@
             </div>
             <form id="editChannelForm" onsubmit="handleEditChannel(event)">
                 <input type="hidden" id="editChannelId">
+                <input type="hidden" id="editChannelUnit">
                 <div class="form-group">
                     <label for="editChannelName">Nombre del Canal *</label>
                     <input type="text" id="editChannelName" required="">
                 </div>
                 <div class="form-group">
-                    <label for="editChannelDescription">Descripción del Canal</label>
+                    <label for="editChannelDescription">Descripción</label>
                     <textarea id="editChannelDescription"></textarea>
                 </div>
                 <button type="submit" class="submit-btn">Guardar Cambios</button>
@@ -826,11 +1038,11 @@
         </div>
     </div>
 
-    <!-- Modal Agregar Item -->
+    <!-- Modal Agregar Elemento -->
     <div class="modal" id="addItemModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Agregar Nuevo Elemento</h3>
+                <h3>Agregar Elemento</h3>
                 <button class="close-btn" onclick="closeModal('addItemModal')">×</button>
             </div>
             <form id="addItemForm" onsubmit="handleAddItem(event)">
@@ -840,11 +1052,11 @@
                 </div>
                 <div class="form-group">
                     <label for="itemTitle">Título *</label>
-                    <input type="text" id="itemTitle" required="" placeholder="Ej: Punto de Venta Vida y Masivos">
+                    <input type="text" id="itemTitle" required="" placeholder="Ej: Sistema de Punto de Venta">
                 </div>
                 <div class="form-group">
                     <label for="itemDescription">Descripción *</label>
-                    <textarea id="itemDescription" required="" placeholder="Descripción breve del sistema"></textarea>
+                    <textarea id="itemDescription" required="" placeholder="Descripción del elemento"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="itemDetails">Características (una por línea)</label>
@@ -854,14 +1066,14 @@
                 </div>
                 <div class="form-group">
                     <label for="itemMeta">Información adicional</label>
-                    <input type="text" id="itemMeta" placeholder="Ej: Tipo: Emisión web online. Usuarios: equipos comerciales">
+                    <input type="text" id="itemMeta" placeholder="Ej: Tipo: Sistema web. Usuarios: comerciales">
                 </div>
                 <button type="submit" class="submit-btn">Agregar Elemento</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal Editar Item -->
+    <!-- Modal Editar Elemento -->
     <div class="modal" id="editItemModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -870,6 +1082,7 @@
             </div>
             <form id="editItemForm" onsubmit="handleEditItem(event)">
                 <input type="hidden" id="editItemIndex">
+                <input type="hidden" id="editItemUnit">
                 <input type="hidden" id="editItemChannel">
                 <div class="form-group">
                     <label for="editItemCategory">Categoría *</label>
@@ -910,147 +1123,159 @@
     </div>
 
     <script>
-        // Datos iniciales embebidos en el código
-        let channels = [
+        // Estructura de datos: Unidades de Negocio > Canales > Elementos
+        let businessUnits = [
         {
                 "id": "operaciones",
                 "name": "🔧 Operaciones",
-                "description": "Plataformas y sistemas para la gestión integral de operaciones de seguros"
-        },
-        {
-                "id": "comercial_gm",
-                "name": "COMERCIAL GM",
-                "description": "Todo lo realizado en gastos medicos"
+                "description": "Unidad de gestión integral de operaciones de seguros"
         }
 ];
 
-        let channelItems = {
+        let channels = {
         "operaciones": [
                 {
-                        "category": "Plataforma de emisión",
-                        "title": "Punto de Venta Vida y Masivos",
-                        "description": "Estrategia web online para emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo antes de aprobar el caso.",
-                        "details": [
-                                "Procesa la información directo en el sistema de seguros.",
-                                "Valida NIT y DPI y usa reglas dinámicas para evaluación.",
-                                "Genera papelería, contratos de cobro, facturas y firma digital."
-                        ],
-                        "meta": "Tipo: Emisión web online. Usuarios: equipos comerciales y canales aliados."
+                        "id": "puntos_venta_web",
+                        "name": "🌐 Puntos de Venta Web",
+                        "description": "Plataformas web para emisión directa"
                 },
                 {
-                        "category": "Gestión de solicitudes",
-                        "title": "Módulo de Gestiones",
-                        "description": "Plataforma donde los aliados gestionan gestiones e incidencias para seguimiento ordenado con Seguros Universales.",
-                        "details": [
-                                "Permite configurar tipos de gestión y usuarios.",
-                                "Roles de ejecutivo, verificador y administrador.",
-                                "Módulos de historial, solicitudes activas y reportes."
-                        ],
-                        "meta": "Tipo: Mesa de servicio para canales. Usuarios: aliados, operaciones y back office."
+                        "id": "rpa",
+                        "name": "🤖 RPA - Automatización",
+                        "description": "Robots de automatización de procesos"
                 },
                 {
-                        "category": "Venta digital",
-                        "title": "Links de Autogestión",
-                        "description": "Formularios en línea para que el cliente complete sus datos y se procese la emisión sin papel.",
-                        "details": [
-                                "Actualiza información del cliente mientras emite.",
-                                "Aplica reglas de riesgo y cobra en línea.",
-                                "Soporta NIT individual, AI, Agrega y Seguro Total."
-                        ],
-                        "meta": "Tipo: Emisión 100% digital orientada a autoatención del cliente."
+                        "id": "conexiones_api",
+                        "name": "🔌 Conexiones API",
+                        "description": "Integraciones y servicios API"
                 },
                 {
-                        "category": "Automatización de archivos",
-                        "title": "Proceso Automático Archivo Único SFTP",
-                        "description": "Motor que lee archivos enviados por los sponsors y automatiza altas, bajas, recaudos y actualizacion desde un solo archivo.",
-                        "details": [
-                                "Emite certificados y genera requerimientos de pago y facturas.",
-                                "Administra productos con pólizas combinadas y planillas.",
-                                "Panel para revisar incidencias y estado de cada archivo."
-                        ],
-                        "meta": "Tipo: Proceso batch diario. Usuarios: operaciones, cobranzas y administración de cartera."
-                },
-                {
-                        "category": "Control de calidad",
-                        "title": "Gestión de inconsistencias de archivos",
-                        "description": "Vista de control que marca los errores de los archivos procesados para que el equipo pueda corregir y reprocesar.",
-                        "details": [
-                                "Distingue errores de formato, errores de contacto y archivos limpios.",
-                                "Facilita el reproceso de archivos corregidos."
-                        ],
-                        "meta": "Tipo: Monitoreo de cargas masivas."
-                },
-                {
-                        "category": "RPA - DILLO",
-                        "title": "Robotic Process Automation (RPA-DILLO)",
-                        "description": "Robots de software que replican tareas repetitivas en los sistemas actuales para liberar tiempo de los equipos.",
-                        "details": [
-                                "Soporta pre-emisiones, renovaciones y emisiones de auto/moto.",
-                                "Operan velocidad y consistencia, operando 24/7.",
-                                "Permite que los colaboradores se enfoquen en tareas de mayor valor."
-                        ],
-                        "meta": "Tipo: Automatización de back office. Nota: siempre con procesos alternos y de validación humana."
-                },
-                {
-                        "category": "Punto de venta Auto",
-                        "title": "Punto de Venta Auto",
-                        "description": "Versión especializada del punto de venta enfocada en pólizas de auto, desde la cotización hasta la emisión.",
-                        "details": [
-                                "Incluye módulos de cotización, contacto y emisión.",
-                                "Envía documentación por correo y permite consultar pólizas.",
-                                "Gestiona condiciones de renovación desde la misma herramienta."
-                        ],
-                        "meta": "Tipo: Emisión y servicio para productos de auto."
-                },
-                {
-                        "category": "Inspección digital",
-                        "title": "Link de Auto Inspección",
-                        "description": "Herramienta que permite al cliente realizar la inspección de su vehículo desde un enlace que recibe en su celular.",
-                        "details": [
-                                "El vendedor genera el link desde la plataforma.",
-                                "Se envía por WhatsApp, correo, SMS o se copia el enlace.",
-                                "Las fotos e información quedan guardadas para evaluación."
-                        ],
-                        "meta": "Tipo: Inspección previa a la emisión de auto."
-                },
-                {
-                        "category": "Integraciones API",
-                        "title": "Conexiones por medio de API's",
-                        "description": "Ambiente de servicios para que los sponsors se conecten directo al sistema de seguros y Auto desde sus propias plataformas.",
-                        "details": [
-                                "Catálogo de servicios para emisiones y consultas.",
-                                "Permite integrar flujos de venta del aliado con el core de seguros."
-                        ],
-                        "meta": "Tipo: Integración tecnológica con sponsors."
-                }
-        ],
-        "comercial_gm": [
-                {
-                        "category": "Jornada Medica",
-                        "title": "Jornada Medica Xela",
-                        "description": "Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.",
-                        "details": [
-                                "Jornada médica presencial en Quetzaltenango",
-                                "Consultas médicas generales y evaluación de signos vitales",
-                                "Entrega de medicamentos básicos según diagnóstico",
-                                "Orientación en prevención de enfermedades y hábitos saludables",
-                                "Atención prioritaria a niñez, mujeres embarazadas y adultos mayores",
-                                "Actividad sin costo para los pacientes",
-                                "Trabajo coordinado con líderes comunitarios y voluntarios"
-                        ],
-                        "meta": "Jornada médica presencial. Usuarios: población de Quetzaltenango y comunidades cercanas"
+                        "id": "gestion_archivos",
+                        "name": "📁 Gestión de Archivos",
+                        "description": "Procesamiento masivo de archivos"
                 }
         ]
 };
 
+        let items = {
+        "operaciones": {
+                "puntos_venta_web": [
+                        {
+                                "category": "Plataforma de emisión",
+                                "title": "Punto de Venta Vida y Masivos",
+                                "description": "Estrategia web online para emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo antes de aprobar el caso.",
+                                "details": [
+                                        "Procesa la información directo en el sistema de seguros.",
+                                        "Valida NIT y DPI y usa reglas dinámicas para evaluación.",
+                                        "Genera papelería, contratos de cobro, facturas y firma digital."
+                                ],
+                                "meta": "Tipo: Emisión web online. Usuarios: equipos comerciales y canales aliados."
+                        },
+                        {
+                                "category": "Venta digital",
+                                "title": "Links de Autogestión",
+                                "description": "Formularios en línea para que el cliente complete sus datos y se procese la emisión sin papel.",
+                                "details": [
+                                        "Actualiza información del cliente mientras emite.",
+                                        "Aplica reglas de riesgo y cobra en línea.",
+                                        "Soporta NIT individual, AI, Agrega y Seguro Total."
+                                ],
+                                "meta": "Tipo: Emisión 100% digital orientada a autoatención del cliente."
+                        },
+                        {
+                                "category": "Punto de venta Auto",
+                                "title": "Punto de Venta Auto",
+                                "description": "Versión especializada del punto de venta enfocada en pólizas de auto, desde la cotización hasta la emisión.",
+                                "details": [
+                                        "Incluye módulos de cotización, contacto y emisión.",
+                                        "Envía documentación por correo y permite consultar pólizas.",
+                                        "Gestiona condiciones de renovación desde la misma herramienta."
+                                ],
+                                "meta": "Tipo: Emisión y servicio para productos de auto."
+                        },
+                        {
+                                "category": "Gestión de solicitudes",
+                                "title": "Módulo de Gestiones",
+                                "description": "Plataforma donde los aliados gestionan gestiones e incidencias para seguimiento ordenado con Seguros Universales.",
+                                "details": [
+                                        "Permite configurar tipos de gestión y usuarios.",
+                                        "Roles de ejecutivo, verificador y administrador.",
+                                        "Módulos de historial, solicitudes activas y reportes."
+                                ],
+                                "meta": "Tipo: Mesa de servicio para canales. Usuarios: aliados, operaciones y back office."
+                        }
+                ],
+                "rpa": [
+                        {
+                                "category": "RPA - DILLO",
+                                "title": "Robotic Process Automation (RPA-DILLO)",
+                                "description": "Robots de software que replican tareas repetitivas en los sistemas actuales para liberar tiempo de los equipos.",
+                                "details": [
+                                        "Soporta pre-emisiones, renovaciones y emisiones de auto/moto.",
+                                        "Operan velocidad y consistencia, operando 24/7.",
+                                        "Permite que los colaboradores se enfoquen en tareas de mayor valor."
+                                ],
+                                "meta": "Tipo: Automatización de back office. Nota: siempre con procesos alternos y de validación humana."
+                        }
+                ],
+                "conexiones_api": [
+                        {
+                                "category": "Integraciones API",
+                                "title": "Conexiones por medio de API's",
+                                "description": "Ambiente de servicios para que los sponsors se conecten directo al sistema de seguros y Auto desde sus propias plataformas.",
+                                "details": [
+                                        "Catálogo de servicios para emisiones y consultas.",
+                                        "Permite integrar flujos de venta del aliado con el core de seguros."
+                                ],
+                                "meta": "Tipo: Integración tecnológica con sponsors."
+                        },
+                        {
+                                "category": "Inspección digital",
+                                "title": "Link de Auto Inspección",
+                                "description": "Herramienta que permite al cliente realizar la inspección de su vehículo desde un enlace que recibe en su celular.",
+                                "details": [
+                                        "El vendedor genera el link desde la plataforma.",
+                                        "Se envía por WhatsApp, correo, SMS o se copia el enlace.",
+                                        "Las fotos e información quedan guardadas para evaluación."
+                                ],
+                                "meta": "Tipo: Inspección previa a la emisión de auto."
+                        }
+                ],
+                "gestion_archivos": [
+                        {
+                                "category": "Automatización de archivos",
+                                "title": "Proceso Automático Archivo Único SFTP",
+                                "description": "Motor que lee archivos enviados por los sponsors y automatiza altas, bajas, recaudos y actualizacion desde un solo archivo.",
+                                "details": [
+                                        "Emite certificados y genera requerimientos de pago y facturas.",
+                                        "Administra productos con pólizas combinadas y planillas.",
+                                        "Panel para revisar incidencias y estado de cada archivo."
+                                ],
+                                "meta": "Tipo: Proceso batch diario. Usuarios: operaciones, cobranzas y administración de cartera."
+                        },
+                        {
+                                "category": "Control de calidad",
+                                "title": "Gestión de inconsistencias de archivos",
+                                "description": "Vista de control que marca los errores de los archivos procesados para que el equipo pueda corregir y reprocesar.",
+                                "details": [
+                                        "Distingue errores de formato, errores de contacto y archivos limpios.",
+                                        "Facilita el reproceso de archivos corregidos."
+                                ],
+                                "meta": "Tipo: Monitoreo de cargas masivas."
+                        }
+                ]
+        }
+};
+
         let currentMode = 'user';
-        let currentChannel = 'operaciones';
+        let currentUnit = 'operaciones';
+        let currentChannel = 'puntos_venta_web';
 
         // Inicialización
         function init() {
-            renderChannels();
-            if (channels.length > 0) {
-                switchChannel(channels[0].id);
+            renderBusinessUnits();
+            if (businessUnits.length > 0) {
+                switchUnit(businessUnits[0].id);
             }
         }
 
@@ -1080,24 +1305,24 @@
             }
         }
 
-        // Renderizar canales
-        function renderChannels() {
-            const container = document.getElementById('channelsContainer');
-            const addBtn = container.querySelector('.add-channel-btn');
+        // Renderizar Unidades de Negocio
+        function renderBusinessUnits() {
+            const container = document.getElementById('businessUnitsContainer');
+            const addBtn = container.querySelector('.add-unit-btn');
             
             container.innerHTML = '';
             
-            channels.forEach((channel, index) => {
+            businessUnits.forEach((unit) => {
                 const tab = document.createElement('button');
-                tab.className = 'channel-tab';
-                tab.setAttribute('data-channel', channel.id);
+                tab.className = 'business-unit-tab';
+                tab.setAttribute('data-unit', unit.id);
                 tab.innerHTML = `
-                    ${channel.name}
-                    <span class="channel-edit-btn" onclick="openEditChannel('${channel.id}', event)">✏️</span>
+                    ${unit.name}
+                    <span class="unit-edit-btn" onclick="openEditUnit('${unit.id}', event)">✏️</span>
                 `;
                 tab.onclick = (e) => {
-                    if (!e.target.classList.contains('channel-edit-btn')) {
-                        switchChannel(channel.id);
+                    if (!e.target.classList.contains('unit-edit-btn')) {
+                        switchUnit(unit.id);
                     }
                 };
                 container.appendChild(tab);
@@ -1106,26 +1331,83 @@
             container.appendChild(addBtn);
         }
 
-        // Cambiar canal activo
-        function switchChannel(channelId) {
+        // Cambiar Unidad de Negocio activa
+        function switchUnit(unitId) {
+            currentUnit = unitId;
+
+            // Actualizar tabs de unidades
+            document.querySelectorAll('.business-unit-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            const activeTab = document.querySelector(`[data-unit="${unitId}"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+
+            // Renderizar canales de esta unidad
+            renderChannels(unitId);
+            
+            // Activar el primer canal si existe
+            if (channels[unitId] && channels[unitId].length > 0) {
+                switchChannel(unitId, channels[unitId][0].id);
+            }
+        }
+
+        // Renderizar Canales
+        function renderChannels(unitId) {
+            const container = document.getElementById('channelsContainer');
+            const addBtn = container.querySelector('.add-channel-btn');
+            
+            container.innerHTML = '';
+            
+            const unitChannels = channels[unitId] || [];
+            
+            unitChannels.forEach((channel) => {
+                const tab = document.createElement('button');
+                tab.className = 'channel-tab';
+                tab.setAttribute('data-channel', channel.id);
+                tab.innerHTML = `
+                    ${channel.name}
+                    <span class="channel-edit-btn" onclick="openEditChannel('${unitId}', '${channel.id}', event)">✏️</span>
+                `;
+                tab.onclick = (e) => {
+                    if (!e.target.classList.contains('channel-edit-btn')) {
+                        switchChannel(unitId, channel.id);
+                    }
+                };
+                container.appendChild(tab);
+            });
+
+            container.appendChild(addBtn);
+        }
+
+        // Cambiar Canal activo
+        function switchChannel(unitId, channelId) {
+            currentUnit = unitId;
             currentChannel = channelId;
 
-            // Actualizar tabs
+            // Actualizar tabs de canales
             document.querySelectorAll('.channel-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            document.querySelector(`[data-channel="${channelId}"]`).classList.add('active');
+            const activeTab = document.querySelector(`[data-channel="${channelId}"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
 
             // Renderizar contenido del canal
-            renderChannelContent(channelId);
+            renderChannelContent(unitId, channelId);
         }
 
         // Renderizar contenido del canal
-        function renderChannelContent(channelId) {
-            const channel = channels.find(ch => ch.id === channelId);
-            if (!channel) return;
+        function renderChannelContent(unitId, channelId) {
+            const unit = businessUnits.find(u => u.id === unitId);
+            const unitChannels = channels[unitId] || [];
+            const channel = unitChannels.find(c => c.id === channelId);
+            
+            if (!unit || !channel) return;
 
-            const items = channelItems[channelId] || [];
+            const channelItems = items[unitId] && items[unitId][channelId] ? items[unitId][channelId] : [];
             const container = document.getElementById('mainContainer');
 
             container.innerHTML = `
@@ -1139,11 +1421,11 @@
 
                 <div class="content-header">
                     <h3>Elementos del Canal</h3>
-                    <button class="add-item-btn" onclick="openAddItemModal('${channelId}')">+ Agregar Elemento</button>
+                    <button class="add-item-btn" onclick="openAddItemModal()">+ Agregar Elemento</button>
                 </div>
 
-                <div class="items-grid" id="${channelId}-items">
-                    ${items.length === 0 ? `
+                <div class="items-grid" id="itemsGrid">
+                    ${channelItems.length === 0 ? `
                         <div class="empty-state">
                             <div class="empty-state-icon">📦</div>
                             <h4>No hay elementos</h4>
@@ -1154,18 +1436,18 @@
             `;
 
             // Renderizar items
-            if (items.length > 0) {
-                const itemsGrid = document.getElementById(`${channelId}-items`);
+            if (channelItems.length > 0) {
+                const itemsGrid = document.getElementById('itemsGrid');
                 itemsGrid.innerHTML = '';
-                items.forEach((item, index) => {
-                    const card = createItemCard(channelId, item, index);
+                channelItems.forEach((item, index) => {
+                    const card = createItemCard(unitId, channelId, item, index);
                     itemsGrid.appendChild(card);
                 });
             }
         }
 
-        // Crear tarjeta de item
-        function createItemCard(channelId, item, index) {
+        // Crear tarjeta de elemento
+        function createItemCard(unitId, channelId, item, index) {
             const card = document.createElement('div');
             card.className = 'item-card';
 
@@ -1179,8 +1461,8 @@
 
             card.innerHTML = `
                 <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem('${channelId}', ${index})">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem('${channelId}', ${index})">🗑️</button>
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('${unitId}', '${channelId}', ${index})">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('${unitId}', '${channelId}', ${index})">🗑️</button>
                 </div>
                 <div class="item-header">
                     <div class="item-category">${item.category}</div>
@@ -1195,7 +1477,63 @@
             return card;
         }
 
-        // Modal de agregar canal
+        // Modales de Unidad de Negocio
+        function openAddUnitModal() {
+            document.getElementById('addUnitModal').classList.add('active');
+        }
+
+        function handleAddUnit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('unitName').value;
+            const description = document.getElementById('unitDescription').value;
+            const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+
+            businessUnits.push({ id, name, description });
+            channels[id] = [];
+            items[id] = {};
+
+            renderBusinessUnits();
+            switchUnit(id);
+
+            closeModal('addUnitModal');
+            document.getElementById('addUnitForm').reset();
+        }
+
+        function openEditUnit(unitId, event) {
+            event.stopPropagation();
+            
+            const unit = businessUnits.find(u => u.id === unitId);
+            if (!unit) return;
+
+            document.getElementById('editUnitId').value = unitId;
+            document.getElementById('editUnitName').value = unit.name;
+            document.getElementById('editUnitDescription').value = unit.description || '';
+
+            document.getElementById('editUnitModal').classList.add('active');
+        }
+
+        function handleEditUnit(event) {
+            event.preventDefault();
+
+            const unitId = document.getElementById('editUnitId').value;
+            const name = document.getElementById('editUnitName').value;
+            const description = document.getElementById('editUnitDescription').value;
+
+            const unit = businessUnits.find(u => u.id === unitId);
+            if (unit) {
+                unit.name = name;
+                unit.description = description;
+
+                renderBusinessUnits();
+                renderChannelContent(currentUnit, currentChannel);
+            }
+
+            closeModal('editUnitModal');
+            document.getElementById('editUnitForm').reset();
+        }
+
+        // Modales de Canal
         function openAddChannelModal() {
             document.getElementById('addChannelModal').classList.add('active');
         }
@@ -1207,23 +1545,31 @@
             const description = document.getElementById('channelDescription').value;
             const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
 
-            channels.push({ id, name, description });
-            channelItems[id] = [];
+            if (!channels[currentUnit]) {
+                channels[currentUnit] = [];
+            }
+            if (!items[currentUnit]) {
+                items[currentUnit] = {};
+            }
 
-            renderChannels();
-            switchChannel(id);
+            channels[currentUnit].push({ id, name, description });
+            items[currentUnit][id] = [];
+
+            renderChannels(currentUnit);
+            switchChannel(currentUnit, id);
 
             closeModal('addChannelModal');
             document.getElementById('addChannelForm').reset();
         }
 
-        // Modal de editar canal
-        function openEditChannel(channelId, event) {
+        function openEditChannel(unitId, channelId, event) {
             event.stopPropagation();
             
-            const channel = channels.find(ch => ch.id === channelId);
+            const unitChannels = channels[unitId] || [];
+            const channel = unitChannels.find(c => c.id === channelId);
             if (!channel) return;
 
+            document.getElementById('editChannelUnit').value = unitId;
             document.getElementById('editChannelId').value = channelId;
             document.getElementById('editChannelName').value = channel.name;
             document.getElementById('editChannelDescription').value = channel.description || '';
@@ -1234,26 +1580,27 @@
         function handleEditChannel(event) {
             event.preventDefault();
 
+            const unitId = document.getElementById('editChannelUnit').value;
             const channelId = document.getElementById('editChannelId').value;
             const name = document.getElementById('editChannelName').value;
             const description = document.getElementById('editChannelDescription').value;
 
-            const channel = channels.find(ch => ch.id === channelId);
+            const unitChannels = channels[unitId] || [];
+            const channel = unitChannels.find(c => c.id === channelId);
             if (channel) {
                 channel.name = name;
                 channel.description = description;
 
-                renderChannels();
-                renderChannelContent(channelId);
+                renderChannels(unitId);
+                renderChannelContent(unitId, channelId);
             }
 
             closeModal('editChannelModal');
             document.getElementById('editChannelForm').reset();
         }
 
-        // Modal de agregar item
-        function openAddItemModal(channelId) {
-            currentChannel = channelId;
+        // Modales de Elemento
+        function openAddItemModal() {
             document.getElementById('addItemModal').classList.add('active');
         }
 
@@ -1270,23 +1617,26 @@
                 ? detailsText.split('\n').filter(d => d.trim()).map(d => d.replace(/^[-•]\s*/, ''))
                 : [];
 
-            if (!channelItems[currentChannel]) {
-                channelItems[currentChannel] = [];
+            if (!items[currentUnit]) {
+                items[currentUnit] = {};
+            }
+            if (!items[currentUnit][currentChannel]) {
+                items[currentUnit][currentChannel] = [];
             }
 
-            channelItems[currentChannel].push({ category, title, description, details, meta });
+            items[currentUnit][currentChannel].push({ category, title, description, details, meta });
 
-            renderChannelContent(currentChannel);
+            renderChannelContent(currentUnit, currentChannel);
 
             closeModal('addItemModal');
             document.getElementById('addItemForm').reset();
         }
 
-        // Modal de editar item
-        function openEditItem(channelId, index) {
-            const item = channelItems[channelId][index];
+        function openEditItem(unitId, channelId, index) {
+            const item = items[unitId][channelId][index];
             if (!item) return;
 
+            document.getElementById('editItemUnit').value = unitId;
             document.getElementById('editItemChannel').value = channelId;
             document.getElementById('editItemIndex').value = index;
             document.getElementById('editItemCategory').value = item.category;
@@ -1301,6 +1651,7 @@
         function handleEditItem(event) {
             event.preventDefault();
 
+            const unitId = document.getElementById('editItemUnit').value;
             const channelId = document.getElementById('editItemChannel').value;
             const index = parseInt(document.getElementById('editItemIndex').value);
             const category = document.getElementById('editItemCategory').value;
@@ -1313,20 +1664,19 @@
                 ? detailsText.split('\n').filter(d => d.trim()).map(d => d.replace(/^[-•]\s*/, ''))
                 : [];
 
-            if (channelItems[channelId] && channelItems[channelId][index]) {
-                channelItems[channelId][index] = { category, title, description, details, meta };
-                renderChannelContent(channelId);
+            if (items[unitId] && items[unitId][channelId] && items[unitId][channelId][index]) {
+                items[unitId][channelId][index] = { category, title, description, details, meta };
+                renderChannelContent(unitId, channelId);
             }
 
             closeModal('editItemModal');
             document.getElementById('editItemForm').reset();
         }
 
-        // Eliminar item
-        function deleteItem(channelId, index) {
+        function deleteItem(unitId, channelId, index) {
             if (confirm('¿Estás seguro de que deseas eliminar este elemento?')) {
-                channelItems[channelId].splice(index, 1);
-                renderChannelContent(channelId);
+                items[unitId][channelId].splice(index, 1);
+                renderChannelContent(unitId, channelId);
             }
         }
 
@@ -1337,8 +1687,9 @@
 
         // Exportar código HTML
         function exportCode() {
+            const unitsData = JSON.stringify(businessUnits, null, 8);
             const channelsData = JSON.stringify(channels, null, 8);
-            const itemsData = JSON.stringify(channelItems, null, 8);
+            const itemsData = JSON.stringify(items, null, 8);
 
             // Remover temporalmente la clase admin-mode para exportar limpio
             const wasAdminMode = document.body.classList.contains('admin-mode');
@@ -1354,8 +1705,9 @@
 
             // Obtener el HTML limpio
             const fullHTML = document.documentElement.outerHTML
-                .replace(/let channels = \[[\s\S]*?\];/, `let channels = ${channelsData};`)
-                .replace(/let channelItems = \{[\s\S]*?\};/, `let channelItems = ${itemsData};`)
+                .replace(/let businessUnits = \[[\s\S]*?\];/, `let businessUnits = ${unitsData};`)
+                .replace(/let channels = \{[\s\S]*?\};/, `let channels = ${channelsData};`)
+                .replace(/let items = \{[\s\S]*?\};/, `let items = ${itemsData};`)
                 .replace(/let currentMode = '[^']*';/, `let currentMode = 'user';`);
 
             // Restaurar el modo admin si estaba activo
