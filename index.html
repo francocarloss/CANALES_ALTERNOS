@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Canales - Seguros</title>
@@ -137,6 +135,37 @@
             color: #1e88e5;
         }
 
+        .channel-tab:hover .channel-edit-btn {
+            opacity: 1;
+        }
+
+        .channel-edit-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #1e88e5;
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.7em;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-mode .channel-edit-btn {
+            display: flex;
+        }
+
+        .channel-edit-btn:hover {
+            background: #0a4d8f;
+        }
+
         .channel-tab.active {
             color: #1e88e5;
         }
@@ -150,6 +179,30 @@
             height: 3px;
             background: #1e88e5;
             animation: expandWidth 0.3s ease;
+        }
+
+        .add-channel-btn {
+            background: #1e88e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-left: auto;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: none;
+        }
+
+        .admin-mode .add-channel-btn {
+            display: block;
+        }
+
+        .add-channel-btn:hover {
+            background: #0a4d8f;
+            transform: scale(1.05);
         }
 
         /* Contenedor principal */
@@ -666,12 +719,12 @@
         }
     </style>
 </head>
-<body>
+<body class="admin-mode">
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Portal de Operaciones</h1>
+            <h1>Portal de Canales</h1>
             <p>Sistema integral de gestión y automatización</p>
         </div>
     </div>
@@ -679,64 +732,125 @@
     <!-- Pestañas Usuario/Administrador -->
     <div class="mode-tabs">
         <div class="mode-tabs-container">
-            <button class="mode-tab active" onclick="switchMode('user')">👤 Usuario</button>
-            <button class="mode-tab" onclick="switchMode('admin')">🔧 Administrador</button>
+            <button class="mode-tab" onclick="switchMode('user')">👤 Usuario</button>
+            <button class="mode-tab active" onclick="switchMode('admin')">🔧 Administrador</button>
         </div>
     </div>
 
     <!-- Navegación de Canales -->
     <div class="channels-nav">
-        <div class="channels-container">
-            <button class="channel-tab active">🔧 Operaciones</button>
-        </div>
+        <div class="channels-container" id="channelsContainer"><button class="channel-tab" data-channel="operaciones">
+                    🔧 Operaciones
+                    <span class="channel-edit-btn" onclick="openEditChannel('operaciones', event)">✏️</span>
+                </button><button class="channel-tab active" data-channel="jefatura_gm">
+                    Jefatura GM
+                    <span class="channel-edit-btn" onclick="openEditChannel('jefatura_gm', event)">✏️</span>
+                </button><button class="add-channel-btn" onclick="openAddChannelModal()">+ Agregar Canal</button></div>
     </div>
 
     <!-- Contenido Principal -->
-    <div class="main-container">
-        <div class="section-banner">
-            <div class="banner-content">
-                <h2>🔧 Operaciones</h2>
-                <p>Plataformas y sistemas para la gestión integral de operaciones de seguros</p>
+    <div class="main-container" id="mainContainer">
+                <div class="section-banner">
+                    <div class="banner-content">
+                        <h2>Jefatura GM</h2>
+                        <p>Logros alcanzados</p>
+                    </div>
+                    <div class="banner-image"></div>
+                </div>
+
+                <div class="content-header">
+                    <h3>Elementos del Canal</h3>
+                    <button class="add-item-btn" onclick="openAddItemModal('jefatura_gm')">+ Agregar Elemento</button>
+                </div>
+
+                <div class="items-grid" id="jefatura_gm-items"><div class="item-card">
+                <div class="card-actions">
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('jefatura_gm', 0)">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('jefatura_gm', 0)">🗑️</button>
+                </div>
+                <div class="item-header">
+                    <div class="item-category">Jornada Medica</div>
+                </div>
+                <div class="item-body">
+                    <h4>Jornada medica Xela</h4>
+                    <p>Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.</p>
+                    <ul><li>Jornada médica presencial en Quetzaltenango</li><li>Consultas médicas generales y evaluación de signos vitales</li><li>Entrega de medicamentos básicos según diagnóstico</li><li>Orientación en prevención de enfermedades y hábitos saludables</li><li>Atención prioritaria a niñez, mujeres embarazadas y adultos mayores</li><li>Actividad sin costo para los pacientes</li><li>Trabajo coordinado con líderes comunitarios y voluntarios</li></ul>
+                </div>
+                <div class="item-footer"><div class="item-meta">Jornada médica presencial. Usuarios: población de Quetzaltenango y comunidades cercanas</div></div>
+            </div></div>
             </div>
-            <div class="banner-image"></div>
-        </div>
-
-        <div class="content-header">
-            <h3>Sistemas y Plataformas</h3>
-            <button class="add-item-btn" onclick="openAddItemModal()">+ Agregar Elemento</button>
-        </div>
-
-        <div class="items-grid" id="itemsGrid">
-            <!-- Los elementos se cargarán dinámicamente -->
-        </div>
-    </div>
 
     <!-- Botón de Exportar Código -->
     <button class="export-code-btn" onclick="exportCode()">📋 Exportar Código HTML</button>
+
+    <!-- Modal Agregar Canal -->
+    <div class="modal" id="addChannelModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Canal</h3>
+                <button class="close-btn" onclick="closeModal('addChannelModal')">×</button>
+            </div>
+            <form id="addChannelForm" onsubmit="handleAddChannel(event)">
+                <div class="form-group">
+                    <label for="channelName">Nombre del Canal *</label>
+                    <input type="text" id="channelName" required="" placeholder="Ej: Operaciones">
+                </div>
+                <div class="form-group">
+                    <label for="channelDescription">Descripción del Canal</label>
+                    <textarea id="channelDescription" placeholder="Descripción breve del canal"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Agregar Canal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Canal -->
+    <div class="modal" id="editChannelModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Canal</h3>
+                <button class="close-btn" onclick="closeModal('editChannelModal')">×</button>
+            </div>
+            <form id="editChannelForm" onsubmit="handleEditChannel(event)">
+                <input type="hidden" id="editChannelId">
+                <div class="form-group">
+                    <label for="editChannelName">Nombre del Canal *</label>
+                    <input type="text" id="editChannelName" required="">
+                </div>
+                <div class="form-group">
+                    <label for="editChannelDescription">Descripción del Canal</label>
+                    <textarea id="editChannelDescription"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Modal Agregar Item -->
     <div class="modal" id="addItemModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Agregar Nuevo Elemento</h3>
-                <button class="close-btn" onclick="closeModal('addItemModal')">&times;</button>
+                <button class="close-btn" onclick="closeModal('addItemModal')">×</button>
             </div>
             <form id="addItemForm" onsubmit="handleAddItem(event)">
                 <div class="form-group">
                     <label for="itemCategory">Categoría *</label>
-                    <input type="text" id="itemCategory" required placeholder="Ej: Plataforma de emisión">
+                    <input type="text" id="itemCategory" required="" placeholder="Ej: Plataforma de emisión">
                 </div>
                 <div class="form-group">
                     <label for="itemTitle">Título *</label>
-                    <input type="text" id="itemTitle" required placeholder="Ej: Punto de Venta Vida y Masivos">
+                    <input type="text" id="itemTitle" required="" placeholder="Ej: Punto de Venta Vida y Masivos">
                 </div>
                 <div class="form-group">
                     <label for="itemDescription">Descripción *</label>
-                    <textarea id="itemDescription" required placeholder="Descripción breve del sistema"></textarea>
+                    <textarea id="itemDescription" required="" placeholder="Descripción breve del sistema"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="itemDetails">Características (una por línea)</label>
-                    <textarea id="itemDetails" placeholder="- Característica 1&#10;- Característica 2&#10;- Característica 3"></textarea>
+                    <textarea id="itemDetails" placeholder="- Característica 1
+- Característica 2
+- Característica 3"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="itemMeta">Información adicional</label>
@@ -752,21 +866,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Editar Elemento</h3>
-                <button class="close-btn" onclick="closeModal('editItemModal')">&times;</button>
+                <button class="close-btn" onclick="closeModal('editItemModal')">×</button>
             </div>
             <form id="editItemForm" onsubmit="handleEditItem(event)">
-                <input type="hidden" id="editItemIndex">
+                <input type="hidden" id="editItemIndex" value="0">
+                <input type="hidden" id="editItemChannel" value="jefatura_gm">
                 <div class="form-group">
                     <label for="editItemCategory">Categoría *</label>
-                    <input type="text" id="editItemCategory" required>
+                    <input type="text" id="editItemCategory" required="">
                 </div>
                 <div class="form-group">
                     <label for="editItemTitle">Título *</label>
-                    <input type="text" id="editItemTitle" required>
+                    <input type="text" id="editItemTitle" required="">
                 </div>
                 <div class="form-group">
                     <label for="editItemDescription">Descripción *</label>
-                    <textarea id="editItemDescription" required></textarea>
+                    <textarea id="editItemDescription" required=""></textarea>
                 </div>
                 <div class="form-group">
                     <label for="editItemDetails">Características (una por línea)</label>
@@ -786,7 +901,7 @@
         <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
                 <h3>Exportar Código HTML</h3>
-                <button class="close-btn" onclick="closeModal('exportModal')">&times;</button>
+                <button class="close-btn" onclick="closeModal('exportModal')">×</button>
             </div>
             <p style="margin-bottom: 20px; color: #666;">Copia este código completo y reemplázalo en tu archivo HTML en GitHub:</p>
             <div class="code-output" id="codeOutput"></div>
@@ -796,111 +911,147 @@
 
     <script>
         // Datos iniciales embebidos en el código
-        let items = [
-            {
-                category: "Plataforma de emisión",
-                title: "Punto de Venta Vida y Masivos",
-                description: "Estrategia web online para emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo antes de aprobar el caso.",
-                details: [
-                    "Procesa la información directo en el sistema de seguros.",
-                    "Valida NIT y DPI y usa reglas dinámicas para evaluación.",
-                    "Genera papelería, contratos de cobro, facturas y firma digital."
-                ],
-                meta: "Tipo: Emisión web online. Usuarios: equipos comerciales y canales aliados."
-            },
-            {
-                category: "Gestión de solicitudes",
-                title: "Módulo de Gestiones",
-                description: "Plataforma donde los aliados gestionan gestiones e incidencias para seguimiento ordenado con Seguros Universales.",
-                details: [
-                    "Permite configurar tipos de gestión y usuarios.",
-                    "Roles de ejecutivo, verificador y administrador.",
-                    "Módulos de historial, solicitudes activas y reportes."
-                ],
-                meta: "Tipo: Mesa de servicio para canales. Usuarios: aliados, operaciones y back office."
-            },
-            {
-                category: "Venta digital",
-                title: "Links de Autogestión",
-                description: "Formularios en línea para que el cliente complete sus datos y se procese la emisión sin papel.",
-                details: [
-                    "Actualiza información del cliente mientras emite.",
-                    "Aplica reglas de riesgo y cobra en línea.",
-                    "Soporta NIT individual, AI, Agrega y Seguro Total."
-                ],
-                meta: "Tipo: Emisión 100% digital orientada a autoatención del cliente."
-            },
-            {
-                category: "Automatización de archivos",
-                title: "Proceso Automático Archivo Único SFTP",
-                description: "Motor que lee archivos enviados por los sponsors y automatiza altas, bajas, recaudos y actualizacion desde un solo archivo.",
-                details: [
-                    "Emite certificados y genera requerimientos de pago y facturas.",
-                    "Administra productos con pólizas combinadas y planillas.",
-                    "Panel para revisar incidencias y estado de cada archivo."
-                ],
-                meta: "Tipo: Proceso batch diario. Usuarios: operaciones, cobranzas y administración de cartera."
-            },
-            {
-                category: "Control de calidad",
-                title: "Gestión de inconsistencias de archivos",
-                description: "Vista de control que marca los errores de los archivos procesados para que el equipo pueda corregir y reprocesar.",
-                details: [
-                    "Distingue errores de formato, errores de contacto y archivos limpios.",
-                    "Facilita el reproceso de archivos corregidos."
-                ],
-                meta: "Tipo: Monitoreo de cargas masivas."
-            },
-            {
-                category: "RPA - DILLO",
-                title: "Robotic Process Automation (RPA-DILLO)",
-                description: "Robots de software que replican tareas repetitivas en los sistemas actuales para liberar tiempo de los equipos.",
-                details: [
-                    "Soporta pre-emisiones, renovaciones y emisiones de auto/moto.",
-                    "Operan velocidad y consistencia, operando 24/7.",
-                    "Permite que los colaboradores se enfoquen en tareas de mayor valor."
-                ],
-                meta: "Tipo: Automatización de back office. Nota: siempre con procesos alternos y de validación humana."
-            },
-            {
-                category: "Punto de venta Auto",
-                title: "Punto de Venta Auto",
-                description: "Versión especializada del punto de venta enfocada en pólizas de auto, desde la cotización hasta la emisión.",
-                details: [
-                    "Incluye módulos de cotización, contacto y emisión.",
-                    "Envía documentación por correo y permite consultar pólizas.",
-                    "Gestiona condiciones de renovación desde la misma herramienta."
-                ],
-                meta: "Tipo: Emisión y servicio para productos de auto."
-            },
-            {
-                category: "Inspección digital",
-                title: "Link de Auto Inspección",
-                description: "Herramienta que permite al cliente realizar la inspección de su vehículo desde un enlace que recibe en su celular.",
-                details: [
-                    "El vendedor genera el link desde la plataforma.",
-                    "Se envía por WhatsApp, correo, SMS o se copia el enlace.",
-                    "Las fotos e información quedan guardadas para evaluación."
-                ],
-                meta: "Tipo: Inspección previa a la emisión de auto."
-            },
-            {
-                category: "Integraciones API",
-                title: "Conexiones por medio de API's",
-                description: "Ambiente de servicios para que los sponsors se conecten directo al sistema de seguros y Auto desde sus propias plataformas.",
-                details: [
-                    "Catálogo de servicios para emisiones y consultas.",
-                    "Permite integrar flujos de venta del aliado con el core de seguros."
-                ],
-                meta: "Tipo: Integración tecnológica con sponsors."
-            }
-        ];
+        let channels = [
+        {
+                "id": "operaciones",
+                "name": "🔧 Operaciones",
+                "description": "Plataformas y sistemas para la gestión integral de operaciones de seguros"
+        },
+        {
+                "id": "jefatura_gm",
+                "name": "Jefatura GM",
+                "description": "Logros alcanzados"
+        }
+];
+
+        let channelItems = {
+        "operaciones": [
+                {
+                        "category": "Plataforma de emisión",
+                        "title": "Punto de Venta Vida y Masivos",
+                        "description": "Estrategia web online para emitir pólizas en línea, actualizar datos del cliente y aplicar reglas de riesgo antes de aprobar el caso.",
+                        "details": [
+                                "Procesa la información directo en el sistema de seguros.",
+                                "Valida NIT y DPI y usa reglas dinámicas para evaluación.",
+                                "Genera papelería, contratos de cobro, facturas y firma digital."
+                        ],
+                        "meta": "Tipo: Emisión web online. Usuarios: equipos comerciales y canales aliados."
+                },
+                {
+                        "category": "Gestión de solicitudes",
+                        "title": "Módulo de Gestiones",
+                        "description": "Plataforma donde los aliados gestionan gestiones e incidencias para seguimiento ordenado con Seguros Universales.",
+                        "details": [
+                                "Permite configurar tipos de gestión y usuarios.",
+                                "Roles de ejecutivo, verificador y administrador.",
+                                "Módulos de historial, solicitudes activas y reportes."
+                        ],
+                        "meta": "Tipo: Mesa de servicio para canales. Usuarios: aliados, operaciones y back office."
+                },
+                {
+                        "category": "Venta digital",
+                        "title": "Links de Autogestión",
+                        "description": "Formularios en línea para que el cliente complete sus datos y se procese la emisión sin papel.",
+                        "details": [
+                                "Actualiza información del cliente mientras emite.",
+                                "Aplica reglas de riesgo y cobra en línea.",
+                                "Soporta NIT individual, AI, Agrega y Seguro Total."
+                        ],
+                        "meta": "Tipo: Emisión 100% digital orientada a autoatención del cliente."
+                },
+                {
+                        "category": "Automatización de archivos",
+                        "title": "Proceso Automático Archivo Único SFTP",
+                        "description": "Motor que lee archivos enviados por los sponsors y automatiza altas, bajas, recaudos y actualizacion desde un solo archivo.",
+                        "details": [
+                                "Emite certificados y genera requerimientos de pago y facturas.",
+                                "Administra productos con pólizas combinadas y planillas.",
+                                "Panel para revisar incidencias y estado de cada archivo."
+                        ],
+                        "meta": "Tipo: Proceso batch diario. Usuarios: operaciones, cobranzas y administración de cartera."
+                },
+                {
+                        "category": "Control de calidad",
+                        "title": "Gestión de inconsistencias de archivos",
+                        "description": "Vista de control que marca los errores de los archivos procesados para que el equipo pueda corregir y reprocesar.",
+                        "details": [
+                                "Distingue errores de formato, errores de contacto y archivos limpios.",
+                                "Facilita el reproceso de archivos corregidos."
+                        ],
+                        "meta": "Tipo: Monitoreo de cargas masivas."
+                },
+                {
+                        "category": "RPA - DILLO",
+                        "title": "Robotic Process Automation (RPA-DILLO)",
+                        "description": "Robots de software que replican tareas repetitivas en los sistemas actuales para liberar tiempo de los equipos.",
+                        "details": [
+                                "Soporta pre-emisiones, renovaciones y emisiones de auto/moto.",
+                                "Operan velocidad y consistencia, operando 24/7.",
+                                "Permite que los colaboradores se enfoquen en tareas de mayor valor."
+                        ],
+                        "meta": "Tipo: Automatización de back office. Nota: siempre con procesos alternos y de validación humana."
+                },
+                {
+                        "category": "Punto de venta Auto",
+                        "title": "Punto de Venta Auto",
+                        "description": "Versión especializada del punto de venta enfocada en pólizas de auto, desde la cotización hasta la emisión.",
+                        "details": [
+                                "Incluye módulos de cotización, contacto y emisión.",
+                                "Envía documentación por correo y permite consultar pólizas.",
+                                "Gestiona condiciones de renovación desde la misma herramienta."
+                        ],
+                        "meta": "Tipo: Emisión y servicio para productos de auto."
+                },
+                {
+                        "category": "Inspección digital",
+                        "title": "Link de Auto Inspección",
+                        "description": "Herramienta que permite al cliente realizar la inspección de su vehículo desde un enlace que recibe en su celular.",
+                        "details": [
+                                "El vendedor genera el link desde la plataforma.",
+                                "Se envía por WhatsApp, correo, SMS o se copia el enlace.",
+                                "Las fotos e información quedan guardadas para evaluación."
+                        ],
+                        "meta": "Tipo: Inspección previa a la emisión de auto."
+                },
+                {
+                        "category": "Integraciones API",
+                        "title": "Conexiones por medio de API's",
+                        "description": "Ambiente de servicios para que los sponsors se conecten directo al sistema de seguros y Auto desde sus propias plataformas.",
+                        "details": [
+                                "Catálogo de servicios para emisiones y consultas.",
+                                "Permite integrar flujos de venta del aliado con el core de seguros."
+                        ],
+                        "meta": "Tipo: Integración tecnológica con sponsors."
+                }
+        ],
+        "jefatura_gm": [
+                {
+                        "category": "Jornada Medica",
+                        "title": "Jornada medica Xela",
+                        "description": "Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.",
+                        "details": [
+                                "Jornada médica presencial en Quetzaltenango",
+                                "Consultas médicas generales y evaluación de signos vitales",
+                                "Entrega de medicamentos básicos según diagnóstico",
+                                "Orientación en prevención de enfermedades y hábitos saludables",
+                                "Atención prioritaria a niñez, mujeres embarazadas y adultos mayores",
+                                "Actividad sin costo para los pacientes",
+                                "Trabajo coordinado con líderes comunitarios y voluntarios"
+                        ],
+                        "meta": "Jornada médica presencial. Usuarios: población de Quetzaltenango y comunidades cercanas"
+                }
+        ]
+};
 
         let currentMode = 'user';
+        let currentChannel = 'operaciones';
 
         // Inicialización
         function init() {
-            renderItems();
+            renderChannels();
+            if (channels.length > 0) {
+                switchChannel(channels[0].id);
+            }
         }
 
         // Cambiar modo Usuario/Administrador
@@ -929,30 +1080,92 @@
             }
         }
 
-        // Renderizar items
-        function renderItems() {
-            const grid = document.getElementById('itemsGrid');
-
-            if (items.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📦</div>
-                        <h4>No hay elementos</h4>
-                        <p>Agrega el primer elemento</p>
-                    </div>
+        // Renderizar canales
+        function renderChannels() {
+            const container = document.getElementById('channelsContainer');
+            const addBtn = container.querySelector('.add-channel-btn');
+            
+            container.innerHTML = '';
+            
+            channels.forEach((channel, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'channel-tab';
+                tab.setAttribute('data-channel', channel.id);
+                tab.innerHTML = `
+                    ${channel.name}
+                    <span class="channel-edit-btn" onclick="openEditChannel('${channel.id}', event)">✏️</span>
                 `;
-                return;
-            }
-
-            grid.innerHTML = '';
-            items.forEach((item, index) => {
-                const card = createItemCard(item, index);
-                grid.appendChild(card);
+                tab.onclick = (e) => {
+                    if (!e.target.classList.contains('channel-edit-btn')) {
+                        switchChannel(channel.id);
+                    }
+                };
+                container.appendChild(tab);
             });
+
+            container.appendChild(addBtn);
+        }
+
+        // Cambiar canal activo
+        function switchChannel(channelId) {
+            currentChannel = channelId;
+
+            // Actualizar tabs
+            document.querySelectorAll('.channel-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-channel="${channelId}"]`).classList.add('active');
+
+            // Renderizar contenido del canal
+            renderChannelContent(channelId);
+        }
+
+        // Renderizar contenido del canal
+        function renderChannelContent(channelId) {
+            const channel = channels.find(ch => ch.id === channelId);
+            if (!channel) return;
+
+            const items = channelItems[channelId] || [];
+            const container = document.getElementById('mainContainer');
+
+            container.innerHTML = `
+                <div class="section-banner">
+                    <div class="banner-content">
+                        <h2>${channel.name}</h2>
+                        <p>${channel.description || 'Gestiona elementos de este canal'}</p>
+                    </div>
+                    <div class="banner-image"></div>
+                </div>
+
+                <div class="content-header">
+                    <h3>Elementos del Canal</h3>
+                    <button class="add-item-btn" onclick="openAddItemModal('${channelId}')">+ Agregar Elemento</button>
+                </div>
+
+                <div class="items-grid" id="${channelId}-items">
+                    ${items.length === 0 ? `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📦</div>
+                            <h4>No hay elementos</h4>
+                            <p>Agrega el primer elemento a este canal</p>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            // Renderizar items
+            if (items.length > 0) {
+                const itemsGrid = document.getElementById(`${channelId}-items`);
+                itemsGrid.innerHTML = '';
+                items.forEach((item, index) => {
+                    const card = createItemCard(channelId, item, index);
+                    itemsGrid.appendChild(card);
+                });
+            }
         }
 
         // Crear tarjeta de item
-        function createItemCard(item, index) {
+        function createItemCard(channelId, item, index) {
             const card = document.createElement('div');
             card.className = 'item-card';
 
@@ -966,8 +1179,8 @@
 
             card.innerHTML = `
                 <div class="card-actions">
-                    <button class="card-action-btn btn-edit" onclick="openEditItem(${index})">✏️</button>
-                    <button class="card-action-btn btn-delete" onclick="deleteItem(${index})">🗑️</button>
+                    <button class="card-action-btn btn-edit" onclick="openEditItem('${channelId}', ${index})">✏️</button>
+                    <button class="card-action-btn btn-delete" onclick="deleteItem('${channelId}', ${index})">🗑️</button>
                 </div>
                 <div class="item-header">
                     <div class="item-category">${item.category}</div>
@@ -982,8 +1195,65 @@
             return card;
         }
 
+        // Modal de agregar canal
+        function openAddChannelModal() {
+            document.getElementById('addChannelModal').classList.add('active');
+        }
+
+        function handleAddChannel(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('channelName').value;
+            const description = document.getElementById('channelDescription').value;
+            const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+
+            channels.push({ id, name, description });
+            channelItems[id] = [];
+
+            renderChannels();
+            switchChannel(id);
+
+            closeModal('addChannelModal');
+            document.getElementById('addChannelForm').reset();
+        }
+
+        // Modal de editar canal
+        function openEditChannel(channelId, event) {
+            event.stopPropagation();
+            
+            const channel = channels.find(ch => ch.id === channelId);
+            if (!channel) return;
+
+            document.getElementById('editChannelId').value = channelId;
+            document.getElementById('editChannelName').value = channel.name;
+            document.getElementById('editChannelDescription').value = channel.description || '';
+
+            document.getElementById('editChannelModal').classList.add('active');
+        }
+
+        function handleEditChannel(event) {
+            event.preventDefault();
+
+            const channelId = document.getElementById('editChannelId').value;
+            const name = document.getElementById('editChannelName').value;
+            const description = document.getElementById('editChannelDescription').value;
+
+            const channel = channels.find(ch => ch.id === channelId);
+            if (channel) {
+                channel.name = name;
+                channel.description = description;
+
+                renderChannels();
+                renderChannelContent(channelId);
+            }
+
+            closeModal('editChannelModal');
+            document.getElementById('editChannelForm').reset();
+        }
+
         // Modal de agregar item
-        function openAddItemModal() {
+        function openAddItemModal(channelId) {
+            currentChannel = channelId;
             document.getElementById('addItemModal').classList.add('active');
         }
 
@@ -1000,19 +1270,24 @@
                 ? detailsText.split('\n').filter(d => d.trim()).map(d => d.replace(/^[-•]\s*/, ''))
                 : [];
 
-            items.push({ category, title, description, details, meta });
+            if (!channelItems[currentChannel]) {
+                channelItems[currentChannel] = [];
+            }
 
-            renderItems();
+            channelItems[currentChannel].push({ category, title, description, details, meta });
+
+            renderChannelContent(currentChannel);
 
             closeModal('addItemModal');
             document.getElementById('addItemForm').reset();
         }
 
         // Modal de editar item
-        function openEditItem(index) {
-            const item = items[index];
+        function openEditItem(channelId, index) {
+            const item = channelItems[channelId][index];
             if (!item) return;
 
+            document.getElementById('editItemChannel').value = channelId;
             document.getElementById('editItemIndex').value = index;
             document.getElementById('editItemCategory').value = item.category;
             document.getElementById('editItemTitle').value = item.title;
@@ -1026,6 +1301,7 @@
         function handleEditItem(event) {
             event.preventDefault();
 
+            const channelId = document.getElementById('editItemChannel').value;
             const index = parseInt(document.getElementById('editItemIndex').value);
             const category = document.getElementById('editItemCategory').value;
             const title = document.getElementById('editItemTitle').value;
@@ -1037,9 +1313,9 @@
                 ? detailsText.split('\n').filter(d => d.trim()).map(d => d.replace(/^[-•]\s*/, ''))
                 : [];
 
-            if (items[index]) {
-                items[index] = { category, title, description, details, meta };
-                renderItems();
+            if (channelItems[channelId] && channelItems[channelId][index]) {
+                channelItems[channelId][index] = { category, title, description, details, meta };
+                renderChannelContent(channelId);
             }
 
             closeModal('editItemModal');
@@ -1047,10 +1323,10 @@
         }
 
         // Eliminar item
-        function deleteItem(index) {
+        function deleteItem(channelId, index) {
             if (confirm('¿Estás seguro de que deseas eliminar este elemento?')) {
-                items.splice(index, 1);
-                renderItems();
+                channelItems[channelId].splice(index, 1);
+                renderChannelContent(channelId);
             }
         }
 
@@ -1061,10 +1337,12 @@
 
         // Exportar código HTML
         function exportCode() {
-            const itemsData = JSON.stringify(items, null, 8);
+            const channelsData = JSON.stringify(channels, null, 8);
+            const itemsData = JSON.stringify(channelItems, null, 8);
 
             const fullHTML = document.documentElement.outerHTML
-                .replace(/let items = \[[\s\S]*?\];/, `let items = ${itemsData};`);
+                .replace(/let channels = \[[\s\S]*?\];/, `let channels = ${channelsData};`)
+                .replace(/let channelItems = \{[\s\S]*?\};/, `let channelItems = ${itemsData};`);
 
             document.getElementById('codeOutput').textContent = fullHTML;
             document.getElementById('exportModal').classList.add('active');
@@ -1092,5 +1370,6 @@
         // Inicializar al cargar la página
         init();
     </script>
-</body>
-</html>
+
+
+</body></html>
