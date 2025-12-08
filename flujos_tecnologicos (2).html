@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flujos Tecnológicos - Canales Alternos | Seguros Universales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        *{font-family:'Inter',sans-serif}
+        .tab-active{background:linear-gradient(135deg,#1F4E78 0%,#2E75B6 100%);color:#fff;box-shadow:0 4px 15px rgba(31,78,120,.4)}
+        .glass-card{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2)}
+        .step-number{width:40px;height:40px;background:linear-gradient(135deg,#1F4E78 0%,#2E75B6 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}
+        .flow-card{background:#fff;border-radius:16px;padding:16px;min-width:200px;max-width:280px;box-shadow:0 4px 20px rgba(0,0,0,.08);border:2px solid transparent;transition:all .3s ease;cursor:pointer;position:relative}
+        .flow-card:hover{border-color:#2E75B6;transform:translateY(-5px);box-shadow:0 12px 30px rgba(46,117,182,.2)}
+        .flow-card.start{border-color:#10B981;background:linear-gradient(135deg,#ECFDF5 0%,#D1FAE5 100%)}
+        .flow-card.end{border-color:#8B5CF6;background:linear-gradient(135deg,#F5F3FF 0%,#EDE9FE 100%)}
+        .flow-card.decision{border-color:#F59E0B;background:linear-gradient(135deg,#FFFBEB 0%,#FEF3C7 100%)}
+        .arrow-connector{display:flex;align-items:center;justify-content:center;color:#2E75B6;font-size:20px;padding:0 4px}
+        .phase-header{background:linear-gradient(135deg,#1F4E78 0%,#2E75B6 100%);color:#fff;padding:10px 20px;border-radius:30px;font-weight:600;display:inline-block;margin-bottom:16px;font-size:14px}
+        .sub-step{background:#F8FAFC;border-radius:6px;padding:6px 10px;margin-top:6px;font-size:11px;color:#64748B;border-left:3px solid #2E75B6}
+        .detail-step{background:#EFF6FF;border-radius:6px;padding:6px 10px;margin-top:4px;font-size:10px;color:#1E40AF;border-left:3px solid #3B82F6}
+        .integration-badge{display:inline-flex;align-items:center;gap:4px;background:#EFF6FF;color:#1E40AF;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500}
+        .config-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+        .flow-container{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%)}
+        .tab-btn{transition:all .3s ease}
+        .tab-btn:hover:not(.tab-active){background:rgba(31,78,120,.1);transform:translateY(-2px)}
+        .desc-box{background:linear-gradient(135deg,#EFF6FF 0%,#DBEAFE 100%);border-left:4px solid #2E75B6;padding:20px;border-radius:0 12px 12px 0;margin-bottom:24px}
+        .tooltip{position:relative}
+        .tooltip:hover .tooltip-content{display:block}
+        .tooltip-content{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#1F4E78;color:#fff;padding:8px 12px;border-radius:8px;font-size:11px;white-space:nowrap;z-index:100;margin-bottom:8px}
+        .tooltip-content::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1F4E78}
+        .pdf-btn{background:linear-gradient(135deg,#DC2626 0%,#B91C1C 100%);color:#fff;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .3s;border:none;display:inline-flex;align-items:center;gap:6px}
+        .pdf-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(220,38,38,.4)}
+        .actor-section{border:2px dashed #CBD5E1;border-radius:16px;padding:16px;margin-bottom:16px;background:rgba(248,250,252,.5)}
+        .actor-header{background:#F1F5F9;padding:8px 16px;border-radius:20px;font-weight:600;font-size:12px;display:inline-block;margin-bottom:12px}
+        @media print{.no-print{display:none !important}.tab-content{display:block !important}.tab-content.hidden{display:none !important}}
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="bg-gradient-to-r from-[#1F4E78] to-[#2E75B6] text-white shadow-lg sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center"><span class="text-[#1F4E78] font-bold text-lg">SU</span></div>
+                    <div><h1 class="text-xl font-bold">Flujos Tecnológicos</h1><p class="text-[#5B9BD5] text-sm">División de Canales Alternos • Seguros Universales</p></div>
+                </div>
+                <div class="hidden md:flex items-center gap-4">
+                    <span class="text-sm bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-tools mr-2"></i>9 Herramientas</span>
+                    <span class="text-sm bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-code-branch mr-2"></i>Flujos Detallados</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <nav class="bg-white shadow-md sticky top-[72px] z-40 no-print">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex overflow-x-auto py-3 gap-2 scrollbar-hide">
+                <button onclick="showTab('pv-vida')" class="tab-btn tab-active px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="pv-vida"><i class="fas fa-heartbeat"></i><span>PV Vida/AP</span></button>
+                <button onclick="showTab('pv-auto')" class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2 text-gray-600" data-tab="pv-auto"><i class="fas fa-car"></i><span>PV Auto</span></button>
+                <button onclick="showTab('autogestion')" class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2 text-gray-600" data-tab="autogestion"><i class="fas fa-user-check"></i><span>Autogestión</span></button>
+                <button onclick="showTab('inspeccion')" class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2 text-gray-600" data-tab="inspeccion"><i class="fas fa-camera"></i><span>Auto-Inspección</span></button>
+                <button onclick="showTab('rpa')" class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2 text-gray-600" data-tab="rpa"><i class="fas fa-robot"></i><span>RPA-Dillo</span></button>
+                <button onclick="showTab('sftp')" class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2 text-gray-600" data-tab="sftp"><i class="fas fa-file-import"></i><span>Proceso SFTP</span></button>
+                <button onclick="showTab('apis')" class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2 text-gray-600" data-tab="apis"><i class="fas fa-plug"></i><span>APIs</span></button>
+                <button onclick="showTab('gestiones')" class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2 text-gray-600" data-tab="gestiones"><i class="fas fa-tasks"></i><span>Gestiones</span></button>
+                <button onclick="showTab('tradicional')" class="tab-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap flex items-center gap-2 text-gray-600" data-tab="tradicional"><i class="fas fa-user-tie"></i><span>Tradicional</span></button>
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- TAB 1: PV Vida/AP -->
+        <div id="tab-pv-vida" class="tab-content">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-heartbeat mr-2"></i>Punto de Venta - Vida / Accidentes Personales</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Plataforma web que permite a los vendedores del canal realizar cotizaciones y emisiones de seguros de Vida y Accidentes Personales en tiempo real. El sistema captura datos del cliente, valida información con SAT (NIT/DPI), aplica reglas de evaluación de riesgos, procesa cobros inmediatos con tarjeta, genera firma digital y emite automáticamente toda la documentación (certificado, consentimiento, endoso, factura) enviándola por correo electrónico.</p>
+                </div>
+                <button onclick="generatePDF('tab-pv-vida', 'Flujo_PV_Vida_AP')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-heartbeat text-white text-xl"></i></div>
+                        <div><h2 class="text-xl font-bold text-[#1F4E78]">Punto de Venta - Vida / AP</h2><p class="text-gray-500 text-sm">login.universales.com</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="integration-badge"><i class="fas fa-database"></i> Corpo Web</span>
+                        <span class="integration-badge"><i class="fas fa-file-invoice-dollar"></i> SAT</span>
+                        <span class="integration-badge"><i class="fas fa-signature"></i> Firma Digital</span>
+                        <span class="integration-badge"><i class="fas fa-credit-card"></i> Cobro TC</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                    <div class="config-item tooltip"><i class="fas fa-chrome text-[#2E75B6]"></i><span class="text-xs">Chrome obligatorio</span><div class="tooltip-content">Único navegador compatible con todas las funcionalidades</div></div>
+                    <div class="config-item tooltip"><i class="fas fa-wifi text-[#2E75B6]"></i><span class="text-xs">Internet 5GB+</span><div class="tooltip-content">Velocidad mínima requerida para operación fluida</div></div>
+                    <div class="config-item tooltip"><i class="fas fa-window-restore text-[#2E75B6]"></i><span class="text-xs">Sin bloqueo pop-ups</span><div class="tooltip-content">Necesario para impresión de documentos</div></div>
+                    <div class="config-item tooltip"><i class="fas fa-shield-alt text-[#2E75B6]"></i><span class="text-xs">Web Filter Amazon</span><div class="tooltip-content">Requiere acceso por dominio, no por IP</div></div>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-4 mb-4 p-3 bg-white rounded-xl shadow-sm text-xs">
+                <div class="flex items-center gap-2"><div class="w-3 h-3 bg-green-400 rounded"></div><span>Inicio</span></div>
+                <div class="flex items-center gap-2"><div class="w-3 h-3 bg-white border-2 border-[#2E75B6] rounded"></div><span>Proceso</span></div>
+                <div class="flex items-center gap-2"><div class="w-3 h-3 bg-yellow-400 rounded"></div><span>Decisión</span></div>
+                <div class="flex items-center gap-2"><div class="w-3 h-3 bg-purple-400 rounded"></div><span>Fin</span></div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg" id="flow-pv-vida">
+                <!-- Fase 1 -->
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-sign-in-alt mr-2"></i>Fase 1: Acceso al Sistema</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card start tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Inicio de Sesión</span></div>
+                            <p class="text-xs text-gray-600">Accede a login.universales.com</p>
+                            <div class="sub-step"><i class="fas fa-user mr-1"></i> Usuario asignado por SU</div>
+                            <div class="detail-step"><i class="fas fa-key mr-1"></i> Contraseña temporal en primer acceso</div>
+                            <div class="tooltip-content">URL: https://login.universales.com</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Sistema de Emisión</span></div>
+                            <p class="text-xs text-gray-600">Selecciona módulo según rol asignado</p>
+                            <div class="sub-step"><i class="fas fa-th-large mr-1"></i> Dashboard principal</div>
+                            <div class="detail-step"><i class="fas fa-boxes mr-1"></i> Módulos: Emisión, Consulta, Reportes</div>
+                            <div class="tooltip-content">Menú varía según permisos del usuario</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Selección Agencia</span></div>
+                            <p class="text-xs text-gray-600">Estructura jerárquica del canal</p>
+                            <div class="sub-step"><i class="fas fa-sitemap mr-1"></i> Región → Sucursal → Agencia</div>
+                            <div class="detail-step"><i class="fas fa-user-tag mr-1"></i> Asigna vendedor responsable</div>
+                            <div class="detail-step"><i class="fas fa-percent mr-1"></i> Comisión según estructura</div>
+                            <div class="tooltip-content">Cada agencia tiene productos habilitados específicos</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fase 2 -->
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-calculator mr-2"></i>Fase 2: Cotización del Producto</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Selección Producto</span></div>
+                            <p class="text-xs text-gray-600">Tipo de seguro a emitir</p>
+                            <div class="sub-step"><i class="fas fa-heart mr-1"></i> Vida Colectiva (enrolamiento individual)</div>
+                            <div class="sub-step"><i class="fas fa-user-shield mr-1"></i> AP Individual (bajo oficina)</div>
+                            <div class="detail-step"><i class="fas fa-file-medical mr-1"></i> DLDP Colectiva</div>
+                            <div class="detail-step"><i class="fas fa-cloud-sun mr-1"></i> Vida + Paramétrico</div>
+                            <div class="tooltip-content">Productos disponibles según configuración del canal</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">5</div><span class="font-semibold text-[#1F4E78] text-sm">Modalidad y Frecuencia</span></div>
+                            <p class="text-xs text-gray-600">Configuración del plan</p>
+                            <div class="sub-step"><i class="fas fa-user mr-1"></i> Individual o Familiar (máx 4 dep)</div>
+                            <div class="sub-step"><i class="fas fa-calendar-alt mr-1"></i> Mensual / Trimestral / Anual</div>
+                            <div class="detail-step"><i class="fas fa-coins mr-1"></i> Suma asegurada según producto</div>
+                            <div class="tooltip-content">Familiar permite hasta 4 dependientes</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">6</div><span class="font-semibold text-[#1F4E78] text-sm">Cálculo de Prima</span></div>
+                            <p class="text-xs text-gray-600">Sistema calcula automáticamente</p>
+                            <div class="sub-step"><i class="fas fa-calculator mr-1"></i> Prima neta + recargos</div>
+                            <div class="detail-step"><i class="fas fa-percentage mr-1"></i> IVA incluido en cálculo</div>
+                            <div class="detail-step"><i class="fas fa-file-invoice-dollar mr-1"></i> Desglose visible al usuario</div>
+                            <div class="tooltip-content">Cálculo basado en edad, modalidad y coberturas</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fase 3 -->
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-user-edit mr-2"></i>Fase 3: Datos del Cliente</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">7</div><span class="font-semibold text-[#1F4E78] text-sm">Forma de Pago</span></div>
+                            <p class="text-xs text-gray-600">Método de cobro recurrente</p>
+                            <div class="sub-step"><i class="fas fa-credit-card mr-1"></i> Tarjeta crédito/débito</div>
+                            <div class="sub-step"><i class="fas fa-university mr-1"></i> Cuenta bancaria</div>
+                            <div class="detail-step"><i class="fas fa-money-bill mr-1"></i> Caja / Depósito referenciado</div>
+                            <div class="tooltip-content">TC permite cobro inmediato y recurrente</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">8</div><span class="font-semibold text-[#1F4E78] text-sm">Datos Contratante</span></div>
+                            <p class="text-xs text-gray-600">Información completa del cliente</p>
+                            <div class="sub-step"><i class="fas fa-id-card mr-1"></i> NIT (valida SAT automático)</div>
+                            <div class="sub-step"><i class="fas fa-fingerprint mr-1"></i> DPI (13 dígitos)</div>
+                            <div class="detail-step"><i class="fas fa-user mr-1"></i> Nombres y apellidos completos</div>
+                            <div class="detail-step"><i class="fas fa-phone mr-1"></i> Teléfono + Correo electrónico</div>
+                            <div class="detail-step"><i class="fas fa-map-marker-alt mr-1"></i> Dirección completa</div>
+                            <div class="tooltip-content">Validación en línea con SAT Guatemala</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card decision tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number bg-yellow-500">9</div><span class="font-semibold text-yellow-700 text-sm">¿Asegurado = Contratante?</span></div>
+                            <p class="text-xs text-gray-600">Define si son la misma persona</p>
+                            <div class="sub-step"><i class="fas fa-check text-green-500 mr-1"></i> SÍ → Copia datos automático</div>
+                            <div class="sub-step"><i class="fas fa-times text-red-500 mr-1"></i> NO → Ingresa datos asegurado</div>
+                            <div class="tooltip-content">Si es diferente, requiere datos completos del asegurado</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fase 4 -->
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-users mr-2"></i>Fase 4: Beneficiarios y Dependientes</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">10</div><span class="font-semibold text-[#1F4E78] text-sm">Agregar Beneficiarios</span></div>
+                            <p class="text-xs text-gray-600">Personas que reciben suma asegurada</p>
+                            <div class="sub-step"><i class="fas fa-user-plus mr-1"></i> Nombre completo</div>
+                            <div class="sub-step"><i class="fas fa-people-arrows mr-1"></i> Parentesco con asegurado</div>
+                            <div class="detail-step"><i class="fas fa-percent mr-1"></i> Porcentaje (total = 100%)</div>
+                            <div class="detail-step"><i class="fas fa-phone mr-1"></i> Teléfono de contacto</div>
+                            <div class="tooltip-content">Mínimo 1 beneficiario, suma de % debe ser 100%</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card decision tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number bg-yellow-500">11</div><span class="font-semibold text-yellow-700 text-sm">¿Modalidad Familiar?</span></div>
+                            <p class="text-xs text-gray-600">Incluye dependientes adicionales</p>
+                            <div class="sub-step"><i class="fas fa-check text-green-500 mr-1"></i> SÍ → Agregar hasta 4 dependientes</div>
+                            <div class="sub-step"><i class="fas fa-times text-red-500 mr-1"></i> NO → Continuar</div>
+                            <div class="detail-step"><i class="fas fa-baby mr-1"></i> Cónyuge e hijos menores</div>
+                            <div class="tooltip-content">Dependientes: datos completos + parentesco</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">12</div><span class="font-semibold text-[#1F4E78] text-sm">Declaración de Salud</span></div>
+                            <p class="text-xs text-gray-600">Cuestionario médico obligatorio</p>
+                            <div class="sub-step"><i class="fas fa-notes-medical mr-1"></i> 3 preguntas estándar</div>
+                            <div class="detail-step"><i class="fas fa-heartbeat mr-1"></i> Enfermedades preexistentes</div>
+                            <div class="detail-step"><i class="fas fa-procedures mr-1"></i> Hospitalizaciones recientes</div>
+                            <div class="detail-step"><i class="fas fa-pills mr-1"></i> Medicamentos actuales</div>
+                            <div class="tooltip-content">Respuestas afirmativas pueden requerir evaluación</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fase 5 -->
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-file-signature mr-2"></i>Fase 5: Validación y Emisión</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">13</div><span class="font-semibold text-[#1F4E78] text-sm">Validar Información</span></div>
+                            <p class="text-xs text-gray-600">Revisión final de datos</p>
+                            <div class="sub-step"><i class="fas fa-check-double mr-1"></i> Resumen completo en pantalla</div>
+                            <div class="detail-step"><i class="fas fa-exclamation-triangle mr-1"></i> Alertas de campos faltantes</div>
+                            <div class="detail-step"><i class="fas fa-edit mr-1"></i> Permite correcciones</div>
+                            <div class="tooltip-content">Botón EMITIR activo solo si todo está completo</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">14</div><span class="font-semibold text-[#1F4E78] text-sm">Firma Digital</span></div>
+                            <p class="text-xs text-gray-600">Consentimiento del cliente</p>
+                            <div class="sub-step"><i class="fas fa-tablet-alt mr-1"></i> Firma en dispositivo táctil</div>
+                            <div class="sub-step"><i class="fas fa-link mr-1"></i> O envío de link por SMS/correo</div>
+                            <div class="detail-step"><i class="fas fa-clock mr-1"></i> Link válido por 24 horas</div>
+                            <div class="tooltip-content">Cliente firma consentimiento informado y autorización</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">15</div><span class="font-semibold text-[#1F4E78] text-sm">Cobro Inmediato</span></div>
+                            <p class="text-xs text-gray-600">Procesa primer pago</p>
+                            <div class="sub-step"><i class="fas fa-credit-card mr-1"></i> Débito a tarjeta en línea</div>
+                            <div class="detail-step"><i class="fas fa-lock mr-1"></i> Conexión segura encriptada</div>
+                            <div class="detail-step"><i class="fas fa-receipt mr-1"></i> Genera comprobante de pago</div>
+                            <div class="detail-step"><i class="fas fa-redo mr-1"></i> Configura cobro recurrente</div>
+                            <div class="tooltip-content">Si falla el cobro, permite reintentar o cambiar tarjeta</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fase 6 -->
+                <div>
+                    <div class="phase-header"><i class="fas fa-envelope-open-text mr-2"></i>Fase 6: Generación y Entrega</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">16</div><span class="font-semibold text-[#1F4E78] text-sm">Genera Documentos</span></div>
+                            <p class="text-xs text-gray-600">Sistema crea papelería automática</p>
+                            <div class="sub-step"><i class="fas fa-file-pdf mr-1"></i> Certificado de seguro</div>
+                            <div class="sub-step"><i class="fas fa-file-signature mr-1"></i> Consentimiento firmado</div>
+                            <div class="detail-step"><i class="fas fa-file-alt mr-1"></i> Endoso de beneficiarios</div>
+                            <div class="detail-step"><i class="fas fa-file-invoice-dollar mr-1"></i> Factura electrónica SAT</div>
+                            <div class="tooltip-content">Documentos generados en formato PDF</div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number">17</div><span class="font-semibold text-[#1F4E78] text-sm">Envío Automático</span></div>
+                            <p class="text-xs text-gray-600">Distribución de documentación</p>
+                            <div class="sub-step"><i class="fas fa-envelope mr-1"></i> Correo al cliente con PDFs</div>
+                            <div class="sub-step"><i class="fas fa-print mr-1"></i> Impresión local (3 copias)</div>
+                            <div class="detail-step"><i class="fas fa-copy mr-1"></i> Cliente + Canal + SU</div>
+                            <div class="tooltip-content">Correo automático desde <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f49a9b869184988db4819a9d8291868795989187da979b99">[email&#160;protected]</a></div>
+                        </div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end tooltip">
+                            <div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">18</div><span class="font-semibold text-purple-700 text-sm">Póliza Emitida</span></div>
+                            <p class="text-xs text-gray-600">Proceso completado exitosamente</p>
+                            <div class="sub-step"><i class="fas fa-database mr-1"></i> Registrado en Corpo Web</div>
+                            <div class="sub-step"><i class="fas fa-check-circle text-green-500 mr-1"></i> Cobertura activa inmediata</div>
+                            <div class="detail-step"><i class="fas fa-hashtag mr-1"></i> Número de póliza generado</div>
+                            <div class="detail-step"><i class="fas fa-calendar-check mr-1"></i> Vigencia desde fecha emisión</div>
+                            <div class="tooltip-content">Póliza visible en Corpo Web para administración</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 glass-card rounded-2xl p-4 shadow-lg">
+                <h3 class="text-sm font-bold text-[#1F4E78] mb-3"><i class="fas fa-user-shield mr-2"></i>Roles de Usuario y Permisos</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <div class="bg-purple-50 p-3 rounded-xl text-center tooltip"><i class="fas fa-crown text-purple-500 mb-1"></i><p class="text-xs font-medium">Administrador</p><p class="text-[10px] text-gray-500">Reportes todas las regiones</p><div class="tooltip-content">Acceso total a reportes y configuración</div></div>
+                    <div class="bg-blue-50 p-3 rounded-xl text-center tooltip"><i class="fas fa-user-tie text-blue-500 mb-1"></i><p class="text-xs font-medium">Supervisor Regional</p><p class="text-[10px] text-gray-500">Reportes sucursales de su región</p><div class="tooltip-content">Ve todas las agencias de su región asignada</div></div>
+                    <div class="bg-green-50 p-3 rounded-xl text-center tooltip"><i class="fas fa-store text-green-500 mb-1"></i><p class="text-xs font-medium">Jefe de Agencia</p><p class="text-[10px] text-gray-500">Emitir + reportes su agencia</p><div class="tooltip-content">Puede emitir y ver reportes de su agencia</div></div>
+                    <div class="bg-orange-50 p-3 rounded-xl text-center tooltip"><i class="fas fa-user-edit text-orange-500 mb-1"></i><p class="text-xs font-medium">Emisor</p><p class="text-[10px] text-gray-500">Emitir, reimprimir, consultar</p><div class="tooltip-content">Rol estándar para vendedores</div></div>
+                    <div class="bg-gray-50 p-3 rounded-xl text-center tooltip"><i class="fas fa-print text-gray-500 mb-1"></i><p class="text-xs font-medium">Impresión</p><p class="text-[10px] text-gray-500">Solo consulta y reimpresión</p><div class="tooltip-content">Sin permisos de emisión</div></div>
+                </div>
+            </div>
+        </div>
+        <!-- TAB 2: PV Auto -->
+        <div id="tab-pv-auto" class="tab-content hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-car mr-2"></i>Punto de Venta - Automóviles</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Sistema especializado para la cotización, inspección y emisión de seguros de vehículos. El proceso inicia con la cotización donde se selecciona el paquete, datos del vehículo y coberturas adicionales. Posteriormente, se envía un link de auto-inspección al cliente para que capture fotos 360° del vehículo desde su celular. Una vez completada la inspección y creado el contacto, el vendedor procede a cargar documentos y emitir la póliza.</p>
+                </div>
+                <button onclick="generatePDF('tab-pv-auto', 'Flujo_PV_Auto')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-car text-white text-xl"></i></div>
+                    <div><h2 class="text-xl font-bold text-[#1F4E78]">Punto de Venta - Auto</h2><p class="text-gray-500 text-sm">UnicoWeB - Auto Individual</p></div>
+                </div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg" id="flow-pv-auto">
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-calculator mr-2"></i>Fase 1: Cotización</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Acceso Sistema</span></div><p class="text-xs text-gray-600">AUTO WEB → Cotizador Individual</p><div class="sub-step"><i class="fas fa-sign-in-alt mr-1"></i> Login con credenciales</div><div class="tooltip-content">Menú: VENTAS → Cotizador</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Seleccionar Paquete</span></div><p class="text-xs text-gray-600">Paquete asignado al canal</p><div class="sub-step"><i class="fas fa-box mr-1"></i> Paquetes pre-configurados</div><div class="detail-step"><i class="fas fa-shield-alt mr-1"></i> Coberturas incluidas por paquete</div><div class="tooltip-content">Cada canal tiene paquetes específicos</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Datos del Vehículo</span></div><p class="text-xs text-gray-600">Información completa</p><div class="sub-step"><i class="fas fa-car mr-1"></i> Marca • Línea • Modelo • Año</div><div class="sub-step"><i class="fas fa-palette mr-1"></i> Color • Tipo combustible</div><div class="detail-step"><i class="fas fa-globe mr-1"></i> Origen: Nacional/Importado</div><div class="detail-step"><i class="fas fa-dollar-sign mr-1"></i> Suma asegurada • Uso</div><div class="tooltip-content">Datos según tarjeta de circulación</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Coberturas Adicionales</span></div><p class="text-xs text-gray-600">Opciones extra</p><div class="sub-step"><i class="fas fa-lock mr-1"></i> DRA (Dispositivo Antirrobo)</div><div class="sub-step"><i class="fas fa-tint mr-1"></i> G&G (Gastos médicos)</div><div class="detail-step"><i class="fas fa-plus-circle mr-1"></i> Incrementa prima según selección</div><div class="tooltip-content">Coberturas opcionales con costo adicional</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">5</div><span class="font-semibold text-[#1F4E78] text-sm">Guardar Cotización</span></div><p class="text-xs text-gray-600">Genera número único</p><div class="sub-step"><i class="fas fa-save mr-1"></i> No. Cotización generado</div><div class="detail-step"><i class="fas fa-clock mr-1"></i> Válida por 30 días</div><div class="tooltip-content">Guardar número para continuar proceso</div></div>
+                    </div>
+                </div>
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-camera mr-2"></i>Fase 2: Inspección del Vehículo</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">6</div><span class="font-semibold text-[#1F4E78] text-sm">Gestión Inspección</span></div><p class="text-xs text-gray-600">Módulo de inspecciones</p><div class="sub-step"><i class="fas fa-route mr-1"></i> VENTAS → Gestión → Inspección</div><div class="detail-step"><i class="fas fa-search mr-1"></i> Buscar cotización creada</div><div class="tooltip-content">Requiere No. de cotización previo</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">7</div><span class="font-semibold text-[#1F4E78] text-sm">Enviar Link</span></div><p class="text-xs text-gray-600">Al cliente para auto-inspección</p><div class="sub-step"><i class="fab fa-whatsapp text-green-500 mr-1"></i> WhatsApp (recomendado)</div><div class="sub-step"><i class="fas fa-envelope text-blue-500 mr-1"></i> Correo electrónico</div><div class="detail-step"><i class="fas fa-sms text-purple-500 mr-1"></i> SMS</div><div class="detail-step"><i class="fas fa-copy mr-1"></i> Copiar link manual</div><div class="tooltip-content">Link único por inspección</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">8</div><span class="font-semibold text-[#1F4E78] text-sm">Cliente Completa</span></div><p class="text-xs text-gray-600">Desde su celular</p><div class="sub-step"><i class="fas fa-id-card mr-1"></i> NIT + Datos personales</div><div class="sub-step"><i class="fas fa-camera mr-1"></i> Fotos 360° del vehículo</div><div class="detail-step"><i class="fas fa-file-upload mr-1"></i> Documentos digitalizados</div><div class="detail-step"><i class="fas fa-signature mr-1"></i> Firma digital</div><div class="tooltip-content">8-12 fotos requeridas según estado</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">9</div><span class="font-semibold text-[#1F4E78] text-sm">No. Inspección</span></div><p class="text-xs text-gray-600">Genera identificador único</p><div class="sub-step"><i class="fas fa-hashtag mr-1"></i> Ej: No. 54016</div><div class="detail-step"><i class="fab fa-whatsapp mr-1"></i> Cliente puede compartir</div><div class="tooltip-content">Número necesario para emisión</div></div>
+                    </div>
+                </div>
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-user-plus mr-2"></i>Fase 3: Creación de Contacto</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">10</div><span class="font-semibold text-[#1F4E78] text-sm">Crear Contacto</span></div><p class="text-xs text-gray-600">AUTO WEB → Crear contacto</p><div class="sub-step"><i class="fas fa-id-card mr-1"></i> NIT (validación SAT)</div><div class="sub-step"><i class="fas fa-user mr-1"></i> Nombres y apellidos</div><div class="detail-step"><i class="fas fa-fingerprint mr-1"></i> DPI + IPERS</div><div class="detail-step"><i class="fas fa-phone mr-1"></i> Teléfono + Correo</div><div class="tooltip-content">Datos del propietario del vehículo</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">11</div><span class="font-semibold text-[#1F4E78] text-sm">Código Contacto</span></div><p class="text-xs text-gray-600">Identificador único cliente</p><div class="sub-step"><i class="fas fa-exclamation-triangle text-yellow-500 mr-1"></i> ¡IMPORTANTE! Guardar código</div><div class="detail-step"><i class="fas fa-link mr-1"></i> Vincula con cotización</div><div class="tooltip-content">Sin código no puede continuar emisión</div></div>
+                    </div>
+                </div>
+                <div class="mb-10">
+                    <div class="phase-header"><i class="fas fa-file-contract mr-2"></i>Fase 4: Configuración de Emisión</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">12</div><span class="font-semibold text-[#1F4E78] text-sm">Buscar Cotización</span></div><p class="text-xs text-gray-600">Recuperar cotización guardada</p><div class="sub-step"><i class="fas fa-search mr-1"></i> Últimos 6 dígitos</div><div class="detail-step"><i class="fas fa-filter mr-1"></i> Filtrar por fecha/estado</div><div class="tooltip-content">Solo cotizaciones vigentes (30 días)</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">13</div><span class="font-semibold text-[#1F4E78] text-sm">Configurar Emisión</span></div><p class="text-xs text-gray-600">Parámetros de la póliza</p><div class="sub-step"><i class="fas fa-tag mr-1"></i> No. Sticker (si aplica)</div><div class="sub-step"><i class="fas fa-car-side mr-1"></i> Uso del vehículo</div><div class="detail-step"><i class="fas fa-id-badge mr-1"></i> Placa (6 dígitos)</div><div class="detail-step"><i class="fas fa-camera mr-1"></i> No. Inspección</div><div class="tooltip-content">Vincular inspección + contacto + cotización</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">14</div><span class="font-semibold text-[#1F4E78] text-sm">Cargar Documentos</span></div><p class="text-xs text-gray-600">Digitalización requerida</p><div class="sub-step"><i class="fas fa-car mr-1"></i> Tarjeta de circulación</div><div class="sub-step"><i class="fas fa-id-card mr-1"></i> Licencia de conducir</div><div class="detail-step"><i class="fas fa-address-card mr-1"></i> DPI del propietario</div><div class="detail-step"><i class="fas fa-file-alt mr-1"></i> Formato PDF o imagen</div><div class="tooltip-content">Documentos legibles y vigentes</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">15</div><span class="font-semibold text-[#1F4E78] text-sm">Validar Datos</span></div><p class="text-xs text-gray-600">Verificación final</p><div class="sub-step"><i class="fas fa-check mr-1"></i> Placa vs Tarjeta circulación</div><div class="sub-step"><i class="fas fa-check mr-1"></i> No. Chasis</div><div class="detail-step"><i class="fas fa-check mr-1"></i> No. Motor</div><div class="detail-step"><i class="fas fa-palette mr-1"></i> Color del vehículo</div><div class="tooltip-content">Datos deben coincidir exactamente</div></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="phase-header"><i class="fas fa-check-circle mr-2"></i>Fase 5: Emisión y Entrega</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">16</div><span class="font-semibold text-[#1F4E78] text-sm">Emitir Póliza</span></div><p class="text-xs text-gray-600">Procesar emisión</p><div class="sub-step"><i class="fas fa-mouse-pointer mr-1"></i> Clic en EMITIR</div><div class="detail-step"><i class="fas fa-eye mr-1"></i> VER REPORTE para confirmar</div><div class="tooltip-content">Proceso puede tomar 30-60 segundos</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">17</div><span class="font-semibold text-[#1F4E78] text-sm">Envío Documentación</span></div><p class="text-xs text-gray-600">Distribución automática</p><div class="sub-step"><i class="fas fa-file-pdf mr-1"></i> Póliza digital</div><div class="sub-step"><i class="fas fa-file-invoice-dollar mr-1"></i> Notas de cobro</div><div class="detail-step"><i class="fas fa-envelope mr-1"></i> Correo automático cliente</div><div class="tooltip-content">PDFs adjuntos en correo</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">18</div><span class="font-semibold text-purple-700 text-sm">Póliza Emitida</span></div><p class="text-xs text-gray-600">Cobertura activa</p><div class="sub-step"><i class="fas fa-shield-alt text-green-500 mr-1"></i> Vehículo asegurado</div><div class="detail-step"><i class="fas fa-database mr-1"></i> Visible en Corpo Web</div><div class="tooltip-content">Administración en módulo Corpo Web</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 glass-card rounded-2xl p-4 shadow-lg">
+                <h3 class="text-sm font-bold text-[#1F4E78] mb-3"><i class="fas fa-th-large mr-2"></i>Módulos Disponibles en AUTO WEB</h3>
+                <div class="grid grid-cols-3 md:grid-cols-6 gap-3">
+                    <div class="bg-blue-50 p-3 rounded-xl text-center"><i class="fas fa-calculator text-blue-500 text-lg mb-1"></i><p class="text-xs">Cotización</p></div>
+                    <div class="bg-green-50 p-3 rounded-xl text-center"><i class="fas fa-user-plus text-green-500 text-lg mb-1"></i><p class="text-xs">Contacto</p></div>
+                    <div class="bg-purple-50 p-3 rounded-xl text-center"><i class="fas fa-file-signature text-purple-500 text-lg mb-1"></i><p class="text-xs">Emisión</p></div>
+                    <div class="bg-orange-50 p-3 rounded-xl text-center"><i class="fas fa-paper-plane text-orange-500 text-lg mb-1"></i><p class="text-xs">Envío Docs</p></div>
+                    <div class="bg-cyan-50 p-3 rounded-xl text-center"><i class="fas fa-search text-cyan-500 text-lg mb-1"></i><p class="text-xs">Consulta</p></div>
+                    <div class="bg-pink-50 p-3 rounded-xl text-center"><i class="fas fa-sync text-pink-500 text-lg mb-1"></i><p class="text-xs">Renovación</p></div>
+                </div>
+            </div>
+        </div>
+        <!-- TAB 3: Autogestión -->
+        <div id="tab-autogestion" class="tab-content hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-user-check mr-2"></i>Links de Autogestión</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Páginas web personalizadas (landing pages) que permiten al cliente final contratar su seguro de forma autónoma, sin necesidad de un vendedor presencial. El cliente ingresa sus datos personales, beneficiarios, dependientes (si aplica), realiza el pago con tarjeta de crédito/débito, firma digitalmente y recibe automáticamente su póliza por correo electrónico. Proceso 100% guiado con validaciones en tiempo real.</p>
+                </div>
+                <button onclick="generatePDF('tab-autogestion', 'Flujo_Autogestion')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-user-check text-white text-xl"></i></div>
+                        <div><h2 class="text-xl font-bold text-[#1F4E78]">Links de Autogestión</h2><p class="text-gray-500 text-sm">El cliente emite su póliza sin intermediario</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="integration-badge"><i class="fas fa-mobile-alt"></i> 100% Responsive</span>
+                        <span class="integration-badge"><i class="fas fa-credit-card"></i> Cobro Inmediato</span>
+                        <span class="integration-badge"><i class="fas fa-signature"></i> Firma Digital</span>
+                        <span class="integration-badge"><i class="fas fa-envelope"></i> Envío Automático</span>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-blue-50 rounded-xl">
+                    <p class="text-xs text-blue-800"><i class="fas fa-box mr-2"></i><strong>Productos disponibles:</strong> AP Individual (con/sin asistencias) • AP Viajero • Seguro Total (AP + Vida) • Mascotas</p>
+                </div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg" id="flow-autogestion">
+                <div class="actor-section">
+                    <div class="actor-header text-green-700"><i class="fas fa-user mr-2"></i>Actor: Cliente Final</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Accede al Link</span></div><p class="text-xs text-gray-600">URL personalizada del producto</p><div class="sub-step"><i class="fas fa-link mr-1"></i> Link único por canal/producto</div><div class="detail-step"><i class="fas fa-qrcode mr-1"></i> Puede ser QR o URL directa</div><div class="tooltip-content">Ej: https://login.universales.com/auth/magiczelda?...</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Información del Producto</span></div><p class="text-xs text-gray-600">Landing page con detalles</p><div class="sub-step"><i class="fas fa-shield-alt mr-1"></i> Coberturas incluidas</div><div class="sub-step"><i class="fas fa-star mr-1"></i> Beneficios destacados</div><div class="detail-step"><i class="fas fa-dollar-sign mr-1"></i> Precio visible</div><div class="detail-step"><i class="fas fa-phone mr-1"></i> Contact Center visible</div><div class="tooltip-content">Diseño claro y llamativo</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Datos Personales</span></div><p class="text-xs text-gray-600">Información del asegurado</p><div class="sub-step"><i class="fas fa-id-card mr-1"></i> NIT (validación SAT en línea)</div><div class="sub-step"><i class="fas fa-fingerprint mr-1"></i> DPI (13 dígitos)</div><div class="detail-step"><i class="fas fa-user mr-1"></i> Nombres completos</div><div class="detail-step"><i class="fas fa-birthday-cake mr-1"></i> Fecha nacimiento</div><div class="detail-step"><i class="fas fa-envelope mr-1"></i> Correo + Teléfono</div><div class="tooltip-content">Campos marcados con * son obligatorios</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Beneficiarios</span></div><p class="text-xs text-gray-600">Personas que reciben suma</p><div class="sub-step"><i class="fas fa-user-plus mr-1"></i> Nombre completo</div><div class="sub-step"><i class="fas fa-people-arrows mr-1"></i> Parentesco</div><div class="detail-step"><i class="fas fa-percent mr-1"></i> Porcentaje (suma = 100%)</div><div class="tooltip-content">Mínimo 1 beneficiario requerido</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card decision tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-yellow-500">5</div><span class="font-semibold text-yellow-700 text-sm">¿Tiene Dependientes?</span></div><p class="text-xs text-gray-600">Modalidad familiar</p><div class="sub-step"><i class="fas fa-check text-green-500 mr-1"></i> SÍ → Hasta 4 dependientes</div><div class="sub-step"><i class="fas fa-times text-red-500 mr-1"></i> NO → Continuar</div><div class="detail-step"><i class="fas fa-users mr-1"></i> Cónyuge + Hijos</div><div class="tooltip-content">Datos completos por cada dependiente</div></div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center mt-6">
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">6</div><span class="font-semibold text-[#1F4E78] text-sm">Datos de Pago</span></div><p class="text-xs text-gray-600">Tarjeta crédito/débito</p><div class="sub-step"><i class="fas fa-credit-card mr-1"></i> Número de tarjeta</div><div class="sub-step"><i class="fas fa-calendar mr-1"></i> Fecha vencimiento</div><div class="detail-step"><i class="fas fa-lock mr-1"></i> CVV (3-4 dígitos)</div><div class="detail-step"><i class="fas fa-shield-alt text-green-500 mr-1"></i> Conexión segura SSL</div><div class="tooltip-content">Cobro inmediato obligatorio</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">7</div><span class="font-semibold text-[#1F4E78] text-sm">Declaración de Salud</span></div><p class="text-xs text-gray-600">Cuestionario médico</p><div class="sub-step"><i class="fas fa-notes-medical mr-1"></i> 3 preguntas estándar</div><div class="detail-step"><i class="fas fa-check-circle mr-1"></i> Respuesta Sí/No</div><div class="tooltip-content">Enfermedades preexistentes</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">8</div><span class="font-semibold text-[#1F4E78] text-sm">Firma Digital</span></div><p class="text-xs text-gray-600">Consentimiento</p><div class="sub-step"><i class="fas fa-signature mr-1"></i> Firma táctil en pantalla</div><div class="detail-step"><i class="fas fa-file-contract mr-1"></i> Autorización de datos</div><div class="detail-step"><i class="fas fa-file-medical mr-1"></i> Consentimiento salud</div><div class="tooltip-content">Firma con dedo o stylus</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">9</div><span class="font-semibold text-[#1F4E78] text-sm">Cobro Procesado</span></div><p class="text-xs text-gray-600">Pago ejecutado</p><div class="sub-step"><i class="fas fa-check-circle text-green-500 mr-1"></i> Transacción exitosa</div><div class="detail-step"><i class="fas fa-receipt mr-1"></i> Comprobante generado</div><div class="tooltip-content">Si falla: opción de reintentar</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">10</div><span class="font-semibold text-purple-700 text-sm">Póliza Emitida</span></div><p class="text-xs text-gray-600">Cobertura activa</p><div class="sub-step"><i class="fas fa-envelope mr-1"></i> Correo con documentos</div><div class="sub-step"><i class="fas fa-shield-alt text-green-500 mr-1"></i> Cobertura inmediata</div><div class="detail-step"><i class="fas fa-database mr-1"></i> Visible en Corpo Web</div><div class="tooltip-content">Certificado + Consentimiento + Factura</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl text-center"><i class="fas fa-mobile-alt text-2xl text-blue-500 mb-2"></i><p class="text-xs font-medium">100% Responsive</p><p class="text-[10px] text-gray-500">Optimizado para móviles</p></div>
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl text-center"><i class="fas fa-tasks text-2xl text-green-500 mb-2"></i><p class="text-xs font-medium">Progreso Visual</p><p class="text-[10px] text-gray-500">Barra de avance</p></div>
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl text-center"><i class="fas fa-headset text-2xl text-purple-500 mb-2"></i><p class="text-xs font-medium">Contact Center</p><p class="text-[10px] text-gray-500">Soporte visible siempre</p></div>
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-xl text-center"><i class="fas fa-check-double text-2xl text-orange-500 mb-2"></i><p class="text-xs font-medium">Val Siempre deben existir procesos de validación y alternos ya que Dillo es un robot y puede fallar.</p></div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg mb-6" id="flow-rpa">
+                <div class="mb-8">
+                    <div class="phase-header bg-gradient-to-r from-green-600 to-green-800"><i class="fas fa-file-alt mr-2"></i>Proceso 1: Pre-emisiones Auto</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                        <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Recibe Datos</span></div><p class="text-xs text-gray-600">Información del vehículo</p><div class="sub-step"><i class="fas fa-database mr-1"></i> Datos cliente + vehículo</div><div class="detail-step"><i class="fas fa-file-import mr-1"></i> Desde fuente externa</div><div class="tooltip-content">Datos en formato estructurado</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Cotiza</span></div><p class="text-xs text-gray-600">Genera cotización automática</p><div class="sub-step"><i class="fas fa-calculator mr-1"></i> Cálculo de prima</div><div class="detail-step"><i class="fas fa-robot mr-1"></i> Sin intervención humana</div><div class="tooltip-content">Mismo proceso que manual</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Ticket Zendesk</span></div><p class="text-xs text-gray-600">Crea ticket seguimiento</p><div class="sub-step"><i class="fas fa-ticket-alt mr-1"></i> Número de ticket</div><div class="detail-step"><i class="fas fa-link mr-1"></i> Vincula cotización</div><div class="tooltip-content">Trazabilidad del proceso</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Crea Contacto</span></div><p class="text-xs text-gray-600">Registra cliente</p><div class="sub-step"><i class="fas fa-user-plus mr-1"></i> Datos del propietario</div><div class="detail-step"><i class="fas fa-id-card mr-1"></i> NIT + DPI</div><div class="tooltip-content">Contacto en sistema SU</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">5</div><span class="font-semibold text-purple-700 text-sm">Emite Póliza</span></div><p class="text-xs text-gray-600">Emisión automática</p><div class="sub-step"><i class="fas fa-file-contract mr-1"></i> Póliza generada</div><div class="detail-step"><i class="fas fa-envelope mr-1"></i> Envío automático</div><div class="tooltip-content">Proceso completo sin humano</div></div>
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <div class="phase-header bg-gradient-to-r from-blue-600 to-blue-800"><i class="fas fa-sync mr-2"></i>Proceso 2: Renovaciones Auto</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                        <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Identifica Vencimientos</span></div><p class="text-xs text-gray-600">Pólizas próximas a vencer</p><div class="sub-step"><i class="fas fa-calendar-alt mr-1"></i> 30-60 días anticipación</div><div class="detail-step"><i class="fas fa-filter mr-1"></i> Filtro por canal</div><div class="tooltip-content">Consulta automática diaria</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Genera Condiciones</span></div><p class="text-xs text-gray-600">Condiciones de renovación</p><div class="sub-step"><i class="fas fa-file-alt mr-1"></i> Nueva suma asegurada</div><div class="detail-step"><i class="fas fa-percentage mr-1"></i> Ajuste por año modelo</div><div class="tooltip-content">Según tabla de depreciación</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Genera Cotizaciones</span></div><p class="text-xs text-gray-600">Nueva cotización</p><div class="sub-step"><i class="fas fa-calculator mr-1"></i> Prima actualizada</div><div class="detail-step"><i class="fas fa-history mr-1"></i> Historial siniestralidad</div><div class="tooltip-content">Considera descuentos</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Ticket Zendesk</span></div><p class="text-xs text-gray-600">Seguimiento</p><div class="sub-step"><i class="fas fa-ticket-alt mr-1"></i> Notifica al canal</div><div class="tooltip-content">Para gestión comercial</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">5</div><span class="font-semibold text-purple-700 text-sm">Renueva Póliza</span></div><p class="text-xs text-gray-600">Renovación automática</p><div class="sub-step"><i class="fas fa-redo mr-1"></i> Nueva vigencia</div><div class="detail-step"><i class="fas fa-check-circle text-green-500 mr-1"></i> Cobertura continua</div><div class="tooltip-content">Sin interrupciones</div></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="phase-header bg-gradient-to-r from-purple-600 to-purple-800"><i class="fas fa-motorcycle mr-2"></i>Proceso 3: Emisiones Auto/Moto</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                        <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Recibe Solicitud</span></div><p class="text-xs text-gray-600">Datos completos</p><div class="sub-step"><i class="fas fa-file-import mr-1"></i> Cliente + Vehículo</div><div class="tooltip-content">Formato estructurado</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Cotiza</span></div><p class="text-xs text-gray-600">Cálculo automático</p><div class="sub-step"><i class="fas fa-calculator mr-1"></i> Prima total</div><div class="tooltip-content">Según paquete asignado</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Ticket Zendesk</span></div><p class="text-xs text-gray-600">Trazabilidad</p><div class="sub-step"><i class="fas fa-ticket-alt mr-1"></i> Registro</div><div class="tooltip-content">Seguimiento del proceso</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">4</div><span class="font-semibold text-purple-700 text-sm">Emite Póliza</span></div><p class="text-xs text-gray-600">Emisión directa</p><div class="sub-step"><i class="fas fa-file-contract mr-1"></i> Póliza lista</div><div class="detail-step"><i class="fas fa-envelope mr-1"></i> Envío automático</div><div class="tooltip-content">Auto o Motocicleta</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass-card rounded-2xl p-4 shadow-lg">
+                    <h4 class="font-bold text-[#1F4E78] text-sm mb-3"><i class="fas fa-cogs mr-2"></i>Beneficios para los Procesos</h4>
+                    <ul class="space-y-2 text-xs"><li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Incrementa precisión y consistencia</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Trabaja 24 horas, 7 días a la semana</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Sin vacaciones, sin errores, sin "días malos"</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Velocidad de procesamiento muy alta</li></ul>
+                </div>
+                <div class="glass-card rounded-2xl p-4 shadow-lg">
+                    <h4 class="font-bold text-[#1F4E78] text-sm mb-3"><i class="fas fa-users mr-2"></i>Beneficios para Colaboradores</h4>
+                    <ul class="space-y-2 text-xs"><li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Enfoque en tareas de mayor valor agregado</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Incrementa satisfacción laboral</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Reduce monotonía y tareas repetitivas</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Trabajo más inteligente y creativo</li></ul>
+                </div>
+            </div>
+        </div>
+        <!-- TAB 4: Auto-Inspección -->
+        <div id="tab-inspeccion" class="tab-content hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-camera mr-2"></i>Link de Auto-Inspección</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Herramienta que permite al cliente realizar la inspección de su vehículo de forma remota desde su teléfono celular. El vendedor genera una cotización y envía un link al cliente. El cliente accede al link, ingresa sus datos personales, carga documentos, toma fotografías 360° del vehículo, registra daños existentes y firma digitalmente. Al finalizar, se genera un número de inspección para completar la emisión.</p>
+                </div>
+                <button onclick="generatePDF('tab-inspeccion', 'Flujo_AutoInspeccion')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-camera text-white text-xl"></i></div>
+                    <div><h2 class="text-xl font-bold text-[#1F4E78]">Link de Auto-Inspección</h2><p class="text-gray-500 text-sm">Inspección remota desde celular del cliente</p></div>
+                </div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg" id="flow-inspeccion">
+                <div class="actor-section mb-6">
+                    <div class="actor-header text-blue-700"><i class="fas fa-user-tie mr-2"></i>Actor: Vendedor del Canal</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Crear Cotización</span></div><p class="text-xs text-gray-600">Genera cotización en sistema</p><div class="sub-step"><i class="fas fa-calculator mr-1"></i> Datos del vehículo</div><div class="tooltip-content">Prerequisito para inspección</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Gestión Inspección</span></div><p class="text-xs text-gray-600">VENTAS → Gestión → Inspección</p><div class="sub-step"><i class="fas fa-search mr-1"></i> Buscar cotización</div><div class="tooltip-content">Seleccionar cotización creada</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Enviar Link</span></div><p class="text-xs text-gray-600">Múltiples canales</p><div class="sub-step"><i class="fab fa-whatsapp text-green-500 mr-1"></i> WhatsApp</div><div class="sub-step"><i class="fas fa-envelope text-blue-500 mr-1"></i> Correo</div><div class="detail-step"><i class="fas fa-sms text-purple-500 mr-1"></i> SMS</div><div class="tooltip-content">Link único válido por 48 horas</div></div>
+                    </div>
+                </div>
+                <div class="actor-section">
+                    <div class="actor-header text-green-700"><i class="fas fa-user mr-2"></i>Actor: Cliente</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center">
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Abre Link</span></div><p class="text-xs text-gray-600">Desde su celular</p><div class="sub-step"><i class="fas fa-mobile-alt mr-1"></i> Navegador móvil</div><div class="tooltip-content">Requiere acceso a cámara</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">5</div><span class="font-semibold text-[#1F4E78] text-sm">Origen Vehículo</span></div><p class="text-xs text-gray-600">Rodado o Agencia</p><div class="sub-step"><i class="fas fa-road mr-1"></i> Define fotos requeridas</div><div class="tooltip-content">Usado vs Nuevo</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">6</div><span class="font-semibold text-[#1F4E78] text-sm">Datos Personales</span></div><p class="text-xs text-gray-600">Información propietario</p><div class="sub-step"><i class="fas fa-id-card mr-1"></i> NIT • Nombre • Tel</div><div class="tooltip-content">Validación NIT con SAT</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">7</div><span class="font-semibold text-[#1F4E78] text-sm">Documentos</span></div><p class="text-xs text-gray-600">Digitalización</p><div class="sub-step"><i class="fas fa-car mr-1"></i> Tarjeta circulación</div><div class="sub-step"><i class="fas fa-id-card mr-1"></i> Licencia</div><div class="tooltip-content">Foto o PDF</div></div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center mt-6">
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">8</div><span class="font-semibold text-[#1F4E78] text-sm">Datos Vehículo</span></div><p class="text-xs text-gray-600">Información técnica</p><div class="sub-step"><i class="fas fa-barcode mr-1"></i> No. Chasis</div><div class="sub-step"><i class="fas fa-id-badge mr-1"></i> Placa</div><div class="tooltip-content">Datos según tarjeta</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">9</div><span class="font-semibold text-[#1F4E78] text-sm">Fotos 360°</span></div><p class="text-xs text-gray-600">Vista completa</p><div class="sub-step"><i class="fas fa-camera mr-1"></i> 8-12 fotos requeridas</div><div class="detail-step"><i class="fas fa-exclamation-triangle text-yellow-500 mr-1"></i> Marcar daños</div><div class="tooltip-content">Frontal, trasera, laterales, esquinas</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">10</div><span class="font-semibold text-[#1F4E78] text-sm">Firma Digital</span></div><p class="text-xs text-gray-600">Consentimiento</p><div class="sub-step"><i class="fas fa-signature mr-1"></i> Firma táctil</div><div class="tooltip-content">Confirma veracidad</div></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">11</div><span class="font-semibold text-purple-700 text-sm">No. Inspección</span></div><p class="text-xs text-gray-600">Identificador único</p><div class="sub-step"><i class="fas fa-hashtag mr-1"></i> Ej: No. 54016</div><div class="detail-step"><i class="fab fa-whatsapp mr-1"></i> Puede compartir</div><div class="tooltip-content">Número para emisión</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: RPA-Dillo -->
+        <div id="tab-rpa" class="tab-content hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-robot mr-2"></i>RPA-Dillo (Robotic Process Automation)</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Sistema de automatización robótica que ejecuta tareas repetitivas, de alto volumen y basadas en reglas sin intervención humana. Dillo trabaja 24/7, sin errores ni días malos. Procesos implementados: Pre-emisiones Auto, Renovaciones Auto, Emisiones Auto/Moto. <strong>Importante:</strong> Siempre deben existir procesos de validación alternos.</p>
+                </div>
+                <button onclick="generatePDF('tab-rpa', 'Flujo_RPA_Dillo')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-robot text-white text-xl"></i></div>
+                        <div><h2 class="text-xl font-bold text-[#1F4E78]">RPA-Dillo</h2><p class="text-gray-500 text-sm">Robotic Process Automation</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="integration-badge bg-green-100 text-green-700"><i class="fas fa-clock"></i> 24/7</span>
+                        <span class="integration-badge bg-purple-100 text-purple-700"><i class="fas fa-check-double"></i> Sin errores</span>
+                        <span class="integration-badge bg-orange-100 text-orange-700"><i class="fas fa-tachometer-alt"></i> Alta velocidad</span>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-xl"><p class="text-xs text-yellow-800"><i class="fas fa-exclamation-triangle mr-2"></i><strong>Nota:</strong> Siempre deben existir procesos de validación alternos.</p></div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg mb-6" id="flow-rpa">
+                <div class="mb-8">
+                    <div class="phase-header bg-gradient-to-r from-green-600 to-green-800"><i class="fas fa-file-alt mr-2"></i>Proceso 1: Pre-emisiones Auto</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                        <div class="flow-card start"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Recibe Datos</span></div><p class="text-xs text-gray-600">Cliente + Vehículo</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Cotiza</span></div><p class="text-xs text-gray-600">Cálculo automático</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Ticket Zendesk</span></div><p class="text-xs text-gray-600">Seguimiento</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Crea Contacto</span></div><p class="text-xs text-gray-600">Registra cliente</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">5</div><span class="font-semibold text-purple-700 text-sm">Emite Póliza</span></div><p class="text-xs text-gray-600">Emisión automática</p></div>
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <div class="phase-header bg-gradient-to-r from-blue-600 to-blue-800"><i class="fas fa-sync mr-2"></i>Proceso 2: Renovaciones Auto</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                        <div class="flow-card start"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Vencimientos</span></div><p class="text-xs text-gray-600">Detecta próximos</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Condiciones</span></div><p class="text-xs text-gray-600">Nueva S.A.</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Cotizaciones</span></div><p class="text-xs text-gray-600">Prima actualizada</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Ticket</span></div><p class="text-xs text-gray-600">Notifica canal</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">5</div><span class="font-semibold text-purple-700 text-sm">Renueva</span></div><p class="text-xs text-gray-600">Cobertura continua</p></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="phase-header bg-gradient-to-r from-purple-600 to-purple-800"><i class="fas fa-motorcycle mr-2"></i>Proceso 3: Emisiones Auto/Moto</div>
+                    <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                        <div class="flow-card start"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Recibe</span></div><p class="text-xs text-gray-600">Datos completos</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Cotiza</span></div><p class="text-xs text-gray-600">Prima</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Ticket</span></div><p class="text-xs text-gray-600">Zendesk</p></div>
+                        <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                        <div class="flow-card end"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">4</div><span class="font-semibold text-purple-700 text-sm">Emite</span></div><p class="text-xs text-gray-600">Póliza lista</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass-card rounded-2xl p-4 shadow-lg">
+                    <h4 class="font-bold text-[#1F4E78] text-sm mb-3"><i class="fas fa-cogs mr-2"></i>Beneficios Procesos</h4>
+                    <ul class="space-y-2 text-xs"><li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Precisión y consistencia</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Trabaja 24/7</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Sin vacaciones ni errores</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500"></i> Alta velocidad</li></ul>
+                </div>
+                <div class="glass-card rounded-2xl p-4 shadow-lg">
+                    <h4 class="font-bold text-[#1F4E78] text-sm mb-3"><i class="fas fa-users mr-2"></i>Beneficios Colaboradores</h4>
+                    <ul class="space-y-2 text-xs"><li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Tareas de mayor valor</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Mayor satisfacción</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Reduce monotonía</li><li class="flex items-center gap-2"><i class="fas fa-check-circle text-blue-500"></i> Trabajo creativo</li></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: SFTP -->
+        <div id="tab-sftp" class="tab-content hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-file-import mr-2"></i>Proceso Automático - Archivo Único SFTP</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Sistema de procesamiento masivo de archivos para altas, bajas y recaudos de forma automática sin intervención humana. El canal deposita un archivo en servidor SFTP con formato estándar. El sistema verifica, valida según reglas de negocio y procesa según tipo. Maneja inconsistencias con código de colores: rojo (errores formato), amarillo (errores contacto), blanco (sin errores).</p>
+                </div>
+                <button onclick="generatePDF('tab-sftp', 'Flujo_SFTP')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-file-import text-white text-xl"></i></div>
+                    <div><h2 class="text-xl font-bold text-[#1F4E78]">Proceso Automático SFTP</h2><p class="text-gray-500 text-sm">Procesamiento masivo sin intervención humana</p></div>
+                </div>
+                <div class="mt-4 p-3 bg-green-50 rounded-xl"><p class="text-xs text-green-800"><i class="fas fa-check-circle mr-2"></i><strong>Capacidades:</strong> Emisiones • Cancelaciones • Recaudos • Facturación • Pólizas combinadas • Planillas de aplicación</p></div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg mb-6" id="flow-sftp">
+                <div class="phase-header"><i class="fas fa-cogs mr-2"></i>Flujo de Procesamiento Automático</div>
+                <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                    <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Canal Deposita Archivo</span></div><p class="text-xs text-gray-600">Servidor SFTP</p><div class="sub-step"><i class="fas fa-file-csv mr-1"></i> Formato CSV/TXT estándar</div><div class="detail-step"><i class="fas fa-clock mr-1"></i> Horario definido</div><div class="tooltip-content">Nomenclatura específica por canal</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Verificación Archivo</span></div><p class="text-xs text-gray-600">Valida existencia y nombre</p><div class="sub-step"><i class="fas fa-check mr-1"></i> Estándar de nomenclatura</div><div class="detail-step"><i class="fas fa-file-alt mr-1"></i> Formato correcto</div><div class="tooltip-content">Nombre debe cumplir patrón</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Validación de Datos</span></div><p class="text-xs text-gray-600">Controles del negocio</p><div class="sub-step"><i class="fas fa-shield-alt mr-1"></i> Reglas predefinidas</div><div class="detail-step"><i class="fas fa-list-check mr-1"></i> Campos obligatorios</div><div class="detail-step"><i class="fas fa-calculator mr-1"></i> Validaciones numéricas</div><div class="tooltip-content">Reglas según tipo de archivo</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card decision tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-yellow-500">4</div><span class="font-semibold text-yellow-700 text-sm">¿Tipo de Archivo?</span></div><p class="text-xs text-gray-600">Según contenido</p><div class="sub-step"><i class="fas fa-plus text-green-500 mr-1"></i> ALTAS</div><div class="sub-step"><i class="fas fa-minus text-red-500 mr-1"></i> BAJAS</div><div class="sub-step"><i class="fas fa-dollar-sign text-blue-500 mr-1"></i> RECAUDOS</div><div class="tooltip-content">Definido en nombre archivo</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">5</div><span class="font-semibold text-[#1F4E78] text-sm">Procesamiento</span></div><p class="text-xs text-gray-600">Según tipo</p><div class="sub-step"><i class="fas fa-cogs mr-1"></i> Ejecuta acciones</div><div class="detail-step"><i class="fas fa-database mr-1"></i> Actualiza sistema</div><div class="tooltip-content">Proceso automático masivo</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">6</div><span class="font-semibold text-purple-700 text-sm">Resultado</span></div><p class="text-xs text-gray-600">Planilla generada</p><div class="sub-step"><i class="fas fa-file-excel mr-1"></i> Reporte de aplicación</div><div class="detail-step"><i class="fas fa-exclamation-circle mr-1"></i> Detalle de errores</div><div class="tooltip-content">Archivo de respuesta disponible</div></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="glass-card rounded-2xl p-4 shadow-lg border-t-4 border-green-500">
+                    <h4 class="font-bold text-green-700 text-sm mb-3"><i class="fas fa-plus-circle mr-2"></i>ALTAS</h4>
+                    <ul class="space-y-1 text-xs"><li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Emisión automática certificados</li><li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Creación de contactos</li><li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Requerimientos de pago</li><li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Envío documentación correo</li><li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Pólizas combinadas</li></ul>
+                </div>
+                <div class="glass-card rounded-2xl p-4 shadow-lg border-t-4 border-red-500">
+                    <h4 class="font-bold text-red-700 text-sm mb-3"><i class="fas fa-minus-circle mr-2"></i>BAJAS</h4>
+                    <ul class="space-y-1 text-xs"><li class="flex items-center gap-2"><i class="fas fa-check text-red-500"></i> Identificación de póliza</li><li class="flex items-center gap-2"><i class="fas fa-check text-red-500"></i> Cancelación automática</li><li class="flex items-center gap-2"><i class="fas fa-check text-red-500"></i> Actualización de estado</li><li class="flex items-center gap-2"><i class="fas fa-check text-red-500"></i> Registro en histórico</li><li class="flex items-center gap-2"><i class="fas fa-check text-red-500"></i> Notificación al canal</li></ul>
+                </div>
+                <div class="glass-card rounded-2xl p-4 shadow-lg border-t-4 border-blue-500">
+                    <h4 class="font-bold text-blue-700 text-sm mb-3"><i class="fas fa-money-bill-wave mr-2"></i>RECAUDOS</h4>
+                    <ul class="space-y-1 text-xs"><li class="flex items-center gap-2"><i class="fas fa-check text-blue-500"></i> Aplicación de pagos</li><li class="flex items-center gap-2"><i class="fas fa-check text-blue-500"></i> Creación de facturas SAT</li><li class="flex items-center gap-2"><i class="fas fa-check text-blue-500"></i> Generación de planillas</li><li class="flex items-center gap-2"><i class="fas fa-check text-blue-500"></i> Múltiples pagos por cliente</li><li class="flex items-center gap-2"><i class="fas fa-check text-blue-500"></i> Requerimientos adicionales</li></ul>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 shadow-lg">
+                <h3 class="text-sm font-bold text-[#1F4E78] mb-3"><i class="fas fa-exclamation-triangle mr-2"></i>Manejo de Inconsistencias (Herramienta de Incidencias)</h3>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-xl"><div class="flex items-center gap-2 text-xs font-semibold text-red-700"><div class="w-4 h-4 bg-red-500 rounded"></div> Color Rojo</div><p class="text-[10px] text-gray-600 mt-1">Errores de Formato - Requiere corrección en origen</p></div>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r-xl"><div class="flex items-center gap-2 text-xs font-semibold text-yellow-700"><div class="w-4 h-4 bg-yellow-500 rounded"></div> Color Amarillo</div><p class="text-[10px] text-gray-600 mt-1">Errores de Contacto - Datos incompletos o inválidos</p></div>
+                    <div class="bg-gray-50 border-l-4 border-gray-300 p-3 rounded-r-xl"><div class="flex items-center gap-2 text-xs font-semibold text-gray-700"><div class="w-4 h-4 bg-white border-2 border-gray-300 rounded"></div> Color Blanco</div><p class="text-[10px] text-gray-600 mt-1">Sin Errores - Procesado correctamente</p></div>
+                </div>
+            </div>
+        </div>
+        <!-- TAB 7: APIs -->
+        <div id="tab-apis" class="tab-content hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-plug mr-2"></i>Conexiones por API</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Servicios web RESTful que permiten a los sistemas de los canales conectarse directamente con Seguros Universales para realizar cotizaciones, cobros y emisiones de forma automatizada. Utiliza autenticación JWT con tokens de 24 horas. El flujo incluye: generación de token, consulta de catálogos, cálculo de prima, cobro inmediato y emisión. La respuesta incluye URLs de todos los documentos generados.</p>
+                </div>
+                <button onclick="generatePDF('tab-apis', 'Flujo_APIs')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-plug text-white text-xl"></i></div>
+                        <div><h2 class="text-xl font-bold text-[#1F4E78]">Conexiones por API</h2><p class="text-gray-500 text-sm">Integración directa sistema a sistema</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="integration-badge"><i class="fas fa-code"></i> RESTful API</span>
+                        <span class="integration-badge"><i class="fas fa-key"></i> JWT Token 24h</span>
+                        <span class="integration-badge"><i class="fas fa-file-code"></i> JSON</span>
+                        <span class="integration-badge"><i class="fas fa-lock"></i> HTTPS</span>
+                    </div>
+                </div>
+                <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="config-item tooltip"><i class="fas fa-server text-green-500"></i><span class="text-xs">login.universales.com</span><div class="tooltip-content">Ambiente de PRODUCCIÓN</div></div>
+                    <div class="config-item tooltip"><i class="fas fa-flask text-orange-500"></i><span class="text-xs">dev.universales.com</span><div class="tooltip-content">Ambiente de DESARROLLO</div></div>
+                    <div class="config-item tooltip"><i class="fas fa-clock text-[#2E75B6]"></i><span class="text-xs">Token válido 24 horas</span><div class="tooltip-content">Renovar antes de expirar</div></div>
+                    <div class="config-item tooltip"><i class="fas fa-shield-alt text-[#2E75B6]"></i><span class="text-xs">Bearer Token</span><div class="tooltip-content">Header: Authorization</div></div>
+                </div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg mb-6" id="flow-apis">
+                <div class="phase-header"><i class="fas fa-project-diagram mr-2"></i>Flujo de Integración API</div>
+                <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                    <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Generar Token</span></div><p class="text-xs text-gray-600">POST /security/user/auth/login</p><div class="sub-step"><i class="fas fa-user mr-1"></i> userName + password</div><div class="detail-step"><i class="fas fa-key mr-1"></i> Retorna JWT Token</div><div class="tooltip-content">Token en response.data.token</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Obtener Catálogos</span></div><p class="text-xs text-gray-600">GET múltiples endpoints</p><div class="sub-step"><i class="fas fa-building mr-1"></i> Agencias • Vendedores</div><div class="sub-step"><i class="fas fa-box mr-1"></i> Productos • Bancos</div><div class="detail-step"><i class="fas fa-globe mr-1"></i> Países • Departamentos</div><div class="tooltip-content">Catálogos para dropdowns</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Calcular Prima</span></div><p class="text-xs text-gray-600">GET /poliza/buscar/prima</p><div class="sub-step"><i class="fas fa-calculator mr-1"></i> Modalidad + Frecuencia</div><div class="detail-step"><i class="fas fa-dollar-sign mr-1"></i> Retorna prima calculada</div><div class="tooltip-content">Parámetros según producto</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Tipos de Cobro</span></div><p class="text-xs text-gray-600">GET /poliza/buscar/cobro</p><div class="sub-step"><i class="fas fa-credit-card mr-1"></i> Opciones disponibles</div><div class="detail-step"><i class="fas fa-list mr-1"></i> TC, Cuenta, Caja</div><div class="tooltip-content">Según configuración canal</div></div>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 justify-center mt-6">
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">5</div><span class="font-semibold text-[#1F4E78] text-sm">Parentescos</span></div><p class="text-xs text-gray-600">GET /poliza/buscar/parentesco</p><div class="sub-step"><i class="fas fa-users mr-1"></i> Beneficiarios válidos</div><div class="detail-step"><i class="fas fa-venus-mars mr-1"></i> Según género/estado civil</div><div class="tooltip-content">Para dropdown beneficiarios</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card decision tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-yellow-500">6</div><span class="font-semibold text-yellow-700 text-sm">¿Cobro Inmediato?</span></div><p class="text-xs text-gray-600">POST /poliza/pagar</p><div class="sub-step"><i class="fas fa-credit-card mr-1"></i> Datos tarjeta</div><div class="detail-step"><i class="fas fa-exclamation text-red-500 mr-1"></i> ¡SOLO en producción!</div><div class="tooltip-content">No probar con tarjetas reales en dev</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">7</div><span class="font-semibold text-[#1F4E78] text-sm">Emitir Póliza</span></div><p class="text-xs text-gray-600">POST /poliza/emitir</p><div class="sub-step"><i class="fas fa-file-code mr-1"></i> JSON con todos los datos</div><div class="detail-step"><i class="fas fa-file-contract mr-1"></i> Contratante + Asegurado</div><div class="detail-step"><i class="fas fa-users mr-1"></i> Beneficiarios + Dependientes</div><div class="tooltip-content">Payload completo estructurado</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">8</div><span class="font-semibold text-purple-700 text-sm">Respuesta</span></div><p class="text-xs text-gray-600">JSON con documentos</p><div class="sub-step"><i class="fas fa-link mr-1"></i> URL Certificado</div><div class="sub-step"><i class="fas fa-link mr-1"></i> URL Consentimiento</div><div class="detail-step"><i class="fas fa-link mr-1"></i> URL Recibos/Factura</div><div class="tooltip-content">URLs válidas por 30 días</div></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 shadow-lg">
+                <h3 class="text-sm font-bold text-[#1F4E78] mb-3"><i class="fas fa-database mr-2"></i>Catálogos Disponibles vía API</h3>
+                <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
+                    <div class="bg-blue-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-building text-blue-500"></i><br>Agencias</div>
+                    <div class="bg-blue-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-user-tie text-blue-500"></i><br>Vendedores</div>
+                    <div class="bg-blue-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-box text-blue-500"></i><br>Productos</div>
+                    <div class="bg-green-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-university text-green-500"></i><br>Bancos</div>
+                    <div class="bg-green-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-credit-card text-green-500"></i><br>Tipo Tarjeta</div>
+                    <div class="bg-green-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-flag text-green-500"></i><br>Nacionalidades</div>
+                    <div class="bg-purple-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-globe text-purple-500"></i><br>Países</div>
+                    <div class="bg-purple-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-map text-purple-500"></i><br>Departamentos</div>
+                    <div class="bg-purple-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-map-marker text-purple-500"></i><br>Municipios</div>
+                    <div class="bg-orange-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-briefcase text-orange-500"></i><br>Profesiones</div>
+                    <div class="bg-orange-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-id-card text-orange-500"></i><br>Tipo Documento</div>
+                    <div class="bg-orange-50 p-2 rounded-lg text-center text-[10px]"><i class="fas fa-heart text-orange-500"></i><br>Estado Civil</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 8: Gestiones -->
+        <div id="tab-gestiones" class="tab-content hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-tasks mr-2"></i>Módulo de Gestiones / Postventa</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Plataforma de seguimiento de incidencias y solicitudes que permite a los canales ingresar gestiones directamente con Seguros Universales. Permite personalización de tipos de gestiones con límites de tiempo. Incluye tres roles: Ejecutivo (asigna), Verificador (recibe y clasifica) y Administrador (reportes). Menú: Historial, Solicitudes Activas, Reportes de Gestiones.</p>
+                </div>
+                <button onclick="generatePDF('tab-gestiones', 'Flujo_Gestiones')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-tasks text-white text-xl"></i></div>
+                    <div><h2 class="text-xl font-bold text-[#1F4E78]">Módulo de Gestiones</h2><p class="text-gray-500 text-sm">Seguimiento de incidencias y solicitudes postventa</p></div>
+                </div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg mb-6" id="flow-gestiones">
+                <div class="phase-header"><i class="fas fa-headset mr-2"></i>Flujo de Gestiones</div>
+                <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                    <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Canal Crea Gestión</span></div><p class="text-xs text-gray-600">Ingresa solicitud</p><div class="sub-step"><i class="fas fa-edit mr-1"></i> Tipo de gestión</div><div class="sub-step"><i class="fas fa-file-alt mr-1"></i> Descripción detallada</div><div class="detail-step"><i class="fas fa-paperclip mr-1"></i> Adjuntos si aplica</div><div class="tooltip-content">Formulario en plataforma</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Verificador Recibe</span></div><p class="text-xs text-gray-600">Revisa y clasifica</p><div class="sub-step"><i class="fas fa-inbox mr-1"></i> Bandeja de entrada</div><div class="detail-step"><i class="fas fa-tags mr-1"></i> Clasifica por tipo</div><div class="detail-step"><i class="fas fa-clock mr-1"></i> Asigna prioridad</div><div class="tooltip-content">Primera línea de atención</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Asigna a SU</span></div><p class="text-xs text-gray-600">Deriva a área correspondiente</p><div class="sub-step"><i class="fas fa-sitemap mr-1"></i> Área responsable</div><div class="detail-step"><i class="fas fa-user-tag mr-1"></i> Ejecutivo asignado</div><div class="tooltip-content">Según tipo de gestión</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">SU Gestiona</span></div><p class="text-xs text-gray-600">Atiende solicitud</p><div class="sub-step"><i class="fas fa-cogs mr-1"></i> Ejecuta acciones</div><div class="sub-step"><i class="fas fa-comments mr-1"></i> Comunicación con canal</div><div class="detail-step"><i class="fas fa-history mr-1"></i> Registra avances</div><div class="tooltip-content">Tiempo límite según tipo</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">5</div><span class="font-semibold text-purple-700 text-sm">Cierre de Gestión</span></div><p class="text-xs text-gray-600">Gestión resuelta</p><div class="sub-step"><i class="fas fa-check-circle text-green-500 mr-1"></i> Estado: Cerrado</div><div class="detail-step"><i class="fas fa-file-alt mr-1"></i> Resolución documentada</div><div class="detail-step"><i class="fas fa-bell mr-1"></i> Notificación al canal</div><div class="tooltip-content">Visible en histórico</div></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="glass-card rounded-2xl p-4 shadow-lg text-center"><i class="fas fa-user-edit text-3xl text-blue-500 mb-2"></i><h4 class="font-bold text-[#1F4E78] text-sm">Ejecutivo</h4><p class="text-[10px] text-gray-600">Asignación de solicitudes en general</p></div>
+                <div class="glass-card rounded-2xl p-4 shadow-lg text-center"><i class="fas fa-user-check text-3xl text-green-500 mb-2"></i><h4 class="font-bold text-[#1F4E78] text-sm">Verificador</h4><p class="text-[10px] text-gray-600">Recibe solicitudes y asigna a seguros</p></div>
+                <div class="glass-card rounded-2xl p-4 shadow-lg text-center"><i class="fas fa-user-shield text-3xl text-purple-500 mb-2"></i><h4 class="font-bold text-[#1F4E78] text-sm">Administrador</h4><p class="text-[10px] text-gray-600">Genera y descarga reportes</p></div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 shadow-lg">
+                <h3 class="text-sm font-bold text-[#1F4E78] mb-3"><i class="fas fa-list-alt mr-2"></i>Menú de la Plataforma</h3>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-blue-50 p-3 rounded-xl flex items-center gap-2"><i class="fas fa-history text-blue-500 text-lg"></i><div><p class="text-xs font-medium">Historial</p><p class="text-[10px] text-gray-500">Gestiones cerradas</p></div></div>
+                    <div class="bg-green-50 p-3 rounded-xl flex items-center gap-2"><i class="fas fa-clipboard-list text-green-500 text-lg"></i><div><p class="text-xs font-medium">Solicitudes Activas</p><p class="text-[10px] text-gray-500">En proceso</p></div></div>
+                    <div class="bg-purple-50 p-3 rounded-xl flex items-center gap-2"><i class="fas fa-chart-bar text-purple-500 text-lg"></i><div><p class="text-xs font-medium">Reportes</p><p class="text-[10px] text-gray-500">Estadísticas</p></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 9: Tradicional -->
+        <div id="tab-tradicional" class="tab-content hidden">
+            <div class="flex justify-between items-start mb-4">
+                <div class="desc-box flex-1 mr-4">
+                    <h3 class="text-lg font-bold text-[#1F4E78] mb-2"><i class="fas fa-user-tie mr-2"></i>Proceso Tradicional</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed">Modelo de operación manual donde un ejecutivo de Seguros Universales gestiona todo el proceso de forma centralizada. Flujo: recepción de solicitud (correo/WhatsApp/llamada), cotización manual en Corpo Web, recopilación de documentos, emisión centralizada, coordinación de cobro y seguimiento post-venta. Ideal para canales con volumen bajo, productos de alta complejidad, canales en evaluación y clientes corporativos.</p>
+                </div>
+                <button onclick="generatePDF('tab-tradicional', 'Flujo_Tradicional')" class="pdf-btn no-print"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+            <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-[#1F4E78] to-[#2E75B6] rounded-xl flex items-center justify-center"><i class="fas fa-user-tie text-white text-xl"></i></div>
+                    <div><h2 class="text-xl font-bold text-[#1F4E78]">Proceso Tradicional</h2><p class="text-gray-500 text-sm">Gestión manual por ejecutivo de Seguros Universales</p></div>
+                </div>
+            </div>
+            <div class="flow-container rounded-2xl p-6 shadow-lg mb-6" id="flow-tradicional">
+                <div class="phase-header"><i class="fas fa-handshake mr-2"></i>Flujo Tradicional</div>
+                <div class="flex flex-wrap items-center gap-3 justify-center mt-4">
+                    <div class="flow-card start tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">1</div><span class="font-semibold text-green-700 text-sm">Recepción Solicitud</span></div><p class="text-xs text-gray-600">Canal envía solicitud</p><div class="sub-step"><i class="fas fa-envelope mr-1"></i> Correo electrónico</div><div class="sub-step"><i class="fab fa-whatsapp mr-1"></i> WhatsApp</div><div class="detail-step"><i class="fas fa-phone mr-1"></i> Llamada telefónica</div><div class="tooltip-content">Múltiples canales de entrada</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">2</div><span class="font-semibold text-[#1F4E78] text-sm">Cotización Manual</span></div><p class="text-xs text-gray-600">Ejecutivo elabora en Corpo Web</p><div class="sub-step"><i class="fas fa-desktop mr-1"></i> Sistema Corpo Web</div><div class="sub-step"><i class="fas fa-calculator mr-1"></i> Cálculo de prima</div><div class="detail-step"><i class="fas fa-file-pdf mr-1"></i> Genera PDF cotización</div><div class="tooltip-content">Envía cotización al canal</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">3</div><span class="font-semibold text-[#1F4E78] text-sm">Recopilación Docs</span></div><p class="text-xs text-gray-600">Canal recopila documentación</p><div class="sub-step"><i class="fas fa-id-card mr-1"></i> DPI del cliente</div><div class="sub-step"><i class="fas fa-car mr-1"></i> Tarjeta circulación</div><div class="detail-step"><i class="fas fa-address-card mr-1"></i> Licencia de conducir</div><div class="detail-step"><i class="fas fa-camera mr-1"></i> Fotos vehículo (si auto)</div><div class="tooltip-content">Canal es responsable de recopilar</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">4</div><span class="font-semibold text-[#1F4E78] text-sm">Emisión Centralizada</span></div><p class="text-xs text-gray-600">Ejecutivo emite en Corpo Web</p><div class="sub-step"><i class="fas fa-file-signature mr-1"></i> Carga documentos</div><div class="sub-step"><i class="fas fa-check-double mr-1"></i> Valida información</div><div class="detail-step"><i class="fas fa-file-contract mr-1"></i> Genera póliza</div><div class="tooltip-content">Proceso manual paso a paso</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number">5</div><span class="font-semibold text-[#1F4E78] text-sm">Gestión de Cobro</span></div><p class="text-xs text-gray-600">Coordinación de pago</p><div class="sub-step"><i class="fas fa-money-bill-wave mr-1"></i> Genera notas de cobro</div><div class="detail-step"><i class="fas fa-university mr-1"></i> Depósito referenciado</div><div class="detail-step"><i class="fas fa-credit-card mr-1"></i> O tarjeta manual</div><div class="tooltip-content">Seguimiento de pagos</div></div>
+                    <div class="arrow-connector"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-card end tooltip"><div class="flex items-center gap-2 mb-2"><div class="step-number bg-purple-500">6</div><span class="font-semibold text-purple-700 text-sm">Seguimiento Post-Venta</span></div><p class="text-xs text-gray-600">Atención continua</p><div class="sub-step"><i class="fas fa-headset mr-1"></i> Atención a consultas</div><div class="detail-step"><i class="fas fa-sync mr-1"></i> Renovaciones manuales</div><div class="detail-step"><i class="fas fa-file-alt mr-1"></i> Endosos y cambios</div><div class="tooltip-content">Relación directa con canal</div></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass-card rounded-2xl p-4 shadow-lg">
+                    <h3 class="text-sm font-bold text-[#1F4E78] mb-3"><i class="fas fa-lightbulb mr-2"></i>Cuándo Usar Proceso Tradicional</h3>
+                    <ul class="space-y-2 text-xs"><li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i><span>Volumen bajo que no justifica implementación tecnológica</span></li><li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i><span>Productos de alta complejidad con asesoría especializada</span></li><li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i><span>Canales en fase de evaluación o prueba piloto</span></li><li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i><span>Clientes corporativos con necesidades de personalización</span></li></ul>
+                </div>
+                <div class="glass-card rounded-2xl p-4 shadow-lg">
+                    <h3 class="text-sm font-bold text-[#1F4E78] mb-3"><i class="fas fa-tools mr-2"></i>Herramientas Utilizadas</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-blue-50 p-2 rounded-lg text-center"><i class="fas fa-desktop text-blue-500 text-lg mb-1"></i><p class="text-[10px]">Corpo Web</p></div>
+                        <div class="bg-green-50 p-2 rounded-lg text-center"><i class="fas fa-file-excel text-green-500 text-lg mb-1"></i><p class="text-[10px]">Plantillas Excel</p></div>
+                        <div class="bg-purple-50 p-2 rounded-lg text-center"><i class="fas fa-address-book text-purple-500 text-lg mb-1"></i><p class="text-[10px]">CRM</p></div>
+                        <div class="bg-orange-50 p-2 rounded-lg text-center"><i class="fas fa-folder-open text-orange-500 text-lg mb-1"></i><p class="text-[10px]">Repositorio Docs</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-[#1F4E78] text-white py-6 mt-8 no-print">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-3 mb-2">
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center"><span class="text-[#1F4E78] font-bold text-sm">SU</span></div>
+                <span class="font-semibold">Seguros Universales, S.A.</span>
+            </div>
+            <p class="text-[#5B9BD5] text-xs">División de Canales Alternos • Flujos Tecnológicos • 2025</p>
+        </div>
+    </footer>
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('tab-active'); b.classList.add('text-gray-600'); });
+            const activeBtn = document.querySelector('[data-tab="' + tabId + '"]');
+            if(activeBtn) { activeBtn.classList.add('tab-active'); activeBtn.classList.remove('text-gray-600'); }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function generatePDF(tabId, filename) {
+            const element = document.getElementById(tabId);
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: filename + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+            
+            // Temporarily show the element and hide others for PDF
+            const allTabs = document.querySelectorAll('.tab-content');
+            allTabs.forEach(t => t.style.display = 'none');
+            element.style.display = 'block';
+            element.classList.remove('hidden');
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore original state
+                allTabs.forEach(t => t.style.display = '');
+                showTab(tabId.replace('tab-', ''));
+            });
+        }
+    </script>
+</body>
+</html>
