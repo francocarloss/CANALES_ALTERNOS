@@ -863,7 +863,7 @@
     <!-- Navegación de Canales -->
     <div class="channels-nav" id="channelsNav">
         <div class="channels-container" id="channelsContainer"><button class="channel-tab active" data-channel="banco_de_antigua">
-                    Banco De Antigua
+                    Banco de antigua
                     <span class="channel-edit-btn" onclick="openEditChannel('unidad_1', 'banco_de_antigua', event)">✏️</span>
                 </button><button class="add-channel-btn" onclick="openAddChannelModal()">+ Agregar Canal</button></div>
     </div>
@@ -872,8 +872,9 @@
     <div class="main-container" id="mainContainer">
                 <div class="section-banner" style="background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);">
                     <div class="banner-content">
-                        <h2>Banco De Antigua</h2>
+                        <h2>Banco de antigua</h2>
                         <p>El canal Banco de Antigua es nuestra alianza de bancaseguros a través de la cual se comercializan los productos de seguros a los clientes del banco, aprovechando su red de agencias, fuerza de venta y base de clientes para facilitar la contratación, el cobro de primas y el acompañamiento en servicios de postventa.</p>
+                        
                     </div>
                     <div class="banner-image"></div>
                 </div>
@@ -896,7 +897,7 @@
                     <p>Jornada médica gratuita en Quetzaltenango, con consultas generales, toma de signos vitales y entrega de medicamentos básicos para la comunidad.</p>
                     <ul><li>Jornada médica en Quetzaltenango</li><li>Consultas generales y signos vitales</li><li>Entrega de medicamentos básicos</li><li>Educación en prevención y cuidado de la salud</li><li>Atención a niñez, adultos y adultos mayores</li></ul>
                 </div>
-                <div class="item-footer"><div class="item-meta">Jornada médica presencial sin costo. Usuarios: población de Quetzaltenango y comunidades cercanas.</div></div>
+                
             </div></div>
             </div>
 
@@ -919,6 +920,23 @@
                     <label for="unitDescription">Descripción</label>
                     <textarea id="unitDescription" placeholder="Descripción de la unidad de negocio"></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="unitExternalLink">Enlace a Página Externa (Opcional)</label>
+                    <input type="text" id="unitExternalLink" placeholder="Ej: flujos-tecnologicos.html o https://ejemplo.com/flujos">
+                    <small style="display: block; margin-top: 8px; color: #666;">
+                        Si agregas un enlace, aparecerá un botón en el banner que redirige a esa página.<br>
+                        Ejemplos:<br>
+                        • flujos-tecnologicos.html (archivo en el mismo repositorio)<br>
+                        • https://tu-usuario.github.io/repositorio/flujos-tecnologicos.html
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="unitLinkText">Texto del Botón (Opcional)</label>
+                    <input type="text" id="unitLinkText" placeholder="Ej: Ver Flujos de Procesos">
+                    <small style="display: block; margin-top: 8px; color: #666;">
+                        Texto que aparecerá en el botón. Por defecto: "Ver Más"
+                    </small>
+                </div>
                 <button type="submit" class="submit-btn">Agregar Unidad</button>
             </form>
         </div>
@@ -940,6 +958,20 @@
                 <div class="form-group">
                     <label for="editUnitDescription">Descripción</label>
                     <textarea id="editUnitDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editUnitExternalLink">Enlace a Página Externa (Opcional)</label>
+                    <input type="text" id="editUnitExternalLink" placeholder="Ej: flujos-tecnologicos.html">
+                    <small style="display: block; margin-top: 8px; color: #666;">
+                        Si agregas un enlace, aparecerá un botón en el banner que redirige a esa página.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="editUnitLinkText">Texto del Botón (Opcional)</label>
+                    <input type="text" id="editUnitLinkText" placeholder="Ej: Ver Flujos de Procesos">
+                    <small style="display: block; margin-top: 8px; color: #666;">
+                        Texto que aparecerá en el botón. Por defecto: "Ver Más"
+                    </small>
                 </div>
                 <button type="submit" class="submit-btn">Guardar Cambios</button>
             </form>
@@ -1130,12 +1162,16 @@
         {
                 "id": "operaciones",
                 "name": "🔧 Operaciones",
-                "description": "Unidad de gestión integral de operaciones de seguros"
+                "description": "Unidad de gestión integral de operaciones de seguros",
+                "externalLink": "flujos-tecnologicos.html",
+                "linkText": "📊 Ver Flujos de Procesos"
         },
         {
                 "id": "unidad_1",
                 "name": "Unidad 1",
-                "description": "La Jefatura Comercial de Gastos Médicos es el área encargada de definir e implementar la estrategia comercial de los seguros de gastos médicos, impulsando el crecimiento de primas, la rentabilidad del portafolio y el apoyo a fuerzas de venta e intermediarios, para brindar soluciones de salud competitivas y sostenibles a los asegurados."
+                "description": "",
+                "externalLink": "",
+                "linkText": ""
         }
 ];
 
@@ -1169,7 +1205,7 @@
         "unidad_1": [
                 {
                         "id": "banco_de_antigua",
-                        "name": "Banco De Antigua",
+                        "name": "Banco de antigua",
                         "description": "El canal Banco de Antigua es nuestra alianza de bancaseguros a través de la cual se comercializan los productos de seguros a los clientes del banco, aprovechando su red de agencias, fuerza de venta y base de clientes para facilitar la contratación, el cobro de primas y el acompañamiento en servicios de postventa.",
                         "color": "linear-gradient(135deg, #eb3349 0%, #f45c43 100%)"
                 }
@@ -1297,7 +1333,7 @@
                                         "Educación en prevención y cuidado de la salud",
                                         "Atención a niñez, adultos y adultos mayores"
                                 ],
-                                "meta": "Jornada médica presencial sin costo. Usuarios: población de Quetzaltenango y comunidades cercanas."
+                                "meta": ""
                         }
                 ]
         }
@@ -1449,11 +1485,19 @@
             // Obtener el color del canal o usar el predeterminado
             const bannerColor = channel.color || 'linear-gradient(135deg, #0a4d8f 0%, #1e88e5 100%)';
 
+            // Crear botón de enlace externo si existe
+            const externalLinkButton = unit.externalLink ? `
+                <a href="${unit.externalLink}" target="_blank" class="banner-cta" style="display: inline-block; background: white; color: #1e88e5; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; margin-top: 20px;">
+                    ${unit.linkText || '🔗 Ver Más'}
+                </a>
+            ` : '';
+
             container.innerHTML = `
                 <div class="section-banner" style="background: ${bannerColor};">
                     <div class="banner-content">
                         <h2>${channel.name}</h2>
                         <p>${channel.description || 'Gestiona elementos de este canal'}</p>
+                        ${externalLinkButton}
                     </div>
                     <div class="banner-image"></div>
                 </div>
@@ -1526,9 +1570,11 @@
 
             const name = document.getElementById('unitName').value;
             const description = document.getElementById('unitDescription').value;
+            const externalLink = document.getElementById('unitExternalLink').value;
+            const linkText = document.getElementById('unitLinkText').value;
             const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
 
-            businessUnits.push({ id, name, description });
+            businessUnits.push({ id, name, description, externalLink, linkText });
             channels[id] = [];
             items[id] = {};
 
@@ -1548,6 +1594,8 @@
             document.getElementById('editUnitId').value = unitId;
             document.getElementById('editUnitName').value = unit.name;
             document.getElementById('editUnitDescription').value = unit.description || '';
+            document.getElementById('editUnitExternalLink').value = unit.externalLink || '';
+            document.getElementById('editUnitLinkText').value = unit.linkText || '';
 
             document.getElementById('editUnitModal').classList.add('active');
         }
@@ -1558,11 +1606,15 @@
             const unitId = document.getElementById('editUnitId').value;
             const name = document.getElementById('editUnitName').value;
             const description = document.getElementById('editUnitDescription').value;
+            const externalLink = document.getElementById('editUnitExternalLink').value;
+            const linkText = document.getElementById('editUnitLinkText').value;
 
             const unit = businessUnits.find(u => u.id === unitId);
             if (unit) {
                 unit.name = name;
                 unit.description = description;
+                unit.externalLink = externalLink;
+                unit.linkText = linkText;
 
                 renderBusinessUnits();
                 renderChannelContent(currentUnit, currentChannel);
